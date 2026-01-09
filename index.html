@@ -11,13 +11,26 @@
         .navbar h1 { font-size: 22px; margin: 0 0 10px 0; color: #e50914; }
 
         /* সার্চ বার */
-        .search-container { position: relative; max-width: 500px; margin: 0 auto; padding: 0 10px; }
-        #movieSearch {
-            width: 100%; padding: 12px 12px 12px 40px; border-radius: 25px; border: 1px solid #333;
-            background: #222; color: #fff; outline: none; box-sizing: border-box; transition: 0.3s;
+                .search-icon { 
+            position: absolute; 
+            right: 25px; /* এটি আইকনটিকে ডান দিকে নিয়ে যাবে */
+            top: 14px; 
+            color: #888; 
+            cursor: pointer;
         }
-        #movieSearch:focus { border-color: #e50914; box-shadow: 0 0 8px rgba(229, 9, 20, 0.5); }
-
+        
+        #movieSearch {
+            width: 100%; 
+            padding: 12px 45px 12px 15px; /* ডান দিকে জায়গা বাড়ানো হয়েছে যাতে আইকনের ওপর লেখা না চলে যায় */
+            border-radius: 25px; 
+            border: 1px solid #333;
+            background: #222; 
+            color: #fff; 
+            outline: none; 
+            box-sizing: border-box; 
+            transition: 0.3s;
+        }
+        
         /* ট্রেন্ডিং অ্যানিমেশন */
         .trending-badge {
             background: #e50914; color: white; padding: 2px 8px; font-size: 10px; font-weight: bold;
