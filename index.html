@@ -38,8 +38,8 @@
             background: #181818; border-radius: 10px; overflow: hidden; border: 1px solid #222; 
             height: 100%; position: relative; transition: transform 0.2s, border-color 0.3s;
         }
-        /* ক্লিক করলে কার্ডটি একটু ছোট হবে */
-        .movie-card:active { transform: scale(0.95); }
+        /* কার্ড ক্লিক করলে ছোট হবে */
+        .movie-card:active { transform: scale(0.94); }
         .movie-card:hover { border-color: #e50914; }
 
         .image-container { width: 100%; height: 180px; position: relative; }
@@ -54,23 +54,29 @@
         .pagination { display: flex; justify-content: center; padding: 20px; gap: 10px; }
         .page-btn { 
             background: #e50914; color: #fff; border: none; padding: 10px 15px; 
-            border-radius: 5px; cursor: pointer; font-size: 12px; transition: 0.3s; 
+            border-radius: 5px; cursor: pointer; transition: 0.2s; 
         }
         .page-btn:active { transform: scale(0.9); }
         .page-btn:disabled { background: #333; cursor: not-allowed; }
 
         /* ডিটেইলস পেজ ও ডাউনলোড বাটন */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0c0c0c; z-index: 2000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .back-btn { background: #333; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; margin-bottom: 20px; cursor: pointer; transition: 0.2s; }
+        .back-btn { background: #333; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; transition: 0.2s; }
         .back-btn:active { transform: translateX(-5px); }
         
         .download-now-btn { 
             background: linear-gradient(45deg, #2ecc71, #27ae60); color: #fff; text-decoration: none; 
             padding: 15px; display: block; text-align: center; border-radius: 10px; 
             font-weight: bold; font-size: 18px; margin-top: 20px; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+            animation: btnPulse 2s infinite;
         }
-        .download-now-btn:active { transform: scale(0.98); }
+        @keyframes btnPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        .download-now-btn:active { transform: scale(0.96); }
 
         @media (min-width: 768px) { .movie-box { width: 23%; } }
     </style>
@@ -98,10 +104,20 @@
     </div>
 
     <script>
+        // এখানে তুমি তোমার মুভিগুলো এক এক করে যোগ করবে
         const allMovies = [
-            { id: 1, title: "Bachelor Points Season 5", time: "2026-01-09T23:00:38", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "HD 1080p", link: "https://clone.mryaga.top/dl.php?url=...", trending: true },
-            { id: 2, title: "The Raja Saab (2026) Latest", time: "2026-01-09T23:00:00", img: "https://via.placeholder.com/300x450?text=Raja+Saab", quality: "HDTC", link: "#", trending: true }
+            { 
+                id: 1, 
+                title: "মুভির নাম এখানে লেখো", 
+                time: "2026-01-10T01:30:00", 
+                img: "ছবির_লিঙ্ক_এখানে", 
+                quality: "HD", 
+                link: "ডাউনলোড_লিঙ্ক_এখানে", 
+                trending: true 
+            },
+            // নতুন মুভি যোগ করতে উপরের অংশটুকু কপি করে নিচে বসাও
         ];
+
         let currentPage = 1;
         const moviesPerPage = 20;
 
@@ -161,7 +177,22 @@
                 <img src="${movie.img}" style="width:100%; border-radius:15px; margin-bottom:20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                 <h2 style="margin-bottom:10px;">${movie.title}</h2>
                 <p style="color:#aaa; margin-bottom:20px;">Quality: <span style="color:#2ecc71;">${movie.quality}</span></p>
-                <a href="${movie.link}" class="download-now-btn"><i class="fa-solid fa-download"></i> Download Fast Server</a>`;
+                <a href="${movie.link}" target="_blank" class="download-now-btn"><i class="fa-solid fa-download"></i> Download Fast Server</a>`;
             document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('detailsPage
-                                    
+            document.getElementById('detailsPage').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function closeDetails() {
+            document.getElementById('mainPage').style.display = 'block';
+            document.getElementById('detailsPage').style.display = 'none';
+        }
+
+        function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
+        function prevPage() { currentPage--; displayMovies(); window.scrollTo(0,0); }
+
+        displayMovies();
+        setInterval(updateTimes, 60000);
+    </script>
+</body>
+</html>
