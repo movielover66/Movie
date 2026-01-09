@@ -3,28 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রীতম মুভি জোন - Full Library</title>
+    <title>প্রীতম মুভি জোন - Premium Collection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background-color: #0c0c0c; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
         .navbar { background-color: #111; border-bottom: 2px solid #e50914; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        .navbar h1 { font-size: 20px; margin: 0 0 10px 0; color: #e50914; }
+        .navbar h1 { font-size: 22px; margin: 0 0 10px 0; color: #e50914; }
+
+        /* সার্চ কন্টেইনার */
         .search-container { position: relative; max-width: 500px; margin: 0 auto; padding: 0 10px; }
-        #movieSearch { width: 100%; padding: 12px 12px 12px 40px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; box-sizing: border-box; }
+        #movieSearch {
+            width: 100%; padding: 12px 12px 12px 40px; border-radius: 25px; border: 1px solid #333;
+            background: #222; color: #fff; outline: none; box-sizing: border-box; font-size: 14px;
+        }
         .search-icon { position: absolute; left: 25px; top: 14px; color: #888; }
-        .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; }
-        .movie-box { width: 48%; margin-bottom: 15px; cursor: pointer; }
-        .movie-card { background: #181818; border-radius: 8px; overflow: hidden; border: 1px solid #222; height: 100%; }
-        .image-container { position: relative; width: 100%; height: 180px; }
+
+        /* Trending Tag Animation - এটি আলাদা থাকবে */
+.trending-badge {
+    background: #e50914;
+    animation: trendingPulse 1.5s infinite;
+}
+
+@keyframes trendingPulse {
+    0% { background-color: #e50914; box-shadow: 0 0 0px rgba(229, 9, 20, 0.7); }
+    50% { background-color: #ff4d4d; box-shadow: 0 0 10px rgba(229, 9, 20, 0.9); }
+    100% { background-color: #e50914; box-shadow: 0 0 0px rgba(229, 9, 20, 0.7); }
+}
+
+/* এর নিচ থেকে তোমার বাকি স্টাইল যেমন .movie-box শুরু হবে */
+        .movie-card { background: #181818; border-radius: 10px; overflow: hidden; border: 1px solid #222; height: 100%; transition: 0.3s; }
+        .movie-card:hover { border-color: #e50914; transform: scale(1.02); }
+        .image-container { width: 100%; height: 200px; position: relative; }
         .movie-img { width: 100%; height: 100%; object-fit: cover; }
-        .quality-tag { position: absolute; top: 5px; right: 5px; background: #2ecc71; color: white; padding: 2px 6px; font-size: 9px; font-weight: bold; border-radius: 3px; }
-        .card-body { padding: 8px; text-align: center; }
-        .movie-title { font-size: 11px; font-weight: bold; height: 32px; overflow: hidden; color: #efefef; }
+        .quality-tag { position: absolute; top: 8px; right: 8px; background: #2ecc71; color: #fff; padding: 2px 8px; font-size: 10px; font-weight: bold; border-radius: 4px; }
+        
+        .card-body { padding: 10px; text-align: center; }
+        .movie-time { font-size: 11px; color: #aaa; margin-bottom: 5px; }
+        .movie-title { font-size: 12px; font-weight: bold; color: #eee; height: 35px; overflow: hidden; line-height: 1.4; }
+
+        /* প্যাগিনেশন বাটন */
         .pagination { display: flex; justify-content: center; padding: 20px; gap: 10px; }
         .page-btn { background: #e50914; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .page-btn:disabled { background: #333; cursor: not-allowed; }
-        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0c0c0c; z-index: 2000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .download-now-btn { background: #2ecc71; color: #fff; text-decoration: none; padding: 15px; display: block; text-align: center; border-radius: 10px; font-weight: bold; margin-top: 20px; }
+
+        /* ডিটেইলস পেজ (Next Page) */
+        #detailsPage {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0c0c0c; z-index: 2000; overflow-y: auto; padding: 20px; box-sizing: border-box;
+        }
+        .back-btn { background: #333; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
+        .details-container { max-width: 600px; margin: 0 auto; text-align: center; }
+        .big-poster { width: 100%; max-width: 300px; border-radius: 15px; box-shadow: 0 0 20px rgba(229, 9, 20, 0.4); margin-bottom: 20px; }
+        .download-now-btn {
+            background: #2ecc71; color: #fff; text-decoration: none; padding: 15px; display: block; 
+            border-radius: 10px; font-weight: bold; font-size: 18px; margin-top: 20px;
+        }
+
         @media (min-width: 768px) { .movie-box { width: 23%; } }
     </style>
 </head>
@@ -38,59 +72,73 @@
                 <input type="text" id="movieSearch" placeholder="মুভি সার্চ করুন..." onkeyup="searchMovie()">
             </div>
         </div>
+
         <div class="movie-grid" id="movieList"></div>
+
         <div class="pagination">
             <button class="page-btn" id="prevBtn" onclick="prevPage()">Previous</button>
             <button class="page-btn" id="nextBtn" onclick="nextPage()">Next Page</button>
         </div>
+
+        <footer style="text-align:center; padding:20px; color:#555;">&copy; 2026 প্রীতম মুভি কালেকশন ❤️</footer>
     </div>
 
     <div id="detailsPage">
-        <button onclick="closeDetails()" style="background:#333; color:#fff; border:none; padding:10px; border-radius:5px; margin-bottom:20px;">← Back</button>
-        <div id="detailsContent"></div>
+        <button class="back-btn" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i> ফিরে যান</button>
+        <div class="details-container" id="detailsContent"></div>
     </div>
 
     <script>
-    // শুধুমাত্র এই একটি লিস্ট থাকবে
-    const allMovies = [
-        { id: 1, title: "Action (2019) Dual Audio HD", img: "https://upload.wikimedia.org/wikipedia/en/b/b3/Action_2019_poster.jpg", quality: "WEB-DL", link: "লিঙ্ক_১" },
-        { id: 2, title: "The Raja Saab (2026) Latest", img: "https://via.placeholder.com/300x450?text=Raja+Saab", quality: "HDTC", link: "লিঙ্ক_২" },
-        { id: 3, title: "Pushpa 2: The Rule (2025)", img: "https://via.placeholder.com/300x450?text=Pushpa+2", quality: "4K UHD", link: "লিঙ্ক_৩" },
-        // এখানে ৪ নম্বর থেকে ৪০ নম্বর মুভি পর্যন্ত কমা দিয়ে দিয়ে যোগ করো
-        { id: 4, title: "Movie 4", img: "https://via.placeholder.com/300x450?text=Movie+4", quality: "HD", link: "লিঙ্ক_৪" }
-    ];
+        // ৪০টি মুভির ডেটাবেস
+        const allMovies = [
+            { id: 1, title: "Action (2019) Dual Audio HD", time: "2026-01-09T22:00:00", img: "https://upload.wikimedia.org/wikipedia/en/b/b3/Action_2019_poster.jpg", quality: "WEB-DL", link: "#" },
+            { id: 2, title: "The Raja Saab (2026) Latest", time: "2026-01-09T21:30:00", img: "https://via.placeholder.com/300x450?text=Raja+Saab", quality: "HDTC", link: "#" },
+            { id: 3, title: "Pushpa 2: The Rule (2025)", time: "2026-01-09T20:00:00", img: "https://via.placeholder.com/300x450?text=Pushpa+2", quality: "4K UHD", link: "#" }
+            // এখানে তুমি ৪ থেকে ৪০ পর্যন্ত মুভি যোগ করবে
+        ];
 
-    let currentPage = 1;
-    const moviesPerPage = 20;
+        // নমুনা হিসেবে ৪০টি মুভি পূর্ণ করার লুপ (তুমি পরে এগুলো বদলে দেবে)
+        for(let i=4; i<=40; i++){
+            allMovies.push({ id: i, title: "Movie " + i + " (2026) HD", time: "2026-01-09T18:00:00", img: "https://via.placeholder.com/300x450?text=Movie+" + i, quality: "HD", link: "#" });
+        }
 
-    function displayMovies(data = allMovies) {
-        const list = document.getElementById('movieList');
-        list.innerHTML = "";
-        const start = (currentPage - 1) * moviesPerPage;
-        const end = start + moviesPerPage;
-        const paginated = data.slice(start, end);
+        let currentPage = 1;
+        const moviesPerPage = 20;
 
-        paginated.forEach(movie => {
-            list.innerHTML += `
-                <div class="movie-box" onclick="showDetails(${movie.id})"> 
-                    <div class="movie-card">
-                        <div class="image-container">
-                            <img src="${movie.img}" class="movie-img">
-                            <div class="quality-tag">${movie.quality}</div>
+        function displayMovies(data = allMovies) {
+            const list = document.getElementById('movieList');
+            list.innerHTML = "";
+            const start = (currentPage - 1) * moviesPerPage;
+            const end = start + moviesPerPage;
+            const paginated = data.slice(start, end);
+
+            paginated.forEach(movie => {
+                list.innerHTML += `
+                    <div class="movie-box" onclick="showDetails(${movie.id})"> 
+                        <div class="movie-card">
+                            <div class="image-container">
+                                <img src="${movie.img}" class="movie-img">
+                                <div class="quality-tag">${movie.quality}</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="movie-time" data-time="${movie.time}">Loading...</div>
+                                <div class="movie-title">${movie.title}</div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="movie-title">${movie.title}</div>
-                        </div>
-                    </div>
-                </div>`;
-        });
-        document.getElementById('prevBtn').disabled = currentPage === 1;
-        document.getElementById('nextBtn').disabled = end >= data.length;
-    }
+                    </div>`;
+            });
+            updateTimes();
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = end >= data.length;
+        }
 
-    // শুরুতে মুভিগুলো দেখানোর জন্য এই লাইনটি অবশ্যই থাকতে হবে
-    displayMovies();
-            currentPage = 1; 
+        function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
+        function prevPage() { currentPage--; displayMovies(); window.scrollTo(0,0); }
+
+        function searchMovie() {
+            const term = document.getElementById('movieSearch').value.toLowerCase();
+            const filtered = allMovies.filter(m => m.title.toLowerCase().includes(term));
+            currentPage = 1;
             displayMovies(filtered);
             document.querySelector('.pagination').style.display = term ? 'none' : 'flex';
         }
@@ -99,13 +147,14 @@
             const movie = allMovies.find(m => m.id === id);
             const content = document.getElementById('detailsContent');
             content.innerHTML = `
-                <img src="${movie.img}" style="width:100%; max-width:300px; display:block; margin:0 auto 20px auto; border-radius:10px;">
-                <h2 style="text-align:center;">${movie.title}</h2>
-                <p style="text-align:center;">Quality: ${movie.quality}</p>
-                <a href="${movie.link}" target="_blank" class="download-now-btn">Download Now</a>
+                <img src="${movie.img}" class="big-poster">
+                <h2>${movie.title}</h2>
+                <p>কোয়ালিটি: <span style="color:#2ecc71;">${movie.quality}</span></p>
+                <a href="${movie.link}" target="_blank" class="download-now-btn"><i class="fa-solid fa-download"></i> Download Now</a>
             `;
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('detailsPage').style.display = 'block';
+            window.scrollTo(0,0);
         }
 
         function closeDetails() {
@@ -113,7 +162,21 @@
             document.getElementById('detailsPage').style.display = 'none';
         }
 
+        function updateTimes() {
+            document.querySelectorAll('.movie-time').forEach(el => {
+                const uploadDate = new Date(el.getAttribute('data-time'));
+                const diff = Math.floor((new Date() - uploadDate) / 1000);
+                let text = "";
+                if (diff < 60) text = "Just now";
+                else if (diff < 3600) text = Math.floor(diff / 60) + "m ago";
+                else if (diff < 86400) text = Math.floor(diff / 3600) + "h ago";
+                else text = Math.floor(diff / 86400) + "d ago";
+                el.innerText = text;
+            });
+        }
+
         displayMovies();
+        setInterval(updateTimes, 60000);
     </script>
 </body>
 </html>
