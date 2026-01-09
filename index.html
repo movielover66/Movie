@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pritam's Movie Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212; /* Dark Theme */
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar {
+            background-color: #1f1f1f;
+            border-bottom: 2px solid #e50914; /* Netflix style Red border */
+        }
+        .hero-section {
+            padding: 60px 0;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+        }
+        .movie-card {
+            background: #1f1f1f;
+            border: none;
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.4);
+        }
+        .movie-img {
+            height: 350px;
+            object-fit: cover;
+        }
+        .download-btn {
+            background-color: #e50914;
+            color: white;
+            border: none;
+            width: 100%;
+        }
+        .download-btn:hover {
+            background-color: #b20710;
+            color: white;
+        }
+        footer {
+            padding: 20px;
+            text-align: center;
+            background: #1f1f1f;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">🎬 <strong>প্রীতমের মুভি জোন</strong></a>
+            <div class="ms-auto">
+                <span class="text-light">Welcome, Friends!</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <h1>প্রীতমের ফেভারিট মুভি কালেকশন</h1>
+        <p>সহজেই ডাউনলোড করো তোমার প্রিয় সিনেমা ও ওয়েব সিরিজ</p>
+    </header>
+
+    <div class="container mt-4 text-center">
+        <button class="btn btn-outline-danger me-2">All</button>
+        <button class="btn btn-outline-light me-2">Action</button>
+        <button class="btn btn-outline-light me-2">Web Series</button>
+        <button class="btn btn-outline-light">Thriller</button>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            
+            <div class="col-md-3 col-sm-6">
+                <div class="card movie-card text-white">
+                    <img src="https://via.placeholder.com/300x450?text=Movie+Poster" class="card-img-top movie-img" alt="Movie Title">
+                    <div class="card-body">
+                        <h5 class="card-title">মুভির নাম এখানে</h5>
+                        <p class="card-text text-secondary">Action | 2024</p>
+                        <a href="তোমার_ডাউনলোড_লিঙ্ক" class="btn download-btn">Download Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card movie-card text-white">
+                    <img src="https://via.placeholder.com/300x450?text=Series+Poster" class="card-img-top movie-img" alt="Movie Title">
+                    <div class="card-body">
+                        <h5 class="card-title">সিরিজের নাম এখানে</h5>
+                        <p class="card-text text-secondary">Web Series | 2023</p>
+                        <a href="#" class="btn download-btn">Download Now</a>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 প্রীতম মুভি কালেকশন। মেড উইথ ❤️</p>
+    </footer>
+
+</body>
+</html>
