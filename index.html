@@ -3,107 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pritam's Movie Hub</title>
+    <title>প্রীতমের মুভি জোন - Latest Releases</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #121212;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000; /* Pitch Black */
+            color: #fff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
         .navbar {
-            background-color: #1f1f1f;
+            background-color: #111;
             border-bottom: 2px solid #e50914;
+            padding: 15px 0;
         }
-        .hero-section {
-            padding: 60px 0;
-            text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1000&q=80');
-            background-size: cover;
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
         }
+        .section-title span {
+            color: #e50914;
+            margin-right: 10px;
+        }
+
+        /* Movie Card Styling */
         .movie-card {
-            background: #1f1f1f;
-            border: none;
-            transition: transform 0.3s;
-            margin-bottom: 20px;
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: 0.3s;
+            margin-bottom: 25px;
+            border: 1px solid #333;
         }
         .movie-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.4);
+            transform: translateY(-10px);
+            border-color: #e50914;
+        }
+        .image-container {
+            position: relative;
         }
         .movie-img {
-            height: 350px;
+            width: 100%;
+            height: 380px;
             object-fit: cover;
         }
-        .download-btn {
-            background-color: #e50914;
+        /* Quality Tag (WEB-DL) */
+        .quality-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #2ecc71;
             color: white;
-            border: none;
+            padding: 2px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        /* Trending Badge */
+        .trending-badge {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            background: #e50914;
+            color: white;
+            padding: 3px 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .card-body {
+            padding: 15px;
+            text-align: center;
+        }
+        .movie-time {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+        .movie-title {
+            font-size: 14px;
+            font-weight: bold;
+            height: 40px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .download-btn {
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #e50914;
             width: 100%;
+            border-radius: 5px;
+            font-size: 14px;
+            padding: 8px 0;
         }
         .download-btn:hover {
-            background-color: #b20710;
-            color: white;
+            background-color: #e50914;
+            color: #fff;
         }
         footer {
-            padding: 20px;
+            background: #111;
+            padding: 30px;
             text-align: center;
-            background: #1f1f1f;
-            margin-top: 50px;
+            border-top: 1px solid #333;
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">🎬 <strong>প্রীতমের মুভি জোন</strong></a>
-            <div class="ms-auto">
-                <span class="text-light">স্বাগতম বন্ধুরা!</span>
-            </div>
+            <a class="navbar-brand" href="#">🎬 <strong>প্রীতম সিনেমা জোন</strong></a>
         </div>
     </nav>
 
-    <header class="hero-section">
-        <h1>প্রীতমের ফেভারিট মুভি কালেকশন</h1>
-        <p>সহজেই ডাউনলোড করো তোমার প্রিয় সিনেমা ও ওয়েব সিরিজ</p>
-    </header>
+    <div class="container">
+        <div class="section-title">
+            <span>🔥</span> Latest Releases
+        </div>
 
-    <div class="container mt-4 text-center">
-        <button class="btn btn-outline-danger me-2">All</button>
-        <button class="btn btn-outline-light me-2">Action</button>
-        <button class="btn btn-outline-light me-2">Web Series</button>
-        <button class="btn btn-outline-light">Thriller</button>
-    </div>
-
-    <div class="container mt-5">
         <div class="row">
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-3 col-sm-6">
-                <div class="card movie-card text-white">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf0Xr6aJAX3u6vXaFUgXGmqf_kWR-sLLxFPsAFxhchHn250w_i3eADdOs&s=10" class="card-img-top movie-img" alt="Rocky Bhai">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Rocky Bhai</h5>
-                        <p class="card-text text-secondary">Action | 2024</p>
-                        <a href="তোমার_ড্রাইভ_লিঙ্ক" class="btn download-btn">Download Now</a>
+            
+            <div class="col-md-3 col-6">
+                <div class="movie-card">
+                    <div class="image-container">
+                        <img src="https://via.placeholder.com/300x450?text=The+Raja+Saab" class="movie-img" alt="The Raja Saab">
+                        <div class="quality-tag">HDTC V2</div>
+                        <div class="trending-badge">Trending</div>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6">
-                <div class="card movie-card text-white">
-                    <img src="https://via.placeholder.com/300x450?text=Web+Series" class="card-img-top movie-img" alt="Series">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">সিরিজের নাম</h5>
-                        <p class="card-text text-secondary">Web Series | 2023</p>
+                    <div class="card-body">
+                        <div class="movie-time">9 minutes ago</div>
+                        <div class="movie-title">The Raja Saab (2026) Hindi HDTC-V2 480p, 720p & 1080p</div>
                         <a href="#" class="btn download-btn">Download Now</a>
                     </div>
                 </div>
             </div>
-        </div> </div> <footer>
-        <p>&copy; 2026 প্রীতম মুভি জোন। মেড উইথ ❤️</p>
+
+            <div class="col-md-3 col-6">
+                <div class="movie-card">
+                    <div class="image-container">
+                        <img src="https://via.placeholder.com/300x450?text=De+De+Pyaar+De+2" class="movie-img" alt="Movie">
+                        <div class="quality-tag">WEB-DL</div>
+                        <div class="trending-badge">Trending</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="movie-time">16 hours ago</div>
+                        <div class="movie-title">De De Pyaar De 2 (2025) Hindi WEB-DL 480p, 720p, 1080p</div>
+                        <a href="#" class="btn download-btn">Download Now</a>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 প্রীতম মুভি কালেকশন। মেড উইথ ❤️</p>
     </footer>
 
 </body>
-        </html>
+</html>
