@@ -51,46 +51,45 @@
     </div>
 
     <script>
-            // শুধুমাত্র একবার এই লিস্টটি থাকবে
+    // শুধুমাত্র এই একটি লিস্ট থাকবে
     const allMovies = [
         { id: 1, title: "Action (2019) Dual Audio HD", img: "https://upload.wikimedia.org/wikipedia/en/b/b3/Action_2019_poster.jpg", quality: "WEB-DL", link: "লিঙ্ক_১" },
         { id: 2, title: "The Raja Saab (2026) Latest", img: "https://via.placeholder.com/300x450?text=Raja+Saab", quality: "HDTC", link: "লিঙ্ক_২" },
         { id: 3, title: "Pushpa 2: The Rule (2025)", img: "https://via.placeholder.com/300x450?text=Pushpa+2", quality: "4K UHD", link: "লিঙ্ক_৩" },
-        { id: 4, title: "Movie 4", img: "https://via.placeholder.com/300x450?text=Movie+4", quality: "HD", link: "লিঙ্ক_৪" },
-        { id: 5, title: "Movie 5", img: "https://via.placeholder.com/300x450?text=Movie+5", quality: "HD", link: "লিঙ্ক_৫" }
-        // এভাবেই ৪-৫ নম্বর মুভির মতো করে ৪০ নম্বর পর্যন্ত লিখে যাও। কোনো লুপ (for loop) লাগবে না।
+        // এখানে ৪ নম্বর থেকে ৪০ নম্বর মুভি পর্যন্ত কমা দিয়ে দিয়ে যোগ করো
+        { id: 4, title: "Movie 4", img: "https://via.placeholder.com/300x450?text=Movie+4", quality: "HD", link: "লিঙ্ক_৪" }
     ];
-            const list = document.getElementById('movieList');
-            list.innerHTML = "";
-            const start = (currentPage - 1) * moviesPerPage;
-            const end = start + moviesPerPage;
-            const paginated = data.slice(start, end);
 
-            paginated.forEach(movie => {
-                list.innerHTML += `
-                    <div class="movie-box" onclick="showDetails(${movie.id})"> 
-                        <div class="movie-card">
-                            <div class="image-container">
-                                <img src="${movie.img}" class="movie-img">
-                                <div class="quality-tag">${movie.quality}</div>
-                            </div>
-                            <div class="card-body">
-                                <div class="movie-title">${movie.title}</div>
-                            </div>
+    let currentPage = 1;
+    const moviesPerPage = 20;
+
+    function displayMovies(data = allMovies) {
+        const list = document.getElementById('movieList');
+        list.innerHTML = "";
+        const start = (currentPage - 1) * moviesPerPage;
+        const end = start + moviesPerPage;
+        const paginated = data.slice(start, end);
+
+        paginated.forEach(movie => {
+            list.innerHTML += `
+                <div class="movie-box" onclick="showDetails(${movie.id})"> 
+                    <div class="movie-card">
+                        <div class="image-container">
+                            <img src="${movie.img}" class="movie-img">
+                            <div class="quality-tag">${movie.quality}</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="movie-title">${movie.title}</div>
                         </div>
                     </div>
-                `;
-            });
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = end >= data.length;
-        }
+                </div>`;
+        });
+        document.getElementById('prevBtn').disabled = currentPage === 1;
+        document.getElementById('nextBtn').disabled = end >= data.length;
+    }
 
-        function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
-        function prevPage() { currentPage--; displayMovies(); window.scrollTo(0,0); }
-
-        function searchMovie() {
-            const term = document.getElementById('movieSearch').value.toLowerCase();
-            const filtered = allMovies.filter(m => m.title.toLowerCase().includes(term));
+    // শুরুতে মুভিগুলো দেখানোর জন্য এই লাইনটি অবশ্যই থাকতে হবে
+    displayMovies();
             currentPage = 1; 
             displayMovies(filtered);
             document.querySelector('.pagination').style.display = term ? 'none' : 'flex';
