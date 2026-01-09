@@ -6,65 +6,76 @@
     <title>প্রীতমের প্রিমিয়াম মুভি জোন</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; }
         
-        /* নাম মাঝখানে আনার জন্য */
-        .navbar { background-color: #111; border-bottom: 2px solid #e50914; padding: 15px 0; }
-        .navbar-brand { font-size: 20px; font-weight: bold; width: 100%; text-align: center; margin: 0; }
+        /* Navbar with Center Name */
+        .navbar { 
+            background-color: #111; 
+            border-bottom: 2px solid #e50914;
+            padding: 15px 0;
+        }
+        .navbar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .navbar-brand { 
+            font-size: 22px; 
+            margin: 0 !important;
+            text-align: center;
+        }
 
-        /* মুভি কার্ড ডিজাইন */
+        /* Movie Card Styling */
         .movie-card {
             background: #111;
             border-radius: 8px;
             overflow: hidden;
             position: relative;
             transition: 0.3s;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border: 1px solid #333;
-            height: 100%;
         }
-        .image-container { position: relative; width: 100%; height: 200px; } /* মোবাইলের জন্য ইমেজের উচ্চতা ফিক্সড */
-        .movie-img { width: 100%; height: 100%; object-fit: cover; }
+        .movie-img { width: 100%; height: 230px; object-fit: cover; }
         
-        /* ব্যাজসমূহ */
-        .quality-tag { position: absolute; top: 5px; right: 5px; background: #2ecc71; color: white; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 4px; z-index: 2; }
-        .trending-badge { position: absolute; bottom: 0; left: 0; background: #e50914; color: white; padding: 2px 8px; font-size: 10px; font-weight: bold; z-index: 2; width: auto; }
+        /* Badges */
+        .quality-tag { position: absolute; top: 5px; right: 5px; background: #2ecc71; color: white; padding: 2px 8px; font-size: 10px; font-weight: bold; border-radius: 4px; }
+        .trending-badge { position: absolute; bottom: 10px; left: 0; background: #e50914; color: white; padding: 2px 10px; font-size: 10px; font-weight: bold; }
         
         .card-body { padding: 10px; text-align: center; }
-        .movie-time { font-size: 10px; color: #aaa; margin-bottom: 5px; }
-        .movie-title { font-size: 12px; font-weight: bold; height: 35px; overflow: hidden; margin-bottom: 10px; line-height: 1.2; }
+        .movie-time { font-size: 11px; color: #aaa; margin-bottom: 5px; }
+        .movie-title { font-size: 13px; font-weight: bold; height: 38px; overflow: hidden; margin-bottom: 10px; color: #eee; }
         
-        /* ডাউনলোড বাটন - আন্ডারলাইন ছাড়া */
+        /* Download Button - No Underline */
         .download-btn {
             background-color: transparent;
             color: #fff;
             border: 1px solid #e50914;
             width: 100%;
-            border-radius: 4px;
+            border-radius: 5px;
             font-size: 12px;
-            padding: 6px 0;
+            padding: 7px 0;
             text-decoration: none !important;
             display: block;
+            font-weight: bold;
         }
         .download-btn:hover { background-color: #e50914; color: #fff; text-decoration: none !important; }
         
-        footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #333; margin-top: 30px; font-size: 12px; }
+        footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #333; margin-top: 40px; }
     </style>
 </head>
 <body>
 
     <nav class="navbar navbar-dark">
-        <div class="container d-flex justify-content-center">
-            <a class="navbar-brand" href="#">🎬 প্রীতম মুভি জোন</a>
+        <div class="container navbar-container">
+            <a class="navbar-brand" href="#">🎬 <strong>প্রীতম মুভি জোন</strong></a>
         </div>
     </nav>
 
-    <div class="container mt-3">
-        <div class="row g-2"> 
-            
-            <div class="col-6 col-md-3"> 
+    <div class="container mt-4">
+        <div class="row g-2"> <div class="col-md-3 col-6"> 
                 <div class="movie-card">
-                    <div class="image-container">
+                    <div class="position-relative">
                         <img src="https://upload.wikimedia.org/wikipedia/en/b/b3/Action_2019_poster.jpg" class="movie-img" alt="Action">
                         <div class="quality-tag">WEB-DL</div>
                         <div class="trending-badge">Trending</div>
@@ -77,10 +88,10 @@
                 </div>
             </div>
 
-            <div class="col-6 col-md-3">
+            <div class="col-md-3 col-6">
                 <div class="movie-card">
-                    <div class="image-container">
-                        <img src="https://via.placeholder.com/300x450?text=The+Raja+Saab" class="movie-img" alt="Movie">
+                    <div class="position-relative">
+                        <img src="https://via.placeholder.com/300x450?text=Movie+2" class="movie-img" alt="Movie">
                         <div class="quality-tag">HDTC</div>
                     </div>
                     <div class="card-body">
@@ -95,14 +106,15 @@
     </div>
 
     <footer>
-        © 2026 প্রীতম মুভি কালেকশন ❤️
+        <p>&copy; 2026 প্রীতম মুভি কালেকশন ❤️</p>
     </footer>
 
     <script>
         function updateTimes() {
             const timeElements = document.querySelectorAll('.movie-time');
             timeElements.forEach(el => {
-                const uploadDate = new Date(el.getAttribute('data-time'));
+                const uploadDateString = el.getAttribute('data-time');
+                const uploadDate = new Date(uploadDateString);
                 const now = new Date();
                 const diffInSeconds = Math.floor((now - uploadDate) / 1000);
 
@@ -112,11 +124,13 @@
                 else if (diffInSeconds < 3600) text = Math.floor(diffInSeconds / 60) + " minutes ago";
                 else if (diffInSeconds < 86400) text = Math.floor(diffInSeconds / 3600) + " hours ago";
                 else text = Math.floor(diffInSeconds / 86400) + " days ago";
+
                 el.innerText = text;
             });
         }
         updateTimes();
-        setInterval(updateTimes, 60000);
+        setInterval(updateTimes, 60000); // প্রতি ১ মিনিটে টাইম রিফ্রেশ হবে
     </script>
+
 </body>
 </html>
