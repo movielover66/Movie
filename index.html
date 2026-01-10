@@ -9,7 +9,6 @@
         :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* নেভিবার ও সার্চ */
         .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
         .navbar h1 { font-size: 22px; margin: 0 0 10px 0; background: linear-gradient(to right, #fff, var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
         .search-container { position: relative; width: 90%; max-width: 320px; margin: 0 auto; }
@@ -17,13 +16,9 @@
         .search-icon { position: absolute; right: 15px; top: 11px; color: #888; transition: 0.6s ease; }
         #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg); }
 
-        /* মুভি গ্রিড (টাইট লেআউট) */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 5px; justify-content: space-between; gap: 5px; }
         .movie-box { width: 49%; margin-bottom: 5px; perspective: 1000px; }
-        .movie-card { 
-            background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #222; 
-            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; transform: translateY(40px);
-        }
+        .movie-card { background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; transform: translateY(40px); }
         .movie-card.show { opacity: 1; transform: translateY(0); }
         .movie-card:active { transform: scale(0.95); }
 
@@ -32,27 +27,25 @@
         .trending-bar { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(90deg, transparent, var(--primary), transparent); color: #fff; font-size: 10px; padding: 4px 0; text-align: center; font-weight: bold; animation: slideGlow 2s infinite linear; }
         @keyframes slideGlow { 0% { background-position: -200px; } 100% { background-position: 200px; } }
 
-        /* ডিটেইলস পেজ (সংশোধিত লেআউট) */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; box-sizing: border-box; }
-        .details-header { background: #111; padding: 15px; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 10px; }
+        .details-header { background: #111; padding: 15px; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .details-body { padding: 15px; }
         .details-card { background: #111; border-radius: 15px; padding: 20px; border: 1px solid #333; }
         .movie-poster-small { width: 100%; max-width: 180px; display: block; margin: 0 auto 15px; border-radius: 10px; border: 2px solid var(--primary); }
         
-        /* বাটন গ্রুপ স্টাইল */
         .btn-stack { display: flex; flex-direction: column; gap: 10px; width: 100%; margin: 15px 0; }
         .action-btn { width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; font-size: 14px; text-align: center; text-decoration: none; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box; }
-        
-        .req-btn { background: #0088cc; } /* Request Movie Button */
-        .dl-btn { background: #27ae60; } /* Download Button */
-        .watch-btn { background: #e67e22; } /* Browser Play */
-        .mx-btn { background: #0000ff; } /* MX Player Play */
+        .req-btn { background: #0088cc; }
+        .dl-btn { background: #27ae60; }
+        .watch-btn { background: #e67e22; }
+        .mx-btn { background: #0000ff; }
 
         .screenshot-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
         .screenshot-compact img { width: 100%; border-radius: 8px; border: 1px solid #333; }
 
         /* RGB টাইমার পপআপ */
-        #downloadModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; background: #111; z-index: 3000; padding: 25px; border-radius: 20px; text-align: center; border: 2px solid var(--primary); }
+        #downloadModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; background: #111; z-index: 3000; padding: 25px; border-radius: 20px; text-align: center; position: relative; }
+        #downloadModal::before { content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px; background: linear-gradient(45deg, #f00, #0f0, #00f, #f0f, #f00); z-index: -1; filter: blur(5px); background-size: 400%; animation: rgbGlow 10s linear infinite; border-radius: 23px; }
         @keyframes rgbGlow { 0% { background-position: 0 0; } 100% { background-position: 400% 0; } }
 
         .pagination { display: flex; justify-content: center; padding: 20px; gap: 10px; }
@@ -77,7 +70,7 @@
     </div>
 
     <div id="detailsPage">
-        <div class="details-header" onclick="closeDetails()" style="cursor:pointer;">
+        <div class="details-header" onclick="closeDetails()">
             <i class="fa-solid fa-arrow-left"></i> <span style="font-weight:bold; color:var(--gold);">গ্যালারিতে ফিরে যান</span>
         </div>
         <div class="details-body">
@@ -96,11 +89,11 @@
         const allMovies = [];
         for (let i = 1; i <= 40; i++) {
             allMovies.push({
-                id: i, title: `The Rajasaab (2026) Hindi HD Full Movie`, 
+                id: i, 
+                title: `Movie Title ${i} (2026) Hindi Dubbed`, 
                 img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
-                time: "৯ মিনিট আগে",
-                videoUrl: "http://your-movie-link.mp4",
-                dlLink: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0"
+                videoUrl: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/watch/6961697dd57e3c3d063120c0", // এখানে ভিডিও লিঙ্ক বসাও
+                dlLink: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0" // এখানে ডাউনলোড লিঙ্ক বসাও
             });
         }
 
@@ -123,7 +116,6 @@
                                 <div class="trending-bar">🔥 Trending Now</div>
                             </div>
                             <div style="padding:8px; text-align:center;">
-                                <div style="font-size:10px; color:#aaa;">${movie.time}</div>
                                 <div style="font-size:11px; font-weight:bold; color:#eee; height:28px; overflow:hidden;">${movie.title}</div>
                             </div>
                         </div>
@@ -150,18 +142,12 @@
             document.getElementById('detailsContent').innerHTML = `
                 <h3 style="color:var(--gold); text-align:center; font-size:16px; margin-top:0;">${movie.title}</h3>
                 <img src="${movie.img}" class="movie-poster-small">
-                
                 <div class="btn-stack">
                     <a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" class="action-btn req-btn"><i class="fa-solid fa-paper-plane"></i> Request Movie</a>
-                    
                     <button class="action-btn dl-btn" onclick="startTimer('${movie.dlLink}')"><i class="fa-solid fa-download"></i> Download Full Movie</button>
-                    
-                    <a href="${https://file-to-link-2-64f1046bd8ac.herokuapp.com/watch/6961697dd57e3c3d063120c0}" target="_blank" class="action-btn watch-btn"><i class="fa-solid fa-play"></i> Watch Online (Browser)</a>
-                    
+                    <a href="${movie.videoUrl}" target="_blank" class="action-btn watch-btn"><i class="fa-solid fa-play"></i> Watch Online (Browser)</a>
                     <a href="intent:${movie.videoUrl}#Intent;package=com.mxtech.videoplayer.pro;S.title=${movie.title};end" class="action-btn mx-btn"><i class="fa-solid fa-bolt"></i> Play in MX Player Pro</a>
                 </div>
-
-                <div style="font-size:13px; color:var(--primary); font-weight:bold; border-bottom:1px solid #333; padding-bottom:5px; margin-bottom:10px;">Screenshots:</div>
                 <div class="screenshot-compact"><img src="${movie.img}"><img src="${movie.img}"></div>
             `;
         }
@@ -173,23 +159,4 @@
             const interval = setInterval(() => {
                 count--;
                 document.getElementById('timer').innerText = count;
-                if(count <= 0) {
-                    clearInterval(interval);
-                    window.location.href = link;
-                    setTimeout(() => { 
-                        document.getElementById('overlay').style.display = 'none'; 
-                        document.getElementById('downloadModal').style.display = 'none'; 
-                    }, 1000);
-                }
-            }, 1000);
-        }
-
-        function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
-        function searchMovie() { const term = document.getElementById('movieSearch').value.toLowerCase(); filteredMovies = allMovies.filter(m => m.title.toLowerCase().includes(term)); currentPage = 1; displayMovies(); }
-        function changePage(dir) { currentPage += dir; displayMovies(); window.scrollTo(0,0); }
-
-        window.addEventListener('scroll', revealCards);
-        displayMovies();
-    </script>
-</body>
-</html>
+                if(
