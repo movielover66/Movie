@@ -3,35 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রীতম মুভি স্টুডিও - আলটিমেট মাস্টার</title>
+    <title>প্রীতম মুভি স্টুডিও - প্রিমিয়াম ওটিটি</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; }
+        :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; --card-bg: #1a1a1a; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* নেভিবার ও রোটেটিং সার্চ */
-        .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        .navbar h1 { font-size: 22px; margin: 0 0 10px 0; background: linear-gradient(to right, #fff, var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; animation: shine 3s linear infinite; background-size: 200% auto; }
+        /* প্রফেশনাল গোল্ডেন নেভিবার */
+        .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 12px; text-align: center; position: sticky; top: 0; z-index: 1000; }
+        .navbar h1 { 
+            font-size: 24px; margin: 0 0 10px 0; font-weight: 900;
+            background: linear-gradient(to right, #fff, var(--gold), var(--gold), #fff);
+            background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; animation: shine 3s linear infinite;
+        }
         @keyframes shine { to { background-position: 200% center; } }
 
+        /* সার্চ বার ও রোটেটিং আইকন */
         .search-container { position: relative; width: 90%; max-width: 320px; margin: 0 auto; }
         #movieSearch { width: 100%; padding: 10px 40px 10px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; box-sizing: border-box; }
         .search-icon { position: absolute; right: 15px; top: 11px; color: #888; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg) scale(1.2); }
+        #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg); }
 
-        /* ৩ডি মুভি গ্রিড ও রিপিট অ্যানিমেশন */
+        /* ৩ডি রিপিট অ্যানিমেশন মুভি গ্রিড */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 5px; justify-content: space-between; gap: 5px; }
-        .movie-box { width: 49%; margin-bottom: 8px; perspective: 1000px; }
+        .movie-box { width: 49%; margin-bottom: 5px; perspective: 1000px; -webkit-tap-highlight-color: transparent; }
         .movie-card { 
-            background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #222; 
+            background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; 
             transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; transform: translateY(50px) rotateX(-10deg);
         }
         .movie-card.show { opacity: 1; transform: translateY(0) rotateX(0); }
+        .movie-card:active { transform: scale(0.95) rotateY(10deg); border-color: var(--primary); }
 
         .image-container { position: relative; width: 100%; height: 230px; overflow: hidden; }
         .movie-img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* গ্লোয়িং ট্রেন্ডিং অ্যানিমেশন */
+        /* অ্যানিমেটেড গ্লোয়িং ট্রেন্ডিং বার */
         .trending-bar { 
             position: absolute; bottom: 0; left: 0; width: 100%; 
             background: linear-gradient(90deg, transparent, var(--primary), transparent); 
@@ -44,14 +51,14 @@
         .time-text { font-size: 10px; color: #aaa; margin-bottom: 3px; }
         .movie-title { font-size: 11px; font-weight: bold; color: #eee; height: 30px; overflow: hidden; line-height: 1.3; }
 
-        /* ডিটেইলস পেজ লেআউট */
+        /* নিখুঁত ডিটেইলস পেজ লেআউট */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; box-sizing: border-box; }
         .details-header { background: #111; padding: 15px; border-bottom: 1px solid #333; font-weight: bold; color: var(--gold); display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .details-body { padding: 15px; }
         .movie-poster-small { width: 100%; max-width: 200px; display: block; margin: 0 auto 15px; border-radius: 12px; border: 2px solid var(--primary); }
         
         .btn-stack { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
-        .action-btn { width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; border: none; font-size: 14px; text-align: center; text-decoration: none; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .action-btn { width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; border: none; font-size: 14px; text-align: center; text-decoration: none; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box; }
         
         .req-btn { background: #0088cc; }
         .dl-btn { background: #27ae60; }
@@ -61,7 +68,7 @@
         .screenshot-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 15px 0; }
         .screenshot-compact img { width: 100%; border-radius: 8px; border: 1px solid #333; }
 
-        /* ৫ সেকেন্ড টাইমার পপআপ */
+        /* RGB সার্কেল টাইমার পপআপ */
         #downloadModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; background: #111; z-index: 3000; padding: 25px; border-radius: 20px; text-align: center; border: 2px solid var(--primary); }
         #downloadModal::before { content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px; background: linear-gradient(45deg, #f00, #0f0, #00f, #f0f, #f00); z-index: -1; filter: blur(6px); background-size: 400%; animation: rgbGlow 10s linear infinite; border-radius: 23px; }
         @keyframes rgbGlow { 0% { background-position: 0 0; } 100% { background-position: 400% 0; } }
@@ -88,31 +95,33 @@
     </div>
 
     <div id="detailsPage">
-        <div class="details-header" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i> গ্যালারিতে ফিরে যান</div>
+        <div class="details-header" onclick="closeDetails()">
+            <i class="fa-solid fa-arrow-left"></i> <span>গ্যালারিতে ফিরে যান</span>
+        </div>
         <div class="details-body" id="detailsContent"></div>
     </div>
 
     <div class="modal-overlay" id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2500; backdrop-filter: blur(5px);"></div>
     <div id="downloadModal">
-        <div style="font-size:40px; margin-bottom:10px; animation: bounce 0.6s infinite alternate;">💃</div>
-        <h4 style="margin:0; color:#fff;">প্রসেসিং হচ্ছে...</h4>
+        <div style="font-size:40px; margin-bottom:10px; animation: bounce 0.6s infinite alternate;">😜</div>
+        <h4 style="margin:0; color:#fff;">লিঙ্ক প্রস্তুত হচ্ছে...</h4>
         <p style="color:#00ff88; font-size:26px; font-weight:bold; margin: 10px 0;"><span id="timer">5</span>s</p>
     </div>
 
     <script>
+        /* ১. মুভি ডেটা লিস্ট (এখানে লিংক পরিবর্তন করবে) */
         const allMovies = [];
+        const updateTimes = ["১০ মিনিট আগে", "৪ ঘণ্টা আগে", "১৯ ঘণ্টা আগে", "১ দিন আগে"];
+
         for (let i = 1; i <= 40; i++) {
             allMovies.push({
                 id: i, 
-                title: `The Rajasaab (2026) Hindi HD Full Movie`, 
+                title: `The Rajasaab (2026) Hindi HD Full Movie Download`, 
                 img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
-                time: "১০ মিনিট আগে",
-                
-                // <<< এইখানে তোমার আসল ভিডিও লিঙ্ক (Watch Link) বসানো হয়েছে >>>
-                videoUrl: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/watch/6961697dd57e3c3d063120c0",
-                
-                // <<< এইখানে তোমার আসল ডাউনলোড লিঙ্ক (DL Link) বসানো হয়েছে >>>
-                dlLink: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0"
+                time: updateTimes[i % 4],
+                // নিচে তোমার আসল লিঙ্কগুলো বসাও
+                watchUrl: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/watch/6961697dd57e3c3d063120c0",
+                dlUrl: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0"
             });
         }
 
@@ -120,6 +129,7 @@
         const moviesPerPage = 10;
         let filteredMovies = [...allMovies];
 
+        /* ২. মুভি ডিসপ্লে ফাংশন */
         function displayMovies() {
             const list = document.getElementById('movieList');
             list.innerHTML = "";
@@ -146,6 +156,7 @@
             document.getElementById('nextBtn').disabled = (start + moviesPerPage >= filteredMovies.length);
         }
 
+        /* ৩. রিপিট স্ক্রল অ্যানিমেশন স্ক্রিপ্ট */
         function revealCards() {
             const cards = document.querySelectorAll('.movie-card');
             const triggerBottom = window.innerHeight - 30;
@@ -159,6 +170,7 @@
             });
         }
 
+        /* ৪. ডিটেইলস পেজ ফাংশন */
         function showDetails(id) {
             const movie = allMovies.find(m => m.id === id);
             document.getElementById('mainPage').style.display = 'none';
@@ -167,16 +179,20 @@
             document.getElementById('detailsContent').innerHTML = `
                 <h3 style="color:var(--gold); text-align:center; font-size:16px; margin-top:0;">${movie.title}</h3>
                 <img src="${movie.img}" class="movie-poster-small">
+                
                 <div class="btn-stack">
                     <a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" class="action-btn req-btn"><i class="fa-solid fa-paper-plane"></i> Request Movie</a>
-                    <button class="action-btn dl-btn" onclick="startTimer('${movie.dlLink}')"><i class="fa-solid fa-download"></i> Download Full Movie</button>
-                    <a href="${movie.videoUrl}" target="_blank" class="action-btn watch-btn"><i class="fa-solid fa-play"></i> Watch Online (Browser)</a>
-                    <a href="intent:${movie.videoUrl}#Intent;package=com.mxtech.videoplayer.pro;S.title=${movie.title};end" class="action-btn mx-btn"><i class="fa-solid fa-bolt"></i> Play in MX Player Pro</a>
+                    <button class="action-btn dl-btn" onclick="startTimer('${movie.dlUrl}')"><i class="fa-solid fa-download"></i> Download Full Movie</button>
+                    <a href="${movie.watchUrl}" target="_blank" class="action-btn watch-btn"><i class="fa-solid fa-play"></i> Watch Online (Browser)</a>
+                    <a href="intent:${movie.watchUrl}#Intent;package=com.mxtech.videoplayer.pro;S.title=${movie.title};end" class="action-btn mx-btn"><i class="fa-solid fa-bolt"></i> Play in MX Player Pro</a>
                 </div>
+
                 <div style="font-size:13px; color:var(--primary); font-weight:bold; border-bottom:1px solid #333; padding-bottom:5px; margin-bottom:10px;">Screenshots:</div>
-                <div class="screenshot-compact"><img src="${movie.img}"><img src="${movie.img}"></div>`;
+                <div class="screenshot-compact"><img src="${movie.img}"><img src="${movie.img}"></div>
+            `;
         }
 
+        /* ৫. টাইমার ও পপআপ স্ক্রিপ্ট */
         function startTimer(link) {
             document.getElementById('overlay').style.display = 'block';
             document.getElementById('downloadModal').style.display = 'block';
