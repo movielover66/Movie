@@ -8,241 +8,33 @@
     <style>
         body { background-color: #0c0c0c; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
         .navbar { background-color: #111; border-bottom: 2px solid #e50914; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-                /* Glowing Movie Zone Name - লাইন ১০ থেকে শুরু করো */
-        .navbar h1 { 
-            font-size: 26px; 
-            margin: 0 0 10px 0; 
-            color: #fff; 
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 5px #e50914, 0 0 10px #e50914, 0 0 20px #e50914, 0 0 40px #ff0000;
-            animation: glowPulse 2s infinite alternate;
-        }
-
-        @keyframes glowPulse {
-            from { text-shadow: 0 0 5px #e50914, 0 0 10px #e50914, 0 0 20px #e50914; transform: scale(1); }
-            to { text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff4d4d, 0 0 30px #ff4d4d; transform: scale(1.02); }
-        }
+        .navbar h1 { font-size: 26px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 10px #e50914; animation: glowPulse 2s infinite alternate; }
+        @keyframes glowPulse { from { transform: scale(1); } to { transform: scale(1.02); } }
         
-        /* সার্চ বার */
-        .search-icon { 
-            position: absolute; 
-            right: 30px; 
-            top: 68px; 
-            color: #888; 
-            cursor: pointer;
-            transition: all 0.4s ease; /* আইকনটি স্মুথলি ঘোরার জন্য */
-        }
-
-        /* সার্চ বারে ক্লিক করলে আইকনটি লাল হবে এবং ৯৫ ডিগ্রি ঘুরবে */
-        #movieSearch:focus + .search-icon {
-            color: #e50914;
-            transform: rotate(95deg) scale(1.2);
-            text-shadow: 0 0 10px #e50914;
-        }
+        .search-container { position: relative; max-width: 500px; margin: 0 auto; }
+        #movieSearch { width: 100%; padding: 12px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; }
         
-        
-        #movieSearch {
-            width: 100%; 
-            padding: 12px 45px 12px 15px; /* ডান দিকে জায়গা বাড়ানো হয়েছে যাতে আইকনের ওপর লেখা না চলে যায় */
-            border-radius: 25px; 
-            border: 1px solid #333;
-            background: #222; 
-            color: #fff; 
-            outline: none; 
-            box-sizing: border-box; 
-            transition: 0.3s;
-        }
-        
-        /* ট্রেন্ডিং অ্যানিমেশন */
-        .trending-badge {
-            background: #e50914; color: white; padding: 2px 8px; font-size: 10px; font-weight: bold;
-            position: absolute; top: 8px; left: 8px; border-radius: 3px; z-index: 5;
-            animation: trendingPulse 1.5s infinite;
-        }
-        @keyframes trendingPulse {
-            0% { transform: scale(1); box-shadow: 0 0 0px rgba(229, 9, 20, 0.7); }
-            50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(229, 9, 20, 0.9); }
-            100% { transform: scale(1); box-shadow: 0 0 0px rgba(229, 9, 20, 0.7); }
-        }
-
-        /* মুভি গ্রিড - ক্লিক অ্যানিমেশন সহ */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; }
-        .movie-box { width: 48%; margin-bottom: 15px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .movie-box { width: 48%; margin-bottom: 15px; cursor: pointer; }
         
         .movie-card { 
             background: #181818; border-radius: 10px; overflow: hidden; border: 1px solid #222; 
-            height: 100%; position: relative; transition: transform 0.2s, border-color 0.3s;
+            transition: all 0.6s ease-out; opacity: 0; transform: translateY(30px);
         }
+        .movie-card.show { opacity: 1; transform: translateY(0); }
+        .image-container { position: relative; width: 100%; height: 250px; overflow: hidden; }
+        .movie-img { width: 100%; height: 100%; object-fit: cover; }
+        .quality-tag { position: absolute; top: 8px; right: 8px; background: #e50914; padding: 3px 8px; font-size: 10px; border-radius: 4px; }
+        .trending-badge { background: #e50914; padding: 2px 8px; font-size: 10px; position: absolute; top: 8px; left: 8px; border-radius: 3px; }
         
-        /* কার্ড ক্লিক করলে ছোট হবে */
-        .movie-card:active { transform: scale(0.94); }
-        .movie-card:hover { border-color: #e50914; }
-                /* লাইন ৮২ থেকে ৯৬ পর্যন্ত রিপ্লেস করো */
-        .quality-tag { 
-            position: absolute; 
-            top: 8px; 
-            right: 8px; 
-            background: #e50914; /* Netflix Red */
-            color: #fff; 
-            padding: 3px 8px; 
-            font-size: 10px; 
-            font-weight: bold; 
-            border-radius: 4px; 
-            z-index: 10;
-            box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
-            text-transform: uppercase;
-        }
-
-                /* ইমেজ কন্টেইনার এবং ইমেজের সাইজ ফিক্স করার কোড */
-        .image-container { 
-            position: relative; 
-            width: 100%; 
-            height: 250px; /* উচ্চতা নির্দিষ্ট করে দেওয়া হলো */
-            overflow: hidden; 
-        }
-
-        .movie-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; /* ছবি যাতে ফেটে না যায় বা লম্বা না দেখায় */
-            transition: transform 0.5s ease;
-        }
-
-        /* কার্ড হোভার করলে ইমেজ জুম হবে */
-        .movie-card:hover .movie-img {
-            transform: scale(1.1);
-        }
-        
-        /* প্যাগিনেশন */
         .pagination { display: flex; justify-content: center; padding: 20px; gap: 10px; }
-        .page-btn { 
-            background: #e50914; color: #fff; border: none; padding: 10px 15px; 
-            border-radius: 5px; cursor: pointer; transition: 0.2s; 
-        }
-        .page-btn:active { transform: scale(0.9); }
-        .page-btn:disabled { background: #333; cursor: not-allowed; }
+        .page-btn { background: #e50914; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
 
-                        /* ডিটেইলস পেজ ডিজাইন আপডেট */
-        #detailsPage {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(12, 12, 12, 0.98); /* হালকা স্বচ্ছ ব্যাকগ্রাউন্ড */
-            z-index: 2000;
-            padding: 40px 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
-            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        #detailsContent {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            color: #fff;
-        }
-
-        #detailsContent img {
-            width: 100%;
-            max-width: 300px; /* ইমেজের সাইজ নির্দিষ্ট করা হয়েছে */
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(229, 9, 20, 0.5); /* লাল গ্লোয়িং শ্যাডো */
-            margin-bottom: 20px;
-            animation: imageZoom 0.8s ease;
-        }
-
-        #detailsContent h2 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            color: #e50914; /* মুভির নাম লাল রঙে */
-            text-transform: capitalize;
-        }
-
-        /* ব্যাক বাটন স্টাইল */
-        .back-btn {
-            background: #222;
-            color: #fff;
-            border: 1px solid #e50914;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-bottom: 25px;
-            transition: 0.3s;
-        }
-
-        .back-btn:hover {
-            background: #e50914;
-        }
-        
-        @keyframes slideInUp {
-            from {
-                transform: translateY(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* ইমেজ আসার সময় হালকা জুম ইফেক্ট */
-        #detailsContent img {
-            animation: imageZoom 0.8s ease;
-        }
-
-        @keyframes imageZoom {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        
-        
-        .download-now-btn { 
-            background: linear-gradient(45deg, #2ecc71, #27ae60); color: #fff; text-decoration: none; 
-            padding: 15px; display: block; text-align: center; border-radius: 10px; 
-            font-weight: bold; font-size: 18px; margin-top: 20px; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-            animation: btnPulse 2s infinite;
-        }
-        @keyframes btnPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-                /* কাউন্টডাউন কন্টেইনার স্টাইল */
-        #countdown-container {
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(46, 204, 113, 0.1);
-            border: 1px dashed #2ecc71;
-            border-radius: 10px;
-            color: #fff;
-        }
-        #timer {
-            font-size: 22px;
-            color: #2ecc71;
-            font-weight: bold;
-        }
-        
-        .download-now-btn:active { transform: scale(0.96); }
+        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0c0c0c; z-index: 2000; padding: 20px; overflow-y: auto; }
+        .back-btn { background: #222; color: #fff; border: 1px solid #e50914; padding: 10px 20px; border-radius: 30px; cursor: pointer; margin-bottom: 20px; }
+        .download-now-btn { background: linear-gradient(45deg, #2ecc71, #27ae60); color: #fff; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; border: none; margin-top: 20px; cursor: pointer; }
+        #countdown-container { margin: 20px 0; padding: 15px; background: rgba(46, 204, 113, 0.1); border: 1px dashed #2ecc71; border-radius: 10px; text-align: center; }
         @media (min-width: 768px) { .movie-box { width: 23%; } }
-        
-                /* কার্ডগুলো নিচ থেকে ভেসে ওঠার অ্যানিমেশন */
-        .movie-card {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-
-        .movie-card.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
     </style>
 </head>
 <body>
@@ -252,8 +44,6 @@
             <h1>🎬 প্রীতম মুভি জোন</h1>
             <div class="search-container">
                 <input type="text" id="movieSearch" placeholder="মুভি সার্চ করুন..." onkeyup="searchMovie()">
-<i class="fa-solid fa-magnifying-glass search-icon"></i>
-    
             </div>
         </div>
         <div class="movie-grid" id="movieList"></div>
@@ -265,460 +55,13 @@
 
     <div id="detailsPage">
         <button class="back-btn" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i> ফিরে যান</button>
-        <div id="detailsContent" style="max-width:500px; margin:0 auto; text-align:center;"></div>
+        <div id="detailsContent"></div>
     </div>
-<div style="text-align: center; margin-top: 10px;">
-    <a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" 
-       style="background: #333; color: #fff; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; border: 1px solid #e50914; transition: 0.3s;">
-       <i class="fa-solid fa-paper-plane"></i> Request a Movie
-    </a>
-</div>
-    
+
     <script>
-        // এখানে তুমি তোমার মুভিগুলো এক এক করে যোগ করবে
-function revealCards() {
-    const cards = document.querySelectorAll('.movie-card');
-    cards.forEach(card => {
-        const cardTop = card.getBoundingClientRect().top;
-        const triggerBottom = window.innerHeight - 100;
-        
-        if(cardTop < triggerBottom) {
-            card.classList.add('show');
-        } else {
-            // এই লাইনটি যোগ করলে কার্ড উপরে চলে গেলে আবার অ্যানিমেশন হবে (Loop)
-            card.classList.remove('show');
-        }
-function startDownload(link) {
-    const btn = document.getElementById('download-btn');
-    const timerContainer = document.getElementById('countdown-container');
-    const timerText = document.getElementById('timer');
-    let count = 5;
-
-    btn.style.display = 'none';
-    timerContainer.style.display = 'block';
-
-    const countdown = setInterval(() => {
-        count--;
-        timerText.innerText = count;
-        if (count <= 0) {
-            clearInterval(countdown);
-            window.location.href = link;
-            timerContainer.innerHTML = "<b style='color:#2ecc71'>ডাউনলোড শুরু হয়েছে!</b>";
-        }
-    }, 1000);
-}
-          
-    });
-}
-
-// স্ক্রল ইভেন্ট লিসেনার
-window.addEventListener('scroll', revealCards);
-// পেজ লোড হওয়ার সময় একবার কল করা (যাতে শুরুর কার্ডগুলো দেখা যায়)
-window.addEventListener('load', revealCards);
-         // লাইন ২৫১ থেকে ঠিক এভাবে লেখো
-const allMovies = [
-    {
-        id: 1,
-        
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0", 
-                trending: true
-                    
-                },
-            { 
-                id: 2, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 3, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 4, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 5, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 6, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 7, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 8, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 9, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 10, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 11, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 12, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 13, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 14, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 15, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 16, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 17, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 18, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 19, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 20, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 21, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 22, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 23, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 24, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 25, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 26, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 27, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 28, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 29, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 30, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 31, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 32, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 33, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 34, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 35, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 36, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 37, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 38, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            { 
-                id: 39, 
-                title: "Magha Dhira 2", 
-                time: "2026-01-10T01:01:50", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "8K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rR", 
-                trending: true
-                    
-                },
-            { 
-                id: 40, 
-                title: "Bahubali-2 ( 2026 )", 
-                time: "2026-01-10T01:01:40", 
-                img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                quality: "4K", 
-                link: "https://clone.mryaga.top/dl.php?url=https://video-downloads.googleusercontent.com/ADGPM2lWBiHrApCgZ--i-7eycjLdlWgPCTXBoN3V6J5gVTBMviKJL4uA8rRsGt5OKqHIBxkd5uwb-qYd8Wk2xmunB_O5NwkIxzQQNoNylMtD4NLGOIf2A1CVTOfHcyAo-GqoTcj5yyNnLHKiRRtATjaH-d9T3GFMrne05fEiRrcxkV_T1LPMXswYH-jjqdxOq5ul92h2VpsZr6vEEFvp7qgqQVJZwsG_1RAK57XTQqD4Im3aqjcbyrZATIxyO6Qy1Hks1D4IZV3AcZMpH1EeaZ3d3e3AKrBZhOfj3kvpBBj5f_wJ23SYdcPAmrdfpMk_VbR-h0tk1u0pA1re9kkqaQyLPdNz17z3vPwWUCaqKM4xQ3unyZUz9q7fSn_yIXbpsVzoiFX7zMf-IrytgF5yZPVJ0_oGNRC-B5uSemZugY_Vx-DnqCKRE2tJ5ePszOSgVFFaKeJrME8vgFMwjKZmTmYUuQ1xng4wlYUyUO4EvLPI3nf0z616uSB87NWkavSlSYuVrrkt207Jar0H0roch8slStW2GO66-MEDkoXTRp341k0LuevtQR51KYblnCt71mv6uZlKjZggNjS5_1UfsgVUoxZinHifoC8Vff6CWYN3AaYTxtaqrBnMlMwNSZr80m4Nq30ienERJVX1Aj2CHndUlbDhZBQ-vKMKUQkdtCztMHju6I4SQ57-luP04z25M5l-eIjUT4t8ns4jmjZ9obCS8nxEf2BzyWrcLt4m6rCZaIKzWiwpsC0IdJhnRMdNmg8z8hWWH1e__IuTiRTIJDhd5BTGM5uPn3ejMvuhvpojEGM98qJ7TkzxxN_SGW204n7lrSrQv0ZMbL0wmcsSA9HvF9aX-bGFWkjITxNeW1prtt0yUP6nFPLRYfLtSYeiSXhn9l2gVnFzw5lsTVivLU2BiGiifJtuxWOMuyyFgjOwcikTj1kZxv2YBgcUPVW2eNLA8P7kAZ4mZdy-5iut2c5ZO8C3YCq8r3QPN6cH3DugmCwZWVfXTQbqIByYw5SgrEVRS8sgm38RDbIPNry9_stfNOV4g9zN5BdPiubY3ddaYvk0OFBj1vq2JpukAKnlcR1ynq11Jrjn&hl=bn-IN", 
-                trending: true
-                    
-                },
-            // নতুন মুভি যোগ করতে উপরের অংশটুকু কপি করে নিচে বসাও
+        const allMovies = [
+            { id: 1, title: "Magha Dhira 2", time: "2026-01-10T01:01:50", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "8K", link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0", trending: true },
+            { id: 2, title: "Bahubali-2 ( 2026 )", time: "2026-01-10T01:01:40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "4K", link: "https://yourlink.com", trending: true }
         ];
 
         let currentPage = 1;
@@ -740,28 +83,70 @@ const allMovies = [
                                 <img src="${movie.img}" class="movie-img">
                                 <div class="quality-tag">${movie.quality}</div>
                             </div>
-                            <div class="card-body">
+                            <div style="padding:10px;">
                                 <div class="movie-time" data-time="${movie.time}">Loading...</div>
-                                <div class="movie-title">${movie.title}</div>
+                                <div style="font-size:14px; font-weight:bold;">${movie.title}</div>
                             </div>
                         </div>
                     </div>`;
             });
             updateTimes();
+            revealCards();
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = end >= data.length;
+        }
+
+        function showDetails(id) {
+            const movie = allMovies.find(m => m.id === id);
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('detailsPage').style.display = 'block';
+            document.getElementById('detailsContent').innerHTML = `
+                <div style="text-align:center;">
+                    <img src="${movie.img}" style="width:100%; max-width:300px; border-radius:15px; margin-bottom:20px;">
+                    <h2 style="color:#e50914;">${movie.title}</h2>
+                    <div id="countdown-container" style="display:none;">ফাইল তৈরি হচ্ছে... <span id="timer">5</span> সেকেন্ড</div>
+                    <button id="download-btn" class="download-now-btn" onclick="startDownload('${movie.link}')">Download Now</button>
+                </div>`;
+            window.scrollTo(0,0);
+        }
+
+        function startDownload(link) {
+            const btn = document.getElementById('download-btn');
+            const timerContainer = document.getElementById('countdown-container');
+            let count = 5;
+            btn.style.display = 'none';
+            timerContainer.style.display = 'block';
+            const countdown = setInterval(() => {
+                count--;
+                document.getElementById('timer').innerText = count;
+                if (count <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = link;
+                    timerContainer.innerHTML = "<b style='color:#2ecc71'>ডাউনলোড শুরু হয়েছে!</b>";
+                }
+            }, 1000);
+        }
+
+        function revealCards() {
+            const cards = document.querySelectorAll('.movie-card');
+            cards.forEach(card => {
+                if(card.getBoundingClientRect().top < window.innerHeight - 50) card.classList.add('show');
+            });
+        }
+
+        function closeDetails() {
+            document.getElementById('mainPage').style.display = 'block';
+            document.getElementById('detailsPage').style.display = 'none';
         }
 
         function updateTimes() {
             document.querySelectorAll('.movie-time').forEach(el => {
                 const uploadDate = new Date(el.getAttribute('data-time'));
                 const diff = Math.floor((new Date() - uploadDate) / 1000);
-                let text = "";
-                if (diff < 60) text = "Just now";
-                else if (diff < 3600) text = Math.floor(diff / 60) + "m ago";
-                else if (diff < 86400) text = Math.floor(diff / 3600) + "h ago";
-                else text = Math.floor(diff / 86400) + "d ago";
-                el.innerText = text;
+                if (diff < 60) el.innerText = "Just now";
+                else if (diff < 3600) el.innerText = Math.floor(diff / 60) + "m ago";
+                else if (diff < 86400) el.innerText = Math.floor(diff / 3600) + "h ago";
+                else el.innerText = Math.floor(diff / 86400) + "d ago";
             });
         }
 
@@ -770,56 +155,13 @@ const allMovies = [
             const filtered = allMovies.filter(m => m.title.toLowerCase().includes(term));
             currentPage = 1;
             displayMovies(filtered);
-            document.querySelector('.pagination').style.display = term ? 'none' : 'flex';
         }
-function showDetails(id) {
-    const movie = allMovies.find(m => m.id === id);
-    const content = document.getElementById('detailsContent');
-    
-    // মুভি ডিটেইলস এবং ৫ সেকেন্ডের টাইমার সেটআপ
-    content.innerHTML = `
-        <div id="countdown-container" style="display:none;">
-            আপনার ফাইলটি তৈরি হচ্ছে... <span id="timer">5</span> সেকেন্ড অপেক্ষা করুন।
-        </div>
-        <button id="download-btn" class="download-now-btn" onclick="startDownload('${movie.link}')">
-            Download Now
-        </button>
-    `;
-}
 
-function startDownload(link) {
-    const btn = document.getElementById('download-btn');
-    const timerContainer = document.getElementById('countdown-container');
-    const timerText = document.getElementById('timer');
-    let count = 5;
+        function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
+        function prevPage() { currentPage--; displayMovies(); window.scrollTo(0,0); }
 
-    // বাটন লুকিয়ে টাইমার দেখানো
-    btn.style.display = 'none';
-    timerContainer.style.display = 'block';
-
-    const countdown = setInterval(() => {
-        count--;
-        timerText.innerText = count;
-        
-        if (count <= 0) {
-            clearInterval(countdown);
-            // ৫ সেকেন্ড পর ডাউনলোড লিঙ্ক ওপেন হবে
-            window.location.href = link;
-            timerContainer.innerHTML = "<b style='color:#2ecc71'>ডাউনলোড শুরু হয়েছে!</b>";
-        }
-    }, 1000);
-}
-
-function closeDetails() {
-    document.getElementById('mainPage').style.display = 'block';
-    document.getElementById('detailsPage').style.display = 'none';
-}
-
-function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
-function prevPage() { currentPage--; displayMovies(); window.scrollTo(0,0); }
-
-displayMovies();
-setInterval(updateTimes, 60000);
-</script>
+        window.addEventListener('scroll', revealCards);
+        displayMovies();
+    </script>
 </body>
 </html>
