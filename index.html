@@ -238,8 +238,12 @@ function revealCards() {
     cards.forEach(card => {
         const cardTop = card.getBoundingClientRect().top;
         const triggerBottom = window.innerHeight - 100;
+        
         if(cardTop < triggerBottom) {
             card.classList.add('show');
+        } else {
+            // এই লাইনটি যোগ করলে কার্ড উপরে চলে গেলে আবার অ্যানিমেশন হবে (Loop)
+            card.classList.remove('show');
         }
     });
 }
