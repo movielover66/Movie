@@ -776,13 +776,20 @@ const allMovies = [
         function showDetails(id) {
             const movie = allMovies.find(m => m.id === id);
             const content = document.getElementById('detailsContent');
-            content.innerHTML = `
-    <div id="countdown-container" style="display:none;">
-        আপনার ফাইলটি তৈরি হচ্ছে... <span id="timer">5</span> সেকেন্ড অপেক্ষা করুন।
-    </div>
-    <button id="download-btn" class="download-now-btn" onclick="startDownload('${movie.link}')">
-        Download Now
-    </button>
+            // লাইন ৭৭৯ থেকে ৭৮৮ পর্যন্ত এটি রিপ্লেস করো
+    content.innerHTML = `
+        <div id="countdown-container" style="display:none;">
+            আপনার ফাইলটি তৈরি হচ্ছে... <span id="timer">5</span> সেকেন্ড অপেক্ষা করুন।
+        </div>
+        <button id="download-btn" class="download-now-btn" onclick="startDownload('${movie.link}')">
+            Download Now
+        </button>
+    `;
+        }
+        
+    `;
+    }
+
 `;
             
             // এই ফাংশনটি লাইন ৭৭৯-এর আশেপাশে বসাও
