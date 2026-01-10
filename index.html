@@ -9,28 +9,39 @@
         :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', 'SolaimanLipi', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* প্রফেশনাল গোল্ডেন নেভিগেশন */
+        /* প্রফেশনাল নেভিগেশন ও গোল্ডেন নাম */
         .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 20px 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
         .navbar h1 { 
-            font-size: 28px; margin: 0 0 15px 0; font-weight: 900; text-transform: uppercase;
-            background: linear-gradient(to right, #fff 20%, #ffd700 40%, #ffd700 60%, #fff 80%);
+            font-size: 26px; margin: 0 0 15px 0; font-weight: 900; text-transform: uppercase;
+            background: linear-gradient(to right, #fff, #ffd700, #ffd700, #fff);
             background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text;
             -webkit-text-fill-color: transparent; animation: shine 3s linear infinite;
         }
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* সার্চ বার */
-        .search-container { position: relative; max-width: 400px; margin: 0 auto; }
-        #movieSearch { width: 100%; padding: 12px 45px 12px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; }
-        .search-icon { position: absolute; right: 15px; top: 12px; color: #888; transition: 0.6s ease; }
+        /* ফিক্সড সার্চ বার ডিজাইন */
+        .search-container { position: relative; max-width: 90%; margin: 0 auto 10px; width: 400px; }
+        #movieSearch { 
+            width: 100%; padding: 12px 45px 12px 15px; border-radius: 25px; border: 1px solid #333; 
+            background: #222; color: #fff; outline: none; box-sizing: border-box; transition: 0.3s;
+        }
+        #movieSearch:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
+        .search-icon { position: absolute; right: 15px; top: 12px; color: #888; transition: 0.6s ease; pointer-events: none; }
         #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg); }
 
-        /* মুভি গ্রিড এবং রিপিট স্ক্রল অ্যানিমেশন */
-        .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; }
-        .movie-box { width: 48%; margin-bottom: 15px; -webkit-tap-highlight-color: transparent; }
+        /* ফিক্সড মুভি গ্রিড - এখন কার্ডগুলো মাঝখানে থাকবে */
+        .movie-grid { 
+            display: flex; flex-wrap: wrap; padding: 15px 10px; 
+            justify-content: space-around; /* কার্ডগুলোর মাঝে সমান জায়গা থাকবে */
+            gap: 15px; width: 100%; box-sizing: border-box;
+        }
+        .movie-box { width: 46%; max-width: 200px; margin-bottom: 10px; -webkit-tap-highlight-color: transparent; }
+        
+        /* রিপিট স্ক্রল অ্যানিমেশন ও ট্যাপ ইফেক্ট */
         .movie-card { 
             background: #181818; border-radius: 12px; overflow: hidden; border: 1px solid #222; 
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; transform: translateY(60px) scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease; 
+            opacity: 0; transform: translateY(50px) scale(0.9);
         }
         .movie-card.show { opacity: 1; transform: translateY(0) scale(1); }
         .movie-card:active { transform: scale(0.88); border-color: var(--primary); }
@@ -39,35 +50,30 @@
         .movie-img { width: 100%; height: 100%; object-fit: cover; }
         .quality-tag { position: absolute; top: 8px; right: 8px; background: var(--primary); padding: 3px 8px; font-size: 10px; border-radius: 4px; font-weight: bold; }
 
-        /* মুভি ডিটেইলস ও চওড়া স্ক্রিনশট */
-        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; padding: 20px; box-sizing: border-box; }
-        .screenshot-grid { display: flex; flex-direction: column; gap: 15px; margin: 20px 0; }
-        .screenshot-grid img { width: 100%; border-radius: 10px; border: 1px solid #333; }
-
-        /* আলটিমেট RGB পপআপ ডিজাইন */
+        /* পপআপ ও RGB ইফেক্ট */
         #downloadModal {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 85%; max-width: 300px; background: #111; z-index: 3000; padding: 25px; border-radius: 25px; text-align: center; overflow: hidden;
+            width: 85%; max-width: 300px; background: #111; z-index: 3000; padding: 25px; border-radius: 25px; text-align: center;
         }
         #downloadModal::before {
-            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, #ff0000, #48ff00, #002bff, #ff00c8, #ff0000);
-            z-index: -1; filter: blur(5px); background-size: 400%; animation: rgbGlow 10s linear infinite; border-radius: 27px;
+            content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00c8, #ff0000);
+            z-index: -1; filter: blur(5px); background-size: 400%; animation: rgbGlow 10s linear infinite; border-radius: 28px;
         }
         .funny-circle {
-            position: relative; width: 110px; height: 110px; margin: 0 auto 15px;
+            position: relative; width: 100px; height: 100px; margin: 0 auto 15px;
             border-radius: 50%; padding: 4px; background: linear-gradient(45deg, #fb0094, #00ff00, #ffff00, #fb0094);
             background-size: 400%; animation: rgbGlow 5s linear infinite;
         }
         .inner-bg { width: 100%; height: 100%; background: #111; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .funny-cartoon { font-size: 55px; animation: cartoonDance 0.6s infinite alternate; }
-        @keyframes cartoonDance { from { transform: scale(1) rotate(-10deg); } to { transform: scale(1.2) rotate(10deg); } }
+        .funny-cartoon { font-size: 50px; animation: dance 0.6s infinite alternate; }
+        @keyframes dance { from { transform: scale(1); } to { transform: scale(1.2); } }
         @keyframes rgbGlow { 0% { background-position: 0 0; } 100% { background-position: 400% 0; } }
 
         /* প্যাগিনেশন */
-        .pagination { display: flex; justify-content: center; padding: 30px; gap: 15px; }
-        .page-btn { background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px 25px; border-radius: 8px; cursor: pointer; transition: 0.4s; font-weight: bold; }
-        .page-btn:disabled { opacity: 0.2; cursor: not-allowed; border-color: #333; }
+        .pagination { display: flex; justify-content: center; padding: 20px; gap: 15px; }
+        .page-btn { background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .page-btn:disabled { opacity: 0.2; border-color: #333; }
 
         @media (min-width: 768px) { .movie-box { width: 23%; } }
     </style>
@@ -87,10 +93,10 @@
             <button class="page-btn" id="prevBtn" onclick="changePage(-1)">আগের পাতা</button>
             <button class="page-btn" id="nextBtn" onclick="changePage(1)">পরের পাতা</button>
         </div>
-        <div style="text-align: center;"><a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" style="background:#222; color:#fff; padding:12px 30px; border-radius:30px; border:1px solid var(--primary); text-decoration:none; font-weight:bold;">মুভি রিকোয়েস্ট</a></div>
+        <div style="text-align: center; margin-bottom: 40px;"><a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" style="background:#222; color:#fff; padding:12px 30px; border-radius:30px; border:1px solid var(--primary); text-decoration:none; font-weight:bold;">মুভি রিকোয়েস্ট</a></div>
     </div>
 
-    <div id="detailsPage">
+    <div id="detailsPage" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:2000; overflow-y:auto; padding:20px;">
         <button onclick="closeDetails()" style="background:#222; color:#fff; border:1px solid #444; padding:10px 20px; border-radius:30px; cursor:pointer; margin-bottom:20px;"><i class="fa-solid fa-arrow-left"></i> গ্যালারিতে ফিরে যান</button>
         <div id="detailsContent"></div>
     </div>
@@ -103,13 +109,12 @@
     </div>
 
     <script>
+        // ৪০টি মুভি ডেটা
         const allMovies = [];
         for (let i = 1; i <= 40; i++) {
             allMovies.push({
                 id: i, title: `প্রিমিয়াম মুভি ${i}`, img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
                 quality: i % 2 === 0 ? "4K UHD" : "1080p HD",
-                desc: `মুভি ${i} এর ফুল প্রিভিউ। চওড়া স্ক্রিনশট নিচে দেখুন।`,
-                ss: ["https://i.ibb.co/KpCT91TG/bp-new.webp", "https://i.ibb.co/KpCT91TG/bp-new.webp"],
                 link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0"
             });
         }
@@ -151,24 +156,22 @@
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('detailsPage').style.display = 'block';
             window.scrollTo(0,0);
-            let ssHtml = "";
-            movie.ss.forEach(s => ssHtml += `<img src="${s}">`);
             document.getElementById('detailsContent').innerHTML = `
                 <div style="text-align:center;"><img src="${movie.img}" style="width:180px; border-radius:15px; border:2px solid var(--primary);"><h2>${movie.title}</h2></div>
-                <div style="margin:20px 0; background:#1a1a1a; padding:15px; border-radius:10px; border-left:4px solid var(--primary);">${movie.desc}</div>
-                <div class="screenshot-grid">${ssHtml}</div>
-                <button onclick="openDownloadModal('${movie.link}')" style="background:linear-gradient(135deg, var(--primary), #900); color:#fff; padding:15px; width:100%; border-radius:12px; font-weight:bold; border:none; cursor:pointer; margin-top:20px;">ডাউনলোড শুরু করুন</button>`;
+                <div style="margin:20px 0; background:#1a1a1a; padding:15px; border-radius:10px; border-left:4px solid var(--primary);">এই মুভিটির হাই-কোয়ালিটি প্রিভিউ এবং ডাউনলোড লিঙ্ক নিচে দেওয়া হলো।</div>
+                <img src="${movie.img}" style="width:100%; border-radius:10px; margin-bottom:15px;">
+                <button onclick="openDownloadModal('${movie.link}')" style="background:linear-gradient(135deg, var(--primary), #900); color:#fff; padding:15px; width:100%; border-radius:12px; font-weight:bold; border:none; cursor:pointer; margin-top:10px;">ডাউনলোড শুরু করুন</button>`;
         }
 
         function openDownloadModal(link) {
             document.getElementById('overlay').style.display = 'block';
             document.getElementById('downloadModal').style.display = 'block';
             let count = 5;
-            const timer = setInterval(() => {
+            const interval = setInterval(() => {
                 count--;
                 document.getElementById('timer').innerText = count;
                 if(count <= 0) {
-                    clearInterval(timer);
+                    clearInterval(interval);
                     window.location.href = link;
                     setTimeout(() => { document.getElementById('overlay').style.display = 'none'; document.getElementById('downloadModal').style.display = 'none'; }, 1000);
                 }
