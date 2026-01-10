@@ -60,131 +60,121 @@
 
     <script>
         const allMovies = [
-            { id: 1, title: "Magha Dhira 2", time: "2026-01-10T01:01:50", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "8K", link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0", trending: true },
-            { id: 2, title: "Bahubali-2 ( 2026 )", time: "2026-01-10T01:01:40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "4K", link: "https://yourlink.com", trending: true }
-            ];
-            [
-            { id: 1, title: "Magha Dhira 2", time: "2026-01-10T01:01:50", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "8K", link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0", trending: true },
-            { id: 2, title: "Bahubali-2 ( 2026 )", time: "2026-01-10T01:01:40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "4K", link: "https://yourlink.com", trending: true }
-            ];
-            [
-            { id: 1, title: "Magha Dhira 2", time: "2026-01-10T01:01:50", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "8K", link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0", trending: true },
-            { id: 2, title: "Bahubali-2 ( 2026 )", time: "2026-01-10T01:01:40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "4K", link: "https://yourlink.com", trending: true }
-            ];
-            [
-            { id: 1, title: "Magha Dhira 2", time: "2026-01-10T01:01:50", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "8K", link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0", trending: true },
-            { id: 2, title: "Bahubali-2 ( 2026 )", time: "2026-01-10T01:01:40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "4K", link: "https://yourlink.com", trending: true }
-            ];
-            [
-            { id: 1, title: "Magha Dhira 2", time: "2026-01-10T01:01:50", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "8K", link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0", trending: true },
-            { id: 2, title: "Bahubali-2 ( 2026 )", time: "2026-01-10T01:01:40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "4K", link: "https://yourlink.com", trending: true }
-            ];
-            [
-            { id: 1, title: "Magha Dhira 2", time: "2026-01-10T01:01:50", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "8K", link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0", trending: true },
-            { id: 2, title: "Bahubali-2 ( 2026 )", time: "2026-01-10T01:01:40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "4K", link: "https://yourlink.com", trending: true }
-            ];
-        
-        
-        
+    { id: 1, title: "Magha Dhira 2", time: "2026-01-10T01:01:50", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "8K", link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0", trending: true },
+    { id: 2, title: "Bahubali-2 ( 2026 )", time: "2026-01-10T01:01:40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "4K", link: "https://your-link.com", trending: true },
+    { id: 3, title: "Magha Dhira 2", time: "2026-01-10T01:01:50", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "8K", link: "https://your-link.com", trending: true },
+    { id: 4, title: "Bahubali-2 ( 2026 )", time: "2026-01-10T01:01:40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", quality: "4K", link: "https://your-link.com", trending: true }
+    // প্রীতম, নতুন মুভি যোগ করতে চাইলে শুধু এই ফরম্যাটটি ফলো করো।
+];
 
-        let currentPage = 1;
-        const moviesPerPage = 20;
+let currentPage = 1;
+const moviesPerPage = 20;
 
-        function displayMovies(data = allMovies) {
-            const list = document.getElementById('movieList');
-            list.innerHTML = "";
-            const start = (currentPage - 1) * moviesPerPage;
-            const end = start + moviesPerPage;
-            const paginated = data.slice(start, end);
+function displayMovies(data = allMovies) {
+    const list = document.getElementById('movieList');
+    if (!list) return;
+    list.innerHTML = "";
+    const start = (currentPage - 1) * moviesPerPage;
+    const end = start + moviesPerPage;
+    const paginated = data.slice(start, end);
 
-            paginated.forEach(movie => {
-                list.innerHTML += `
-                    <div class="movie-box" onclick="showDetails(${movie.id})"> 
-                        <div class="movie-card">
-                            ${movie.trending ? '<div class="trending-badge">TRENDING</div>' : ''}
-                            <div class="image-container">
-                                <img src="${movie.img}" class="movie-img">
-                                <div class="quality-tag">${movie.quality}</div>
-                            </div>
-                            <div style="padding:10px;">
-                                <div class="movie-time" data-time="${movie.time}">Loading...</div>
-                                <div style="font-size:14px; font-weight:bold;">${movie.title}</div>
-                            </div>
-                        </div>
-                    </div>`;
-            });
-            updateTimes();
-            revealCards();
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = end >= data.length;
+    paginated.forEach(movie => {
+        list.innerHTML += `
+            <div class="movie-box" onclick="showDetails(${movie.id})"> 
+                <div class="movie-card">
+                    ${movie.trending ? '<div class="trending-badge">TRENDING</div>' : ''}
+                    <div class="image-container">
+                        <img src="${movie.img}" class="movie-img">
+                        <div class="quality-tag">${movie.quality}</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="movie-time" data-time="${movie.time}">Loading...</div>
+                        <div class="movie-title">${movie.title}</div>
+                    </div>
+                </div>
+            </div>`;
+    });
+    updateTimes();
+    revealCards();
+    document.getElementById('prevBtn').disabled = currentPage === 1;
+    document.getElementById('nextBtn').disabled = end >= data.length;
+}
+
+function revealCards() {
+    const cards = document.querySelectorAll('.movie-card');
+    cards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        if(cardTop < window.innerHeight - 50) card.classList.add('show');
+    });
+}
+
+function showDetails(id) {
+    const movie = allMovies.find(m => m.id === id);
+    const content = document.getElementById('detailsContent');
+    document.getElementById('mainPage').style.display = 'none';
+    document.getElementById('detailsPage').style.display = 'block';
+    window.scrollTo(0,0);
+    
+    content.innerHTML = `
+        <div style="text-align:center;">
+            <img src="${movie.img}" style="width:100%; max-width:300px; border-radius:15px; margin-bottom:20px; box-shadow: 0 0 20px #e50914;">
+            <h2 style="color:#e50914;">${movie.title}</h2>
+            <div id="countdown-container" style="display:none; margin: 20px 0; padding: 15px; border: 1px dashed #2ecc71; border-radius: 10px;">
+                ফাইল তৈরি হচ্ছে... <span id="timer">5</span> সেকেন্ড অপেক্ষা করুন।
+            </div>
+            <button id="download-btn" class="download-now-btn" onclick="startDownload('${movie.link}')" style="background: linear-gradient(45deg, #2ecc71, #27ae60); color: #fff; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; border: none; cursor: pointer;">
+                Download Now
+            </button>
+        </div>
+    `;
+}
+
+function startDownload(link) {
+    const btn = document.getElementById('download-btn');
+    const timerContainer = document.getElementById('countdown-container');
+    const timerText = document.getElementById('timer');
+    let count = 5;
+    btn.style.display = 'none';
+    timerContainer.style.display = 'block';
+    const countdown = setInterval(() => {
+        count--;
+        timerText.innerText = count;
+        if (count <= 0) {
+            clearInterval(countdown);
+            window.location.href = link;
         }
+    }, 1000);
+}
 
-        function showDetails(id) {
-            const movie = allMovies.find(m => m.id === id);
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('detailsPage').style.display = 'block';
-            document.getElementById('detailsContent').innerHTML = `
-                <div style="text-align:center;">
-                    <img src="${movie.img}" style="width:100%; max-width:300px; border-radius:15px; margin-bottom:20px;">
-                    <h2 style="color:#e50914;">${movie.title}</h2>
-                    <div id="countdown-container" style="display:none;">ফাইল তৈরি হচ্ছে... <span id="timer">5</span> সেকেন্ড</div>
-                    <button id="download-btn" class="download-now-btn" onclick="startDownload('${movie.link}')">Download Now</button>
-                </div>`;
-            window.scrollTo(0,0);
-        }
+function closeDetails() {
+    document.getElementById('mainPage').style.display = 'block';
+    document.getElementById('detailsPage').style.display = 'none';
+}
 
-        function startDownload(link) {
-            const btn = document.getElementById('download-btn');
-            const timerContainer = document.getElementById('countdown-container');
-            let count = 5;
-            btn.style.display = 'none';
-            timerContainer.style.display = 'block';
-            const countdown = setInterval(() => {
-                count--;
-                document.getElementById('timer').innerText = count;
-                if (count <= 0) {
-                    clearInterval(countdown);
-                    window.location.href = link;
-                    timerContainer.innerHTML = "<b style='color:#2ecc71'>ডাউনলোড শুরু হয়েছে!</b>";
-                }
-            }, 1000);
-        }
+function searchMovie() {
+    const term = document.getElementById('movieSearch').value.toLowerCase();
+    const filtered = allMovies.filter(m => m.title.toLowerCase().includes(term));
+    currentPage = 1;
+    displayMovies(filtered);
+}
 
-        function revealCards() {
-            const cards = document.querySelectorAll('.movie-card');
-            cards.forEach(card => {
-                if(card.getBoundingClientRect().top < window.innerHeight - 50) card.classList.add('show');
-            });
-        }
+function updateTimes() {
+    document.querySelectorAll('.movie-time').forEach(el => {
+        const uploadDate = new Date(el.getAttribute('data-time'));
+        const diff = Math.floor((new Date() - uploadDate) / 1000);
+        if (diff < 60) el.innerText = "Just now";
+        else if (diff < 3600) el.innerText = Math.floor(diff / 60) + "m ago";
+        else if (diff < 86400) el.innerText = Math.floor(diff / 3600) + "h ago";
+        else el.innerText = Math.floor(diff / 86400) + "d ago";
+    });
+}
 
-        function closeDetails() {
-            document.getElementById('mainPage').style.display = 'block';
-            document.getElementById('detailsPage').style.display = 'none';
-        }
+function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
+function prevPage() { currentPage--; displayMovies(); window.scrollTo(0,0); }
 
-        function updateTimes() {
-            document.querySelectorAll('.movie-time').forEach(el => {
-                const uploadDate = new Date(el.getAttribute('data-time'));
-                const diff = Math.floor((new Date() - uploadDate) / 1000);
-                if (diff < 60) el.innerText = "Just now";
-                else if (diff < 3600) el.innerText = Math.floor(diff / 60) + "m ago";
-                else if (diff < 86400) el.innerText = Math.floor(diff / 3600) + "h ago";
-                else el.innerText = Math.floor(diff / 86400) + "d ago";
-            });
-        }
-
-        function searchMovie() {
-            const term = document.getElementById('movieSearch').value.toLowerCase();
-            const filtered = allMovies.filter(m => m.title.toLowerCase().includes(term));
-            currentPage = 1;
-            displayMovies(filtered);
-        }
-
-        function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
-        function prevPage() { currentPage--; displayMovies(); window.scrollTo(0,0); }
-
-        window.addEventListener('scroll', revealCards);
-        displayMovies();
-    </script>
+window.addEventListener('scroll', revealCards);
+displayMovies();
+setInterval(updateTimes, 60000);
+</script>
 </body>
 </html>
