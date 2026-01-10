@@ -11,39 +11,43 @@
         
         /* নেভিবার - স্লিম ডিজাইন */
         .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 12px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        .navbar h1 { font-size: 18px; margin: 0 0 10px 0; font-weight: 900; color: var(--gold); letter-spacing: 1px; }
-        .top-action-bar { display: flex; align-items: center; justify-content: center; gap: 6px; width: 98%; margin: 0 auto; }
+        .navbar h1 { font-size: 18px; margin: 0 0 10px 0; font-weight: 900; color: var(--gold); }
+        .top-action-bar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 95%; margin: 0 auto; }
         .search-container { position: relative; flex: 1; }
-        #movieSearch { width: 100%; padding: 8px 30px 8px 12px; border-radius: 20px; border: 1px solid #333; background: #222; color: #fff; font-size: 13px; outline: none; }
-        .nav-req-btn { background: #0088cc; color: #fff; border: none; padding: 8px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; white-space: nowrap; }
+        #movieSearch { width: 100%; padding: 8px 30px 8px 12px; border-radius: 20px; border: 1px solid #333; background: #222; color: #fff; font-size: 13px; outline: none; box-sizing: border-box; }
+        .nav-req-btn { background: #0088cc; color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; white-space: nowrap; }
 
-        /* মুভি গ্রিড - টাইট স্পেসিং */
-        .movie-grid { display: flex; flex-wrap: wrap; padding: 8px; justify-content: space-between; gap: 8px; }
-        .movie-box { width: 48.5%; margin-bottom: 5px; perspective: 1000px; }
-        .movie-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: 0.6s; opacity: 0; transform: translateX(-30px); }
-        .movie-card.show { opacity: 1; transform: translateX(0); }
+        /* মুভি গ্রিড ও কার্ড */
+        .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; gap: 10px; }
+        .movie-box { width: 48%; margin-bottom: 10px; perspective: 1000px; }
+        .movie-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: 0.5s; opacity: 0; transform: translateY(20px); }
+        .movie-card.show { opacity: 1; transform: translateY(0); }
 
-        /* ইমেজ ফিক্স - যাতে না কাটে */
+        /* ইমেজ ফিক্স - Contain (পুরো ছবি দেখা যাবে) */
         .image-container { position: relative; width: 100%; height: 230px; background: #000; display: flex; align-items: center; justify-content: center; }
         .movie-img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
-        .half-trending-bar { position: absolute; bottom: 5px; left: 0; width: 65%; background: linear-gradient(90deg, var(--primary), transparent); color: #fff; font-size: 8px; padding: 3px 8px; font-weight: bold; border-top-right-radius: 10px; border-bottom-right-radius: 10px; z-index: 5; animation: slideGlow 1.5s infinite alternate; }
-        @keyframes slideGlow { from { filter: brightness(1); } to { filter: brightness(1.4); } }
+        .half-trending-bar { position: absolute; bottom: 8px; left: 0; width: 65%; background: linear-gradient(90deg, var(--primary), transparent); color: #fff; font-size: 8px; padding: 4px 8px; font-weight: bold; border-top-right-radius: 10px; border-bottom-right-radius: 10px; z-index: 5; }
         .res-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--gold); padding: 2px 6px; border-radius: 5px; font-size: 9px; font-weight: bold; border: 0.5px solid var(--gold); }
 
         .upload-info { padding: 8px 5px; text-align: center; }
         .time-text { font-size: 9px; color: #00ff88; font-weight: bold; }
         .movie-title { font-size: 11px; font-weight: bold; color: #eee; margin: 2px 0; height: 30px; overflow: hidden; line-height: 1.2; }
 
-        /* ডিটেইলস পেজ */
-        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; }
-        .back-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 10px; border-radius: 50%; font-size: 18px; z-index: 10; }
-        .content-wrap { padding: 20px; margin-top: -50px; }
-        .details-poster { width: 110px; border-radius: 10px; border: 2px solid var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .action-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
+        /* ডিটেইলস পেজ - Netflix Style */
+        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .back-btn { position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 10px; border-radius: 50%; font-size: 18px; z-index: 10; }
+        .hero-banner { height: 250px; background-size: cover; background-position: center; position: relative; }
+        .hero-overlay { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to top, var(--bg), transparent); }
+        .content-wrap { padding: 20px; margin-top: -50px; position: relative; }
+        .details-poster { width: 110px; border-radius: 10px; border: 2px solid var(--primary); }
+        .description { font-size: 13px; line-height: 1.6; color: #ccc; background: var(--glass); padding: 15px; border-radius: 12px; margin: 20px 0; }
+        .action-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; margin-bottom: 10px; font-size: 14px; cursor: pointer; }
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 12px; }
+        .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #222; }
     </style>
 </head>
 <body>
@@ -64,6 +68,7 @@
             <span id="pageNumber">Page 1</span>
             <button class="page-btn" id="nextBtn" onclick="changePage(1)">সামনে</button>
         </div>
+        <footer class="footer">Made with ❤️ by Pritam</footer>
     </div>
 
     <div id="detailsPage">
@@ -72,48 +77,18 @@
     </div>
 
     <script>
-        // প্রীতম, এখানে ১ থেকে ৪০ পর্যন্ত রিয়েল স্লট দেওয়া হলো
         const allMovies = [
-            { id: 1, title: "Aa Khanda 2 (2026)", img: "https://image2url.com/r2/bucket2/images/1768068439676-894c0955-d1cc-4e9f-b7e1-e1d12ece7ba1.jpg", uploadTime: "2026-01-11T00:05:00", res: "1080p WEB-DL", lang: "Bengali", year: "2026", rating: "9.5", desc: "Aa Khanda 2 মুভিটি এখনই দেখুন।", watchUrl: "#", dlUrl: "#" },
-            { id: 2, title: "Movie Name 2", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T23:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "8.0", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 3, title: "Movie Name 3", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T22:00:00", res: "1080p", lang: "English", year: "2025", rating: "7.5", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 4, title: "Movie Name 4", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T21:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.2", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 5, title: "Movie Name 5", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T20:00:00", res: "1080p", lang: "Bengali", year: "2025", rating: "8.5", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 6, title: "Movie Name 6", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T19:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "9.0", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 7, title: "Movie Name 7", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T18:00:00", res: "1080p", lang: "English", year: "2024", rating: "7.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 8, title: "Movie Name 8", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T17:00:00", res: "720p", lang: "Dubbed", year: "2024", rating: "8.1", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 9, title: "Movie Name 9", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T16:00:00", res: "1080p", lang: "Hindi", year: "2024", rating: "8.4", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 10, title: "Movie Name 10", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T15:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 11, title: "Movie Name 11", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T14:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 12, title: "Movie Name 12", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 13, title: "Movie Name 13", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 14, title: "Movie Name 14", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 15, title: "Movie Name 15", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 16, title: "Movie Name 16", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T09:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 17, title: "Movie Name 17", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T08:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 18, title: "Movie Name 18", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T07:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 19, title: "Movie Name 19", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T06:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 20, title: "Movie Name 20", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T05:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 21, title: "Movie Name 21", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T04:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 22, title: "Movie Name 22", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T03:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 23, title: "Movie Name 23", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T02:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 24, title: "Movie Name 24", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T01:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 25, title: "Movie Name 25", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T23:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 26, title: "Movie Name 26", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T22:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 27, title: "Movie Name 27", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T21:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 28, title: "Movie Name 28", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T20:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 29, title: "Movie Name 29", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T19:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 30, title: "Movie Name 30", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T18:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 31, title: "Movie Name 31", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T17:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 32, title: "Movie Name 32", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T16:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 33, title: "Movie Name 33", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T15:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 34, title: "Movie Name 34", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T14:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 35, title: "Movie Name 35", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T13:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 36, title: "Movie Name 36", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T12:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 37, title: "Movie Name 37", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T11:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 38, title: "Movie Name 38", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T10:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 39, title: "Movie Name 39", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T09:00:00", res: "1080p", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 40, title: "Movie Name 40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-09T08:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা...", watchUrl: "#", dlUrl: "#" }
+            { id: 1, title: "Aa Khanda 2 (2026)", img: "https://image2url.com/r2/bucket2/images/1768068439676-894c0955-d1cc-4e9f-b7e1-e1d12ece7ba1.jpg", uploadTime: "2026-01-11T00:15:00", res: "1080p WEB-DL", lang: "Bengali", year: "2026", rating: "9.5", desc: "Aa Khanda 2 মুভিটি এখন হাই কোয়ালিটিতে দেখুন।", watchUrl: "#", dlUrl: "#" },
+            { id: 2, title: "Movie Name 2", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T23:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "8.0", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            { id: 3, title: "Movie Name 3", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T22:00:00", res: "1080p", lang: "English", year: "2025", rating: "7.5", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            { id: 4, title: "Movie Name 4", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T21:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.2", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            { id: 5, title: "Movie Name 5", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T20:00:00", res: "1080p", lang: "Bengali", year: "2025", rating: "8.5", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            { id: 6, title: "Movie Name 6", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T19:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "9.0", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            { id: 7, title: "Movie Name 7", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T18:00:00", res: "1080p", lang: "English", year: "2024", rating: "7.8", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            { id: 8, title: "Movie Name 8", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T17:00:00", res: "720p", lang: "Dubbed", year: "2024", rating: "8.1", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            { id: 9, title: "Movie Name 9", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T16:00:00", res: "1080p", lang: "Hindi", year: "2024", rating: "8.4", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            { id: 10, title: "Movie Name 10", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T15:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            // প্রীতম, একইভাবে ১১ থেকে ৪০ পর্যন্ত স্লট বাড়াতে পারবে...
         ];
 
         let filteredMovies = [...allMovies];
@@ -176,12 +151,12 @@
             document.getElementById('detailsPage').style.display = 'block';
             window.scrollTo(0,0);
             document.getElementById('detailsContent').innerHTML = `
-                <div style="height:250px; background:url('${movie.img}') center/cover;"><div style="height:100%; background:linear-gradient(to top, var(--bg), transparent);"></div></div>
+                <div class="hero-banner" style="background-image: url('${movie.img}')"><div class="hero-overlay"></div></div>
                 <div class="content-wrap">
                     <img src="${movie.img}" class="details-poster">
                     <h2>${movie.title}</h2>
-                    <div style="color:var(--gold); margin-bottom:10px;">★ ${movie.rating} | ${movie.year} | ${movie.res}</div>
-                    <p style="color:#ccc; font-size:13px; line-height:1.6;">${movie.desc}</p>
+                    <div style="color:var(--gold); margin:10px 0;">★ ${movie.rating} | ${movie.year} | ${movie.res}</div>
+                    <div class="description">${movie.desc}</div>
                     <button class="action-btn" style="background:var(--primary); color:#fff;" onclick="window.open('${movie.watchUrl}')"><i class="fa-solid fa-play"></i> Watch Online</button>
                     <button class="action-btn" style="background:#fff; color:#000;" onclick="window.location.href='${movie.dlUrl}'"><i class="fa-solid fa-download"></i> Download Now</button>
                 </div>`;
