@@ -79,21 +79,24 @@
         /* কার্ড ক্লিক করলে ছোট হবে */
         .movie-card:active { transform: scale(0.94); }
         .movie-card:hover { border-color: #e50914; }
+                /* লাইন ৮২ থেকে ৯৬ পর্যন্ত রিপ্লেস করো */
         .quality-tag { 
-    position: absolute; 
-    top: 8px; 
-    right: 8px; 
-    background: #e50914; 
-    color: #fff; 
-    padding: 3px 8px; 
-    font-size: 10px; 
-    font-weight: bold; 
-    border-radius: 4px; 
-    z-index: 10;
-    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
-        }
-        
+            position: absolute; 
+            top: 8px; 
+            right: 8px; 
             background: #e50914; /* Netflix Red */
+            color: #fff; 
+            padding: 3px 8px; 
+            font-size: 10px; 
+            font-weight: bold; 
+            border-radius: 4px; 
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+            text-transform: uppercase;
+        }
+
+        .image-container { position: relative; overflow: hidden; }
+        
             color: #fff; 
             padding: 3px 8px; 
             font-size: 10px; 
