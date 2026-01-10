@@ -114,7 +114,6 @@
             100% { transform: scale(1); }
         }
         .download-now-btn:active { transform: scale(0.96); }
-
         @media (min-width: 768px) { .movie-box { width: 23%; } }
     </style>
 </head>
@@ -124,8 +123,9 @@
         <div class="navbar">
             <h1>🎬 প্রীতম মুভি জোন</h1>
             <div class="search-container">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 <input type="text" id="movieSearch" placeholder="মুভি সার্চ করুন..." onkeyup="searchMovie()">
+<i class="fa-solid fa-magnifying-glass search-icon"></i>
+    
             </div>
         </div>
         <div class="movie-grid" id="movieList"></div>
