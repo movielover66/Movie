@@ -75,14 +75,24 @@
             background: #181818; border-radius: 10px; overflow: hidden; border: 1px solid #222; 
             height: 100%; position: relative; transition: transform 0.2s, border-color 0.3s;
         }
+        
         /* কার্ড ক্লিক করলে ছোট হবে */
         .movie-card:active { transform: scale(0.94); }
         .movie-card:hover { border-color: #e50914; }
-        /* লাইন ৮১-৯০ এর আশেপাশে replacement করো */
         .quality-tag { 
-            position: absolute; 
-            top: 8px; 
-            right: 8px; 
+    position: absolute; 
+    top: 8px; 
+    right: 8px; 
+    background: #e50914; 
+    color: #fff; 
+    padding: 3px 8px; 
+    font-size: 10px; 
+    font-weight: bold; 
+    border-radius: 4px; 
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+        }
+        
             background: #e50914; /* Netflix Red */
             color: #fff; 
             padding: 3px 8px; 
