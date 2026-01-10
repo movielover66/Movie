@@ -26,13 +26,22 @@
         }
         
         /* সার্চ বার */
-                .search-icon { 
+        .search-icon { 
             position: absolute; 
-            right: 30px; /* এটি আইকনটিকে ডান দিকে নিয়ে যাবে */
+            right: 30px; 
             top: 68px; 
             color: #888; 
             cursor: pointer;
+            transition: all 0.4s ease; /* আইকনটি স্মুথলি ঘোরার জন্য */
         }
+
+        /* সার্চ বারে ক্লিক করলে আইকনটি লাল হবে এবং ৯৫ ডিগ্রি ঘুরবে */
+        #movieSearch:focus + .search-icon {
+            color: #e50914;
+            transform: rotate(95deg) scale(1.2);
+            text-shadow: 0 0 10px #e50914;
+        }
+        
         
         #movieSearch {
             width: 100%; 
