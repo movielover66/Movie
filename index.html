@@ -95,17 +95,26 @@
             text-transform: uppercase;
         }
 
-        .image-container { position: relative; overflow: hidden; }
-        
-            color: #fff; 
-            padding: 3px 8px; 
-            font-size: 10px; 
-            font-weight: bold; 
-            border-radius: 4px; 
-            z-index: 10;
-            box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+                /* ইমেজ কন্টেইনার এবং ইমেজের সাইজ ফিক্স করার কোড */
+        .image-container { 
+            position: relative; 
+            width: 100%; 
+            height: 250px; /* উচ্চতা নির্দিষ্ট করে দেওয়া হলো */
+            overflow: hidden; 
         }
 
+        .movie-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* ছবি যাতে ফেটে না যায় বা লম্বা না দেখায় */
+            transition: transform 0.5s ease;
+        }
+
+        /* কার্ড হোভার করলে ইমেজ জুম হবে */
+        .movie-card:hover .movie-img {
+            transform: scale(1.1);
+        }
+        
         .image-container { position: relative; } /* এটি নিশ্চিত করো */
         /* প্যাগিনেশন */
         .pagination { display: flex; justify-content: center; padding: 20px; gap: 10px; }
