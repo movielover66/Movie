@@ -3,40 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রীতম মুভি জোন - Premium Collection</title>
+    <title>Pritam Movie Zone - Master Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #0c0c0c; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        body { background-color: #0c0c0c; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        
+        /* Navbar & Glowing Title */
         .navbar { background-color: #111; border-bottom: 2px solid #e50914; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        .navbar h1 { font-size: 26px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 10px #e50914; animation: glowPulse 2s infinite alternate; }
+        .navbar h1 { font-size: 24px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 10px #e50914; animation: glowPulse 2s infinite alternate; }
         @keyframes glowPulse { from { transform: scale(1); } to { transform: scale(1.02); } }
-        
-        #movieSearch { width: 100%; padding: 12px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; transition: 0.3s; }
-        #movieSearch:focus { border-color: #e50914; box-shadow: 0 0 10px #e50914; }
-        
+
+        /* Search Bar with Rotating Magnifying Glass */
+        .search-container { position: relative; max-width: 400px; margin: 0 auto; }
+        #movieSearch { width: 100%; padding: 12px 45px 12px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; transition: 0.3s; box-sizing: border-box; }
+        .search-icon { position: absolute; right: 15px; top: 12px; color: #888; transition: all 0.4s ease; }
+        #movieSearch:focus + .search-icon { color: #e50914; transform: rotate(360deg) scale(1.2); }
+
+        /* Movie Grid & Repeat Scroll Animation */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; }
         .movie-box { width: 48%; margin-bottom: 15px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .movie-card { 
             background: #181818; border-radius: 10px; overflow: hidden; border: 1px solid #222; 
-            transition: all 0.6s ease-out; opacity: 0; transform: translateY(30px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; transform: scale(0.8) translateY(50px);
         }
-        .movie-card.show { opacity: 1; transform: translateY(0); }
-        .movie-card:active { transform: scale(0.94); }
-        
-        .image-container { position: relative; width: 100%; height: 250px; overflow: hidden; }
+        .movie-card.show { opacity: 1; transform: scale(1) translateY(0); }
+        .movie-card:active { transform: scale(0.95); }
+
+        .image-container { position: relative; width: 100%; height: 230px; overflow: hidden; }
         .movie-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .movie-card:hover .movie-img { transform: scale(1.1); }
-        
-        .quality-tag { position: absolute; top: 8px; right: 8px; background: #e50914; padding: 3px 8px; font-size: 10px; border-radius: 4px; }
-        .trending-badge { background: #e50914; padding: 2px 8px; font-size: 10px; position: absolute; top: 8px; left: 8px; border-radius: 3px; }
-        
-        .pagination { display: flex; justify-content: center; padding: 20px; gap: 10px; }
-        .page-btn { background: #e50914; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
-        .page-btn:disabled { background: #333; }
+        .quality-tag { position: absolute; top: 8px; right: 8px; background: #e50914; padding: 3px 8px; font-size: 10px; border-radius: 4px; font-weight: bold; }
 
-        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0c0c0c; z-index: 2000; padding: 20px; overflow-y: auto; }
-        .download-now-btn { background: linear-gradient(45deg, #2ecc71, #27ae60); color: #fff; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; border: none; margin-top: 20px; cursor: pointer; }
-        
+        /* Compact Detail Page */
+        #detailsPage { 
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; max-width: 350px; background: #1a1a1a; z-index: 2000; padding: 20px; 
+            border-radius: 20px; border: 1px solid #e50914; box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn { from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1500; }
+
+        /* Buttons */
+        .download-now-btn { background: linear-gradient(45deg, #2ecc71, #27ae60); color: #fff; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; border: none; margin-top: 15px; cursor: pointer; }
+        .request-btn { background: #222; color: #fff; padding: 10px 20px; border-radius: 30px; border: 1px solid #e50914; display: inline-block; text-decoration: none; margin: 20px 0; transition: 0.3s; }
+        .request-btn:hover { background: #e50914; }
+
+        .pagination { display: flex; justify-content: center; padding: 20px; gap: 10px; }
+        .page-btn { background: #333; color: #fff; border: 1px solid #e50914; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+
         @media (min-width: 768px) { .movie-box { width: 23%; } }
     </style>
 </head>
@@ -44,38 +59,49 @@
 
     <div id="mainPage">
         <div class="navbar">
-            <h1>🎬 প্রীতম মুভি জোন</h1>
-            <input type="text" id="movieSearch" placeholder="মুভি সার্চ করুন..." onkeyup="searchMovie()">
+            <h1>🎬 Pritam Movie Zone</h1>
+            <div class="search-container">
+                <input type="text" id="movieSearch" placeholder="Movie Search..." onkeyup="searchMovie()">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </div>
         </div>
+
         <div class="movie-grid" id="movieList"></div>
+
         <div class="pagination">
-            <button class="page-btn" id="prevBtn" onclick="prevPage()">Previous</button>
-            <button class="page-btn" id="nextBtn" onclick="nextPage()">Next Page</button>
+            <button class="page-btn" id="prevBtn" onclick="prevPage()">Prev</button>
+            <button class="page-btn" id="nextBtn" onclick="nextPage()">Next</button>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" class="request-btn">
+                <i class="fa-solid fa-paper-plane"></i> Request a Movie
+            </a>
         </div>
     </div>
 
+    <div class="overlay" id="overlay" onclick="closeDetails()"></div>
     <div id="detailsPage">
-        <button onclick="closeDetails()" style="background:#222; color:#fff; border:1px solid #e50914; padding:10px 20px; border-radius:30px; cursor:pointer; margin-bottom:20px;">Back</button>
         <div id="detailsContent"></div>
+        <button onclick="closeDetails()" style="margin-top:15px; width:100%; background:transparent; color:#888; border:none; cursor:pointer;">Close</button>
     </div>
 
     <script>
-        // ৪০টি ডেমো মুভি কার্ড ডেটা
+        // 40 Demo Movie Cards
         const allMovies = [];
         for (let i = 1; i <= 40; i++) {
             allMovies.push({
                 id: i,
-                title: `Demo Movie ${i}`,
+                title: `Action Movie ${i}`,
                 time: new Date().toISOString(),
                 img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
-                quality: i % 2 === 0 ? "4K" : "8K",
-                link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0",
-                trending: i <= 5
+                quality: i % 2 === 0 ? "4K" : "HD",
+                link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0"
             });
         }
 
         let currentPage = 1;
-        const moviesPerPage = 20;
+        const moviesPerPage = 12;
 
         function displayMovies(data = allMovies) {
             const list = document.getElementById('movieList');
@@ -88,56 +114,66 @@
                 list.innerHTML += `
                     <div class="movie-box" onclick="showDetails(${movie.id})"> 
                         <div class="movie-card">
-                            ${movie.trending ? '<div class="trending-badge">TRENDING</div>' : ''}
                             <div class="image-container">
                                 <img src="${movie.img}" class="movie-img">
                                 <div class="quality-tag">${movie.quality}</div>
                             </div>
-                            <div style="padding:10px;">
-                                <div class="movie-time" style="font-size:10px; color:#888;" data-time="${movie.time}">Loading...</div>
-                                <div style="font-size:14px; font-weight:bold; margin-top:5px;">${movie.title}</div>
+                            <div style="padding:10px; text-align:center;">
+                                <div style="font-size:13px; font-weight:bold;">${movie.title}</div>
                             </div>
                         </div>
                     </div>`;
             });
-            updateTimes();
-            revealCards();
+            
+            // Re-trigger scroll animation
+            setTimeout(revealCards, 100);
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = end >= data.length;
         }
 
         function revealCards() {
-            document.querySelectorAll('.movie-card').forEach(card => {
-                if(card.getBoundingClientRect().top < window.innerHeight) card.classList.add('show');
+            const cards = document.querySelectorAll('.movie-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                if(cardTop < window.innerHeight - 50) {
+                    card.classList.add('show');
+                } else {
+                    card.classList.remove('show'); // Repeats animation on scroll up/down
+                }
             });
         }
 
         function showDetails(id) {
             const movie = allMovies.find(m => m.id === id);
-            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('overlay').style.display = 'block';
             document.getElementById('detailsPage').style.display = 'block';
             document.getElementById('detailsContent').innerHTML = `
                 <div style="text-align:center;">
-                    <img src="${movie.img}" style="width:100%; max-width:300px; border-radius:15px; margin-bottom:20px;">
-                    <h2 style="color:#e50914;">${movie.title}</h2>
-                    <div id="countdown-box" style="display:none; margin:20px; padding:15px; border:1px dashed #2ecc71;">ফাইল তৈরি হচ্ছে... <span id="timer">5</span> সেকেন্ড</div>
-                    <button id="dl-btn" class="download-now-btn" onclick="startDownload('${movie.link}')">Download Now</button>
+                    <img src="${movie.img}" style="width:120px; border-radius:10px; border: 2px solid #e50914;">
+                    <h3 style="margin:10px 0; font-size:18px;">${movie.title}</h3>
+                    <div id="waitBox" style="display:none; color:#2ecc71; font-size:14px; margin:10px;">Generating Link... <span id="timer">5</span>s</div>
+                    <button id="dlBtn" class="download-now-btn" onclick="startDownload('${movie.link}')">Download Now</button>
                 </div>`;
         }
 
         function startDownload(link) {
-            document.getElementById('dl-btn').style.display = 'none';
-            document.getElementById('countdown-box').style.display = 'block';
+            const btn = document.getElementById('dlBtn');
+            const wait = document.getElementById('waitBox');
             let count = 5;
-            const countdown = setInterval(() => {
+            btn.style.display = 'none';
+            wait.style.display = 'block';
+            const interval = setInterval(() => {
                 count--;
                 document.getElementById('timer').innerText = count;
-                if (count <= 0) { clearInterval(countdown); window.location.href = link; }
+                if(count <= 0) {
+                    clearInterval(interval);
+                    window.location.href = link;
+                }
             }, 1000);
         }
 
         function closeDetails() {
-            document.getElementById('mainPage').style.display = 'block';
+            document.getElementById('overlay').style.display = 'none';
             document.getElementById('detailsPage').style.display = 'none';
         }
 
@@ -146,12 +182,6 @@
             const filtered = allMovies.filter(m => m.title.toLowerCase().includes(term));
             currentPage = 1;
             displayMovies(filtered);
-        }
-
-        function updateTimes() {
-            document.querySelectorAll('.movie-time').forEach(el => {
-                el.innerText = "Just now";
-            });
         }
 
         function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
