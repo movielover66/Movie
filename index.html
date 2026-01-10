@@ -10,133 +10,141 @@
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
         .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 12px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        .navbar h1 { 
-            font-size: 24px; margin: 0 0 10px 0; font-weight: 900;
-            background: linear-gradient(to right, #fff, var(--gold), var(--gold), #fff);
-            background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; animation: shine 3s linear infinite;
-        }
+        .navbar h1 { font-size: 24px; margin: 0; font-weight: 900; background: linear-gradient(to right, #fff, var(--gold), var(--gold), #fff); background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
         @keyframes shine { to { background-position: 200% center; } }
 
-        .search-container { position: relative; width: 90%; max-width: 320px; margin: 0 auto; }
-        #movieSearch { width: 100%; padding: 10px 40px 10px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; box-sizing: border-box; }
-        .search-icon { position: absolute; right: 15px; top: 11px; color: #888; }
+        .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; gap: 12px; }
+        .movie-box { width: 48%; margin-bottom: 10px; perspective: 1200px; }
+        
+        .movie-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid #333; transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); opacity: 0; transform: translateX(-120px) rotateY(-35deg) scale(0.9); transform-style: preserve-3d; }
+        .movie-card.show { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
 
-        .movie-grid { display: flex; flex-wrap: wrap; padding: 5px; justify-content: space-between; gap: 5px; }
-        .movie-box { width: 49%; margin-bottom: 5px; perspective: 1000px; }
-        .movie-card { 
-            background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; 
-            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; transform: translateY(50px);
-        }
-        .movie-card.show { opacity: 1; transform: translateY(0); }
-
-        .image-container { position: relative; width: 100%; height: 230px; overflow: hidden; }
+        .image-container { position: relative; width: 100%; height: 210px; overflow: hidden; }
         .movie-img { width: 100%; height: 100%; object-fit: cover; }
-        .trending-bar { 
-            position: absolute; bottom: 0; left: 0; width: 100%; 
-            background: linear-gradient(90deg, transparent, var(--primary), transparent); 
-            color: #fff; font-size: 10px; padding: 4px 0; text-align: center; font-weight: bold;
-            background-size: 200% 100%; animation: slideGlow 2s infinite linear;
-        }
-        @keyframes slideGlow { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .res-badge { position: absolute; top: 12px; right: 12px; background: var(--primary); color: #fff; padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; }
 
-        .upload-info { padding: 8px; text-align: center; }
-        .time-text { font-size: 10px; color: #aaa; }
-        .movie-title { font-size: 11px; font-weight: bold; color: #eee; height: 30px; overflow: hidden; }
+        .upload-info { padding: 12px; text-align: center; }
+        .time-text { font-size: 10px; color: #00ff88; font-weight: bold; }
+        .movie-title { font-size: 12px; font-weight: bold; color: #eee; margin: 6px 0; height: 34px; overflow: hidden; }
+        
+        .movie-tags { font-size: 9px; display: flex; justify-content: center; gap: 6px; color: #aaa; }
+        .tag { background: #2a2a2a; padding: 2px 7px; border-radius: 6px; border: 1px solid #444; }
 
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; }
-        .details-header { background: #111; padding: 15px; border-bottom: 1px solid #333; font-weight: bold; color: var(--gold); }
-        .details-body { padding: 15px; }
-        .movie-poster-small { width: 100%; max-width: 200px; display: block; margin: 0 auto 15px; border-radius: 12px; border: 2px solid var(--primary); }
+        .details-header { background: #111; padding: 18px; border-bottom: 1px solid #333; font-weight: bold; color: var(--gold); }
+        .details-body { padding: 20px; text-align: center; }
+        .movie-poster-small { width: 100%; max-width: 220px; border-radius: 20px; border: 3px solid var(--primary); margin-bottom: 20px; }
         
-        .btn-stack { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
-        .action-btn { width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; border: none; font-size: 14px; text-align: center; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        
+        .btn-stack { display: flex; flex-direction: column; gap: 12px; }
+        .action-btn { width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; border: none; font-size: 15px; color: #fff; cursor: pointer; }
         .req-btn { background: #0088cc; }
         .dl-btn { background: #27ae60; }
         .watch-btn { background: #e67e22; }
-        .mx-btn { background: #0000ff; }
 
-        .screenshot-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 15px 0; }
-        .screenshot-compact img { width: 100%; border-radius: 8px; }
-
-        #downloadModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; background: #111; z-index: 3000; padding: 25px; border-radius: 20px; text-align: center; border: 2px solid var(--primary); }
+        #downloadModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; background: #111; z-index: 3001; padding: 30px; border-radius: 25px; text-align: center; border: 2px solid var(--primary); }
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; backdrop-filter: blur(5px); }
     </style>
 </head>
 <body>
 
     <div id="mainPage">
-        <div class="navbar">
-            <h1>🎬 প্রীতম মুভি স্টুডিও</h1>
-            <div class="search-container">
-                <input type="text" id="movieSearch" placeholder="মুভি খুঁজুন..." onkeyup="searchMovie()">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            </div>
-        </div>
+        <div class="navbar"><h1>🎬 প্রীতম মুভি স্টুডিও</h1></div>
         <div class="movie-grid" id="movieList"></div>
     </div>
 
     <div id="detailsPage">
-        <div class="details-header" onclick="closeDetails()">
-            <i class="fa-solid fa-arrow-left"></i> <span>গ্যালারিতে ফিরে যান</span>
-        </div>
+        <div class="details-header" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i> ফিরে যান</div>
         <div class="details-body" id="detailsContent"></div>
     </div>
 
-    <div class="modal-overlay" id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2500;"></div>
     <div id="downloadModal">
         <h4 style="margin:0; color:#fff;">লিঙ্ক প্রস্তুত হচ্ছে...</h4>
-        <p style="color:#00ff88; font-size:26px; font-weight:bold;"><span id="timer">5</span>s</p>
+        <p style="font-size:30px; color:#00ff88; font-weight:bold; margin: 15px 0;"><span id="timer">5</span>s</p>
     </div>
+    <div id="overlay"></div>
 
     <script>
-        const allMovies = [];
-        for (let i = 1; i <= 20; i++) {
-            allMovies.push({
-                id: i, 
-                title: `The Rajasaab (2026) Hindi HD Movie`, 
+        // Pritam, ekhane tumi 1, 2, 3 numbering onujayi data boshabe
+        const allMovies = [
+            {
+                id: 1, 
+                title: "Movie Title 1", 
                 img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
-                time: "১০ মিনিট আগে",
-                watchUrl: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/watch/6961697dd57e3c3d063120c0",
-                dlUrl: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0"
-            });
+                uploadTime: "2026-01-10T10:00:00",
+                res: "4K",
+                lang: "Hindi",
+                watchUrl: "LINK_HERE",
+                dlUrl: "LINK_HERE"
+            },
+            {
+                id: 2, 
+                title: "Movie Title 2", 
+                img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
+                uploadTime: "2026-01-10T12:00:00",
+                res: "1080p",
+                lang: "Dubbed",
+                watchUrl: "LINK_HERE",
+                dlUrl: "LINK_HERE"
+            },
+            {
+                id: 3, 
+                title: "Movie Title 3", 
+                img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
+                uploadTime: "2026-01-10T15:00:00",
+                res: "HD",
+                lang: "Bengali",
+                watchUrl: "LINK_HERE",
+                dlUrl: "LINK_HERE"
+            }
+        ];
+
+        function timeAgo(date) {
+            const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+            let interval = Math.floor(seconds / 3600);
+            if (interval >= 1) return interval + " ঘণ্টা আগে";
+            interval = Math.floor(seconds / 60);
+            if (interval >= 1) return interval + " মিনিট আগে";
+            return "সবেমাত্র";
         }
 
         function displayMovies() {
             const list = document.getElementById('movieList');
             list.innerHTML = allMovies.map(movie => `
                 <div class="movie-box" onclick="showDetails(${movie.id})"> 
-                    <div class="movie-card show">
+                    <div class="movie-card">
                         <div class="image-container">
                             <img src="${movie.img}" class="movie-img">
-                            <div class="trending-bar">🔥 Trending Now</div>
+                            <div class="res-badge">${movie.res}</div>
                         </div>
                         <div class="upload-info">
-                            <div class="time-text">${movie.time}</div>
+                            <div class="time-text">${timeAgo(movie.uploadTime)}</div>
                             <div class="movie-title">${movie.title}</div>
+                            <div class="movie-tags"><span class="tag">${movie.res}</span><span class="tag">${movie.lang}</span></div>
                         </div>
                     </div>
                 </div>`).join('');
+            setTimeout(revealCards, 100);
+        }
+
+        function revealCards() {
+            const cards = document.querySelectorAll('.movie-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if(rect.top < window.innerHeight - 30) card.classList.add('show');
+            });
         }
 
         function showDetails(id) {
             const movie = allMovies.find(m => m.id === id);
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('detailsPage').style.display = 'block';
-            
-            const mxIntent = `intent:${movie.watchUrl}#Intent;package=com.mxtech.videoplayer.pro;S.title=${encodeURIComponent(movie.title)};end`;
-
             document.getElementById('detailsContent').innerHTML = `
-                <h3 style="text-align:center;">${movie.title}</h3>
                 <img src="${movie.img}" class="movie-poster-small">
-                
+                <h3>${movie.title}</h3>
                 <div class="btn-stack">
-                    <button class="action-btn req-btn" onclick="window.open('https://forms.gle/R3ybhBxp9HuWyzbHA')">Request Movie</button>
-                    <button class="action-btn dl-btn" onclick="startTimer('${movie.dlUrl}')">Download Now</button>
                     <button class="action-btn watch-btn" onclick="window.open('${movie.watchUrl}')">Watch Online</button>
-                    <button class="action-btn mx-btn" onclick="location.href='${mxIntent}'">Play in MX Player Pro</button>
-                </div>
-            `;
+                    <button class="action-btn dl-btn" onclick="startTimer('${movie.dlUrl}')">Download Now</button>
+                </div>`;
         }
 
         function startTimer(link) {
@@ -157,11 +165,8 @@
             }, 1000);
         }
 
-        function closeDetails() {
-            document.getElementById('mainPage').style.display = 'block';
-            document.getElementById('detailsPage').style.display = 'none';
-        }
-
+        function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
+        window.addEventListener('scroll', revealCards);
         displayMovies();
     </script>
 </body>
