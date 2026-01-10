@@ -9,19 +9,24 @@
         :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; --card-bg: #1a1a1a; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* নেভিবার ও সার্চ কন্টেইনার */
+        /* নেভিবার ও এক লাইনে সার্চ ও রিকোয়েস্ট বাটন */
         .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 15px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        .navbar h1 { font-size: 22px; margin: 0 0 15px 0; font-weight: 900; background: linear-gradient(to right, #fff, var(--gold), var(--gold), #fff); background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
+        .navbar h1 { font-size: 20px; margin: 0 0 12px 0; font-weight: 900; background: linear-gradient(to right, #fff, var(--gold), var(--gold), #fff); background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* অ্যানিমেটেড সার্চ বার */
-        .search-container { position: relative; width: 90%; max-width: 350px; margin: 0 auto; }
-        #movieSearch { width: 100%; padding: 12px 45px 12px 20px; border-radius: 30px; border: 1px solid #333; background: #222; color: #fff; outline: none; transition: 0.4s; font-size: 14px; }
-        #movieSearch:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(229, 9, 20, 0.4); }
-        .search-icon { position: absolute; right: 18px; top: 13px; color: #888; font-size: 16px; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg) scale(1.2); }
+        /* এক লাইনে সার্চ এবং বাটন */
+        .top-action-bar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 95%; max-width: 400px; margin: 0 auto; }
+        
+        .search-container { position: relative; flex: 1; }
+        #movieSearch { width: 100%; padding: 10px 35px 10px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; transition: 0.4s; font-size: 13px; box-sizing: border-box; }
+        #movieSearch:focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(229, 9, 20, 0.3); }
+        .search-icon { position: absolute; right: 12px; top: 11px; color: #888; font-size: 14px; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg); }
 
-        /* মুভি গ্রিড ও ৩ডি কার্ড */
+        .nav-req-btn { background: #0088cc; color: #fff; border: none; padding: 10px 15px; border-radius: 25px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap; transition: 0.3s; }
+        .nav-req-btn:active { transform: scale(0.9); }
+
+        /* ৩ডি মুভি গ্রিড */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; gap: 12px; min-height: 50vh; }
         .movie-box { width: 48%; margin-bottom: 10px; perspective: 1200px; }
         .movie-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid #333; transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); opacity: 0; transform: translateX(-120px) rotateY(-35deg) scale(0.9); transform-style: preserve-3d; }
@@ -34,20 +39,20 @@
 
         .upload-info { padding: 12px; text-align: center; }
         .time-text { font-size: 10px; color: #00ff88; font-weight: bold; }
-        .movie-title { font-size: 12px; font-weight: bold; color: #eee; margin: 6px 0; height: 34px; overflow: hidden; }
+        .movie-title { font-size: 12px; font-weight: bold; color: #eee; margin: 6px 0; height: 34px; overflow: hidden; line-height: 1.4; }
         .movie-tags { font-size: 9px; display: flex; justify-content: center; gap: 6px; color: #aaa; }
         .tag { background: #2a2a2a; padding: 2px 7px; border-radius: 6px; border: 1px solid #444; }
 
-        .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; margin-bottom: 20px; }
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .page-btn:disabled { opacity: 0.3; }
 
-        .footer { background: #111; padding: 25px 10px; text-align: center; border-top: 1px solid #222; }
+        .footer { background: #111; padding: 25px 10px; text-align: center; border-top: 1px solid #222; margin-top: 30px; }
         .made-with-love { font-size: 14px; color: #fff; font-weight: bold; }
         .made-with-love i { color: var(--primary); animation: heartbeat 1.2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        /* ডিটেইলস ও মডেল */
+        /* ডিটেইলস পেজ */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; }
         .details-header { background: #111; padding: 18px; border-bottom: 1px solid #333; font-weight: bold; color: var(--gold); }
         .details-body { padding: 20px; text-align: center; }
@@ -64,9 +69,12 @@
     <div id="mainPage">
         <div class="navbar">
             <h1>🎬 প্রীতম মুভি স্টুডিও</h1>
-            <div class="search-container">
-                <input type="text" id="movieSearch" placeholder="পছন্দের মুভি খুঁজুন..." onkeyup="searchMovie()">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <div class="top-action-bar">
+                <div class="search-container">
+                    <input type="text" id="movieSearch" placeholder="মুভি খুঁজুন..." onkeyup="searchMovie()">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                </div>
+                <button class="nav-req-btn" onclick="window.open('https://forms.gle/R3ybhBxp9HuWyzbHA')"><i class="fa-solid fa-paper-plane"></i> রিকোয়েস্ট</button>
             </div>
         </div>
         <div class="movie-grid" id="movieList"></div>
@@ -94,12 +102,11 @@
     <div id="overlay"></div>
 
     <script>
-        // ৪০টি মুভির ডামি ডেটা
         let allMovies = [];
         for (let i = 1; i <= 40; i++) {
             allMovies.push({
                 id: i, title: `Movie Name ${i}`, img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
-                uploadTime: "2026-01-10T22:00:00", res: i % 2 === 0 ? "4K UHD" : "1080p", lang: "Hindi Dubbed", watchUrl: "#", dlUrl: "#"
+                uploadTime: "2026-01-10T22:30:00", res: i % 2 === 0 ? "4K UHD" : "1080p", lang: "Hindi Dubbed", watchUrl: "#", dlUrl: "#"
             });
         }
 
@@ -123,21 +130,17 @@
             const end = start + moviesPerPage;
             const paginated = filteredMovies.slice(start, end);
 
-            if(paginated.length === 0) {
-                list.innerHTML = `<div style="width:100%; text-align:center; padding:50px; color:#888;">দুঃখিত, কোনো মুভি পাওয়া যায়নি! 🔍</div>`;
-            } else {
-                list.innerHTML = paginated.map((movie, index) => {
-                    const globalIndex = allMovies.findIndex(m => m.id === movie.id);
-                    const trendingHtml = (globalIndex < 8) ? `<div class="trending-badge"><i class="fa-solid fa-fire"></i> Trending</div>` : "";
-                    return `
-                    <div class="movie-box" onclick="showDetails(${movie.id})"> 
-                        <div class="movie-card">
-                            <div class="image-container">${trendingHtml}<img src="${movie.img}" class="movie-img"><div class="res-badge">${movie.res}</div></div>
-                            <div class="upload-info"><div class="time-text">${timeAgo(movie.uploadTime)}</div><div class="movie-title">${movie.title}</div><div class="movie-tags"><span class="tag">${movie.res}</span><span class="tag">${movie.lang}</span></div></div>
-                        </div>
-                    </div>`;
-                }).join('');
-            }
+            list.innerHTML = paginated.map((movie, index) => {
+                const globalIndex = allMovies.findIndex(m => m.id === movie.id);
+                const trendingHtml = (globalIndex < 8) ? `<div class="trending-badge"><i class="fa-solid fa-fire"></i> Trending</div>` : "";
+                return `
+                <div class="movie-box" onclick="showDetails(${movie.id})"> 
+                    <div class="movie-card">
+                        <div class="image-container">${trendingHtml}<img src="${movie.img}" class="movie-img"><div class="res-badge">${movie.res}</div></div>
+                        <div class="upload-info"><div class="time-text">${timeAgo(movie.uploadTime)}</div><div class="movie-title">${movie.title}</div><div class="movie-tags"><span class="tag">${movie.res}</span><span class="tag">${movie.lang}</span></div></div>
+                    </div>
+                </div>`;
+            }).join('');
             
             document.getElementById('pageNumber').innerText = `Page ${currentPage}`;
             document.getElementById('prevBtn').disabled = (currentPage === 1);
