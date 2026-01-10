@@ -35,13 +35,12 @@
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; margin-bottom: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .page-btn:active { transform: scale(0.9); }
         #pageNumber { font-weight: bold; color: var(--gold); }
 
-        /* ফুটার ও কপিরাইট */
+        /* ফুটার */
         .footer { background: #111; padding: 30px 10px; text-align: center; border-top: 1px solid #222; margin-top: 40px; }
         .copyright { font-size: 13px; color: #888; margin-bottom: 8px; }
-        .made-with-love { font-size: 14px; color: #fff; font-weight: bold; letter-spacing: 1px; }
+        .made-with-love { font-size: 14px; color: #fff; font-weight: bold; }
         .made-with-love i { color: var(--primary); animation: heartbeat 1.2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
@@ -90,16 +89,51 @@
     <div id="overlay"></div>
 
     <script>
-        // প্রীতম, এখানে তোমার ১০টা মুভি ডেটা থাকল (উদাহরণস্বরূপ)
         const allMovies = [
-            { id: 1, title: "Pushpa 2: The Rule", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:00:00", res: "4K", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
-            { id: 2, title: "The Rajasaab", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:00:00", res: "1080p", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
-            { id: 3, title: "Singham Again", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T15:00:00", res: "HD", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
-            { id: 4, title: "Devara Part 1", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T16:00:00", res: "4K", lang: "Bengali", watchUrl: "#", dlUrl: "#" }
+            { id: 1, title: "Movie 1", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:00:00", res: "4K", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 2, title: "Movie 2", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:05:00", res: "1080p", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 3, title: "Movie 3", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:10:00", res: "4K", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 4, title: "Movie 4", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:15:00", res: "HD", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 5, title: "Movie 5", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:20:00", res: "4K", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 6, title: "Movie 6", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:25:00", res: "1080p", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 7, title: "Movie 7", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:30:00", res: "4K", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 8, title: "Movie 8", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:35:00", res: "HD", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 9, title: "Movie 9", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:40:00", res: "4K", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 10, title: "Movie 10", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T10:45:00", res: "1080p", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 11, title: "Movie 11", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:00:00", res: "4K", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 12, title: "Movie 12", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:05:00", res: "1080p", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 13, title: "Movie 13", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:10:00", res: "4K", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 14, title: "Movie 14", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:15:00", res: "HD", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 15, title: "Movie 15", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:20:00", res: "4K", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 16, title: "Movie 16", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:25:00", res: "1080p", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 17, title: "Movie 17", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:30:00", res: "4K", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 18, title: "Movie 18", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:35:00", res: "HD", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 19, title: "Movie 19", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:40:00", res: "4K", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 20, title: "Movie 20", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T11:45:00", res: "1080p", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 21, title: "Movie 21", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:00:00", res: "4K", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 22, title: "Movie 22", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:05:00", res: "1080p", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 23, title: "Movie 23", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:10:00", res: "4K", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 24, title: "Movie 24", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:15:00", res: "HD", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 25, title: "Movie 25", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:20:00", res: "4K", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 26, title: "Movie 26", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:25:00", res: "1080p", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 27, title: "Movie 27", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:30:00", res: "4K", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 28, title: "Movie 28", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:35:00", res: "HD", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 29, title: "Movie 29", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:40:00", res: "4K", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 30, title: "Movie 30", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T12:45:00", res: "1080p", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 31, title: "Movie 31", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:00:00", res: "4K", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 32, title: "Movie 32", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:05:00", res: "1080p", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 33, title: "Movie 33", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:10:00", res: "4K", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 34, title: "Movie 34", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:15:00", res: "HD", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 35, title: "Movie 35", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:20:00", res: "4K", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 36, title: "Movie 36", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:25:00", res: "1080p", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 37, title: "Movie 37", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:30:00", res: "4K", lang: "Dubbed", watchUrl: "#", dlUrl: "#" },
+            { id: 38, title: "Movie 38", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:35:00", res: "HD", lang: "Bengali", watchUrl: "#", dlUrl: "#" },
+            { id: 39, title: "Movie 39", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:40:00", res: "4K", lang: "Hindi", watchUrl: "#", dlUrl: "#" },
+            { id: 40, title: "Movie 40", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T13:45:00", res: "1080p", lang: "Dubbed", watchUrl: "#", dlUrl: "#" }
         ];
 
         let currentPage = 1;
-        const moviesPerPage = 2; // প্রীতম, এখানে তুমি প্রতি পেজে কয়টা মুভি দেখাবে তা সেট করো (আমি ২টা দিলাম চেক করার জন্য)
+        const moviesPerPage = 10; // প্রতি পেজে ১০টি মুভি
 
         function timeAgo(date) {
             const seconds = Math.floor((new Date() - new Date(date)) / 1000);
@@ -113,12 +147,11 @@
         function displayMovies() {
             const list = document.getElementById('movieList');
             list.innerHTML = "";
-            
             const start = (currentPage - 1) * moviesPerPage;
             const end = start + moviesPerPage;
-            const paginatedMovies = allMovies.slice(start, end);
+            const paginated = allMovies.slice(start, end);
 
-            list.innerHTML = paginatedMovies.map(movie => `
+            list.innerHTML = paginated.map(movie => `
                 <div class="movie-box" onclick="showDetails(${movie.id})"> 
                     <div class="movie-card">
                         <div class="image-container">
@@ -140,21 +173,19 @@
             setTimeout(revealCards, 100);
         }
 
-        function changePage(step) {
-            currentPage += step;
-            displayMovies();
-            window.scrollTo(0,0);
-        }
-
         function revealCards() {
             const cards = document.querySelectorAll('.movie-card');
-            cards.forEach(card => card.classList.add('show'));
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if(rect.top < window.innerHeight - 30) card.classList.add('show');
+            });
         }
 
         function showDetails(id) {
             const movie = allMovies.find(m => m.id === id);
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('detailsPage').style.display = 'block';
+            window.scrollTo(0,0);
             document.getElementById('detailsContent').innerHTML = `
                 <img src="${movie.img}" class="movie-poster-small">
                 <h3>${movie.title}</h3>
@@ -183,6 +214,8 @@
         }
 
         function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
+        function changePage(step) { currentPage += step; displayMovies(); window.scrollTo(0,0); }
+        window.addEventListener('scroll', revealCards);
         displayMovies();
     </script>
 </body>
