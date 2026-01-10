@@ -3,63 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pritam Movie Zone - Master Edition</title>
+    <title>Pritam Movie Zone - Master Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #0c0c0c; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        :root { --primary: #e50914; --success: #00ff88; --bg: #0c0c0c; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* Navbar & Rotating Search Icon */
-        .navbar { background-color: #111; border-bottom: 2px solid #e50914; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        .navbar h1 { font-size: 24px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 10px #e50914; }
+        /* Navbar & Glowing Title */
+        .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
+        .navbar h1 { font-size: 24px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 15px var(--primary); }
         
         .search-container { position: relative; max-width: 400px; margin: 0 auto; }
         #movieSearch { width: 100%; padding: 12px 45px 12px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; transition: 0.3s; box-sizing: border-box; }
         .search-icon { position: absolute; right: 15px; top: 12px; color: #888; transition: 0.5s; }
-        #movieSearch:focus + .search-icon { color: #e50914; transform: rotate(360deg); }
+        #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg); }
 
         /* Movie Grid & Repeat Scroll Animation */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; min-height: 400px; }
         .movie-box { width: 48%; margin-bottom: 15px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .movie-card { 
-            background: #181818; border-radius: 10px; overflow: hidden; border: 1px solid #222; 
-            transition: all 0.4s ease; opacity: 0; transform: translateY(30px);
+            background: #181818; border-radius: 12px; overflow: hidden; border: 1px solid #222; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; transform: translateY(40px);
         }
         .movie-card.show { opacity: 1; transform: translateY(0); }
-        .movie-card:active { transform: scale(0.92); } /* Click Animation */
+        .movie-card:active { transform: scale(0.92); }
 
         .image-container { position: relative; width: 100%; height: 230px; overflow: hidden; }
         .movie-img { width: 100%; height: 100%; object-fit: cover; }
-        .quality-tag { position: absolute; top: 8px; right: 8px; background: #e50914; padding: 3px 8px; font-size: 10px; border-radius: 4px; font-weight: bold; }
+        .quality-tag { position: absolute; top: 8px; right: 8px; background: var(--primary); padding: 3px 8px; font-size: 10px; border-radius: 4px; font-weight: bold; }
 
-        /* Movie Details Page (Full Screen) */
-        #detailsPage { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0c0c0c; z-index: 2000; overflow-y: auto; padding: 20px; box-sizing: border-box;
-        }
-        .movie-info-header { text-align: center; margin-bottom: 20px; }
-        .movie-info-header img { width: 180px; border-radius: 15px; border: 2px solid #e50914; }
-        .movie-desc { background: #1a1a1a; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #e50914; font-size: 14px; color: #ccc; }
+        /* Full Screen Movie Details Page */
+        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; padding: 20px; box-sizing: border-box; }
+        .movie-info-header { text-align: center; }
+        .movie-info-header img { width: 180px; border-radius: 15px; border: 2px solid var(--primary); box-shadow: 0 0 20px rgba(229, 9, 20, 0.4); }
+        .movie-desc { background: #1a1a1a; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--primary); color: #ccc; }
         .screenshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .screenshot-grid img { width: 100%; border-radius: 5px; border: 1px solid #333; }
+        .screenshot-grid img { width: 100%; border-radius: 8px; border: 1px solid #333; }
 
-        /* Download Popup Modal */
+        /* Professional 5s Waiting Popup */
         #downloadModal {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 85%; max-width: 300px; background: #1a1a1a; z-index: 3000; padding: 25px; 
-            border-radius: 20px; border: 1px solid #e50914; text-align: center; box-shadow: 0 0 50px #000;
+            width: 85%; max-width: 320px; background: #161616; z-index: 3000; padding: 30px; 
+            border-radius: 24px; border: 1px solid #333; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2500; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 2500; backdrop-filter: blur(5px); }
 
-        .dl-trigger-btn { background: #e50914; color: #fff; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; margin-top: 20px; }
-        .back-btn { background: #222; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-bottom: 20px; }
+        /* Professional Progress Ring */
+        .progress-ring { position: relative; width: 80px; height: 80px; margin: 0 auto 20px; }
+        .progress-ring circle { fill: transparent; stroke: #333; stroke-width: 8; stroke-dasharray: 226; stroke-dashoffset: 0; transform: rotate(-90deg); transform-origin: 50% 50%; }
+        .progress-ring .progress-bar { stroke: var(--success); stroke-dashoffset: 226; transition: stroke-dashoffset 1s linear; }
+        #timer { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; font-weight: bold; color: var(--success); }
 
-        /* Pagination & Request Button */
-        .pagination { display: flex; justify-content: center; padding: 20px; gap: 15px; }
-        .page-btn { background: #111; color: #fff; border: 1px solid #e50914; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .dl-trigger-btn { background: linear-gradient(135deg, var(--primary), #900); color: #fff; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; margin-top: 20px; box-shadow: 0 10px 15px -3px rgba(229, 9, 20, 0.3); }
+        .back-btn { background: #222; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 30px; cursor: pointer; margin-bottom: 20px; }
+
+        /* Pagination & Layout */
+        .pagination { display: flex; justify-content: center; padding: 30px; gap: 15px; }
+        .page-btn { background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px 25px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
         .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .request-btn { background: #222; color: #fff; padding: 12px 25px; border-radius: 30px; border: 1px solid #e50914; text-decoration: none; display: inline-block; margin: 20px auto; }
+        .request-btn { background: #222; color: #fff; padding: 14px 30px; border-radius: 35px; border: 1px solid var(--primary); text-decoration: none; display: inline-block; margin-bottom: 50px; font-weight: bold; }
 
-        @media (min-width: 768px) { .movie-box { width: 23%; } .screenshot-grid { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+        @media (min-width: 768px) { .movie-box { width: 23%; } .screenshot-grid { grid-template-columns: repeat(4, 1fr); } }
     </style>
 </head>
 <body>
@@ -68,7 +72,7 @@
         <div class="navbar">
             <h1>🎬 Pritam Movie Zone</h1>
             <div class="search-container">
-                <input type="text" id="movieSearch" placeholder="Search movies..." onkeyup="searchMovie()">
+                <input type="text" id="movieSearch" placeholder="Search premium movies..." onkeyup="searchMovie()">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
             </div>
         </div>
@@ -76,38 +80,44 @@
         <div class="movie-grid" id="movieList"></div>
 
         <div class="pagination">
-            <button class="page-btn" id="prevBtn" onclick="changePage(-1)">Prev</button>
-            <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next</button>
+            <button class="page-btn" id="prevBtn" onclick="changePage(-1)">Previous</button>
+            <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next Page</button>
         </div>
 
-        <div style="text-align: center; padding-bottom: 40px;">
+        <div style="text-align: center;">
             <a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" class="request-btn">Request a Movie</a>
         </div>
     </div>
 
     <div id="detailsPage">
-        <button class="back-btn" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+        <button class="back-btn" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i> Back to Gallery</button>
         <div id="detailsContent"></div>
     </div>
 
     <div class="modal-overlay" id="overlay"></div>
     <div id="downloadModal">
-        <h3 style="color:#e50914;">Preparing Link...</h3>
-        <p id="timerText" style="font-size:18px;">Please wait <span id="timer" style="color:#2ecc71; font-weight:bold;">5</span>s</p>
-        <p id="startMsg" style="display:none; color:#2ecc71;">Starting Download...</p>
+        <div class="progress-ring">
+            <svg width="80" height="80">
+                <circle cx="40" cy="40" r="36"></circle>
+                <circle class="progress-bar" cx="40" cy="40" r="36" id="circleProgress"></circle>
+            </svg>
+            <div id="timer">5</div>
+        </div>
+        <h3 style="margin:0; color:#fff; font-size:18px;">Securing Connection...</h3>
+        <p style="color:#888; font-size:13px; margin: 10px 0;">Your download link is being generated securely.</p>
+        <div id="startMsg" style="display:none; color:var(--success); font-weight:bold; animation: pulse 1s infinite;">Redirecting Now...</div>
     </div>
 
     <script>
-        // 40 Dummy Movie Data
         const allMovies = [];
         for (let i = 1; i <= 40; i++) {
             allMovies.push({
                 id: i,
-                title: `Action Movie ${i}`,
+                title: `Premium Movie ${i}`,
                 img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
-                quality: i % 2 === 0 ? "4K" : "HD",
-                desc: `This is the description for Action Movie ${i}. High quality graphics and amazing storyline for movie lovers.`,
-                ss: ["https://i.ibb.co/KpCT91TG/bp-new.webp", "https://i.ibb.co/KpCT91TG/bp-new.webp", "https://i.ibb.co/KpCT91TG/bp-new.webp"],
+                quality: i % 2 === 0 ? "4K UHD" : "1080p HD",
+                desc: `Experience the best of cinema with Movie ${i}. Featuring high-bitrate audio and stunning visuals. Exclusive on Pritam Movie Zone.`,
+                ss: ["https://i.ibb.co/KpCT91TG/bp-new.webp", "https://i.ibb.co/KpCT91TG/bp-new.webp", "https://i.ibb.co/KpCT91TG/bp-new.webp", "https://i.ibb.co/KpCT91TG/bp-new.webp"],
                 link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0"
             });
         }
@@ -131,13 +141,12 @@
                                 <img src="${movie.img}" class="movie-img">
                                 <div class="quality-tag">${movie.quality}</div>
                             </div>
-                            <div style="padding:10px; text-align:center;">
-                                <div style="font-size:13px; font-weight:bold;">${movie.title}</div>
+                            <div style="padding:15px; text-align:center;">
+                                <div style="font-size:14px; font-weight:600; color:#eee;">${movie.title}</div>
                             </div>
                         </div>
                     </div>`;
             });
-            
             setTimeout(revealCards, 100);
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = end >= filteredMovies.length;
@@ -145,7 +154,8 @@
 
         function revealCards() {
             document.querySelectorAll('.movie-card').forEach(card => {
-                if(card.getBoundingClientRect().top < window.innerHeight - 30) card.classList.add('show');
+                const cardTop = card.getBoundingClientRect().top;
+                if(cardTop < window.innerHeight - 30) card.classList.add('show');
                 else card.classList.remove('show');
             });
         }
@@ -169,37 +179,45 @@
             document.getElementById('detailsPage').style.display = 'block';
             window.scrollTo(0,0);
 
-            let screenshots = "";
-            movie.ss.forEach(s => screenshots += `<img src="${s}">`);
+            let ssHtml = "";
+            movie.ss.forEach(s => ssHtml += `<img src="${s}">`);
 
             document.getElementById('detailsContent').innerHTML = `
                 <div class="movie-info-header">
                     <img src="${movie.img}">
-                    <h2>${movie.title}</h2>
-                    <p>Format: ${movie.quality} Bluray</p>
+                    <h2 style="margin: 15px 0 5px;">${movie.title}</h2>
+                    <p style="color:var(--primary); font-weight:bold;">${movie.quality}</p>
                 </div>
-                <div class="movie-desc"><strong>Storyline:</strong><br>${movie.desc}</div>
-                <h4>Screenshots:</h4>
-                <div class="screenshot-grid">${screenshots}</div>
-                <button class="dl-trigger-btn" onclick="openDownloadModal('${movie.link}')">Download Now</button>
+                <div class="movie-desc"><strong>Synopsis:</strong><br>${movie.desc}</div>
+                <h4 style="margin: 25px 0 10px; border-bottom:1px solid #333; padding-bottom:5px;">Screenshots Preview</h4>
+                <div class="screenshot-grid">${ssHtml}</div>
+                <button class="dl-trigger-btn" onclick="openDownloadModal('${movie.link}')"><i class="fa-solid fa-cloud-arrow-down"></i> GET DOWNLOAD LINK</button>
             `;
         }
 
         function openDownloadModal(link) {
             document.getElementById('overlay').style.display = 'block';
             document.getElementById('downloadModal').style.display = 'block';
+            
             let count = 5;
-            document.getElementById('timer').innerText = count;
-            document.getElementById('timerText').style.display = 'block';
-            document.getElementById('startMsg').style.display = 'none';
+            const circle = document.getElementById('circleProgress');
+            const timerText = document.getElementById('timer');
+            const startMsg = document.getElementById('startMsg');
+            
+            circle.style.strokeDashoffset = 226;
+            timerText.innerText = count;
+            startMsg.style.display = 'none';
 
-            const timer = setInterval(() => {
+            const countdown = setInterval(() => {
                 count--;
-                document.getElementById('timer').innerText = count;
+                timerText.innerText = count;
+                // Progress circle animation calculation
+                circle.style.strokeDashoffset = 226 - ( (5 - count) * (226 / 5) );
+                
                 if(count <= 0) {
-                    clearInterval(timer);
-                    document.getElementById('timerText').style.display = 'none';
-                    document.getElementById('startMsg').style.display = 'block';
+                    clearInterval(countdown);
+                    timerText.innerText = "✓";
+                    startMsg.style.display = 'block';
                     setTimeout(() => {
                         window.location.href = link;
                         closePopup();
