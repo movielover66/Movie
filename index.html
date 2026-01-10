@@ -3,74 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রীতম মুভি স্টুডিও - ৩ডি প্রো</title>
+    <title>প্রীতম মুভি স্টুডিও - ওয়াচ প্রো</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* নেভিবার ও রোটেটিং সার্চ আইকন */
+        /* নেভিবার ও সার্চ আইকন */
         .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
         .navbar h1 { font-size: 22px; margin: 0 0 10px 0; background: linear-gradient(to right, #fff, var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
-        
         .search-container { position: relative; width: 90%; max-width: 320px; margin: 0 auto; }
-        #movieSearch { width: 100%; padding: 10px 40px 10px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; font-size: 14px; box-sizing: border-box; }
-        .search-icon { position: absolute; right: 15px; top: 11px; color: #888; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg) scale(1.2); }
+        #movieSearch { width: 100%; padding: 10px 40px 10px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; box-sizing: border-box; }
+        .search-icon { position: absolute; right: 15px; top: 11px; color: #888; transition: 0.6s ease; }
+        #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg); }
 
         /* মুভি গ্রিড ও ৩ডি রিপিট অ্যানিমেশন */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px 6px; justify-content: space-between; gap: 8px; }
         .movie-box { width: 48%; margin-bottom: 10px; perspective: 1000px; }
         .movie-card { 
-            background: #1a1a1a; border-radius: 15px; overflow: hidden; border: 1px solid #222; 
-            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); 
-            opacity: 0; transform: translateY(50px) rotateX(-10deg);
+            background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #222; 
+            transition: all 0.7s ease; opacity: 0; transform: translateY(50px);
         }
-        .movie-card.show { opacity: 1; transform: translateY(0) rotateX(0); }
-        .movie-card:active { transform: scale(0.92) rotateY(10deg); }
+        .movie-card.show { opacity: 1; transform: translateY(0); }
+        .movie-card:active { transform: scale(0.92); }
 
         .image-container { position: relative; width: 100%; height: 210px; overflow: hidden; }
         .movie-img { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* ছবির নিচে ট্রেন্ডিং অ্যানিমেশন */
-        .trending-bar { 
-            position: absolute; bottom: 0; left: 0; width: 100%; 
-            background: linear-gradient(90deg, transparent, var(--primary), transparent); 
-            color: #fff; font-size: 10px; padding: 4px 0; text-align: center; font-weight: bold;
-            animation: slideGlow 2s infinite linear;
-        }
+        .trending-bar { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(90deg, transparent, var(--primary), transparent); color: #fff; font-size: 10px; padding: 4px 0; text-align: center; font-weight: bold; animation: slideGlow 2s infinite linear; }
         @keyframes slideGlow { 0% { background-position: -200px; } 100% { background-position: 200px; } }
         .quality-tag { position: absolute; top: 8px; right: 8px; background: #00bcd4; padding: 2px 6px; font-size: 9px; border-radius: 4px; font-weight: bold; }
 
-        .upload-info { padding: 8px; text-align: center; }
-        .upload-time { font-size: 10px; color: #aaa; margin-bottom: 3px; }
-        .movie-title { font-size: 12px; font-weight: bold; color: #eee; height: 32px; overflow: hidden; line-height: 1.3; }
-
-        /* ডিটেইলস পেজ ও ব্যাক বাটন */
+        /* ডিটেইলস পেজ ও নতুন ওয়াচ বাটন */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; padding: 15px; box-sizing: border-box; }
-        .back-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--gold); cursor: pointer; font-weight: bold; }
+        .details-card { background: #111; border-radius: 15px; padding: 15px; border: 1px solid #333; }
+        .movie-poster-small { width: 100%; max-width: 180px; display: block; margin: 0 auto 15px; border-radius: 10px; border: 2px solid var(--primary); }
         
-        .details-card { background: #111; border-radius: 20px; padding: 15px; border: 1px solid #333; }
-        .movie-poster-small { width: 100%; max-width: 200px; display: block; margin: 0 auto 15px; border-radius: 12px; border: 2px solid var(--primary); }
-        .req-btn { background: #0088cc; color: #fff; display: block; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 15px; }
-        .screenshot-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .screenshot-compact img { width: 100%; border-radius: 8px; border: 1px solid #333; }
-        .dl-btn { background: linear-gradient(to right, #27ae60, #2ecc71); color: #fff; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; }
+        /* বাটন গ্রুপ */
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        .dl-btn { flex: 1; background: #27ae60; color: #fff; padding: 12px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; font-size: 14px; text-align: center; }
+        .watch-btn { flex: 1; background: #e67e22; color: #fff; padding: 12px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; font-size: 14px; text-align: center; }
+        .req-btn { background: #0088cc; color: #fff; display: block; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px 0; font-size: 13px; }
 
-        /* RGB ৫ সেকেন্ড পপআপ */
-        #downloadModal { 
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            width: 280px; background: #111; z-index: 3000; padding: 25px; border-radius: 20px; text-align: center; 
-        }
-        #downloadModal::before {
-            content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px;
-            background: linear-gradient(45deg, #f00, #0f0, #00f, #f0f, #f00);
-            z-index: -1; filter: blur(6px); background-size: 400%; animation: rgbGlow 10s linear infinite; border-radius: 23px;
-        }
+        .screenshot-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 15px 0; }
+        .screenshot-compact img { width: 100%; border-radius: 5px; border: 1px solid #333; }
+
+        /* RGB পপআপ */
+        #downloadModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; background: #111; z-index: 3000; padding: 25px; border-radius: 20px; text-align: center; border: 2px solid var(--primary); }
         @keyframes rgbGlow { 0% { background-position: 0 0; } 100% { background-position: 400% 0; } }
 
-        .pagination { display: flex; justify-content: center; padding: 20px; gap: 15px; }
-        .page-btn { background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px 20px; border-radius: 8px; font-weight: bold; }
+        .pagination { display: flex; justify-content: center; padding: 20px; gap: 10px; }
+        .page-btn { background: #111; color: #fff; border: 1px solid var(--primary); padding: 8px 15px; border-radius: 5px; font-weight: bold; }
         .page-btn:disabled { opacity: 0.2; }
     </style>
 </head>
@@ -92,14 +74,14 @@
     </div>
 
     <div id="detailsPage">
-        <div class="back-nav" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i> গ্যালারিতে ফিরে যান</div>
+        <div onclick="closeDetails()" style="color:var(--gold); cursor:pointer; margin-bottom:15px;"><i class="fa-solid fa-arrow-left"></i> গ্যালারিতে ফিরে যান</div>
         <div class="details-card" id="detailsContent"></div>
     </div>
 
     <div class="modal-overlay" id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2500; backdrop-filter: blur(5px);"></div>
     <div id="downloadModal">
         <div style="font-size:40px; margin-bottom:10px;">💃</div>
-        <h4 style="margin:0; color:#fff;">আপনার লিঙ্ক তৈরি হচ্ছে...</h4>
+        <h4 style="margin:0; color:#fff;">প্রক্রিয়া শুরু হচ্ছে...</h4>
         <p style="color:#00ff88; font-size:26px; font-weight:bold; margin: 10px 0;"><span id="timer">5</span>s</p>
     </div>
 
@@ -108,9 +90,9 @@
         const times = ["৯ মিনিট আগে", "৩ ঘণ্টা আগে", "১৮ ঘণ্টা আগে", "১ দিন আগে"];
         for (let i = 1; i <= 40; i++) {
             allMovies.push({
-                id: i, title: `The Rajasaab (2026) Hindi Dubbed HD Full Movie Download`, 
+                id: i, title: `The Rajasaab (2026) Hindi Full Movie`, 
                 img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
-                quality: i % 2 === 0 ? "1080p HD" : "WEB-DL",
+                quality: "1080p HD",
                 time: times[i % 4],
                 link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0"
             });
@@ -135,9 +117,9 @@
                                 <div class="quality-tag">${movie.quality}</div>
                                 <div class="trending-bar">🔥 Trending Now</div>
                             </div>
-                            <div class="upload-info">
-                                <div class="upload-time">${movie.time}</div>
-                                <div class="movie-title">${movie.title}</div>
+                            <div style="padding:8px; text-align:center;">
+                                <div style="font-size:10px; color:#aaa;">${movie.time}</div>
+                                <div style="font-size:12px; font-weight:bold; color:#eee; height:32px; overflow:hidden;">${movie.title}</div>
                             </div>
                         </div>
                     </div>`;
@@ -148,11 +130,10 @@
         }
 
         function revealCards() {
-            const cards = document.querySelectorAll('.movie-card');
-            cards.forEach(card => {
+            document.querySelectorAll('.movie-card').forEach(card => {
                 const rect = card.getBoundingClientRect();
                 if(rect.top < window.innerHeight - 30 && rect.bottom > 0) card.classList.add('show');
-                else card.classList.remove('show'); // রিপিট অ্যানিমেশন
+                else card.classList.remove('show');
             });
         }
 
@@ -164,15 +145,15 @@
             document.getElementById('detailsContent').innerHTML = `
                 <h3 style="color:var(--gold); text-align:center; font-size:16px;">${movie.title}</h3>
                 <img src="${movie.img}" class="movie-poster-small">
-                <a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" class="req-btn"><i class="fa-solid fa-paper-plane"></i> Request Movie</a>
-                <div style="background:#1a1a1a; padding:12px; border-radius:10px; font-size:12px; margin-bottom:15px; border-left:4px solid var(--primary);">
-                    <b>Language:</b> Hindi Dubbed<br><b>Quality:</b> 480p, 720p, 1080p<br><b>Size:</b> 450MB - 2.5GB
-                </div>
+                <a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" class="req-btn">Request Movie</a>
                 <div class="screenshot-compact"><img src="${movie.img}"><img src="${movie.img}"></div>
-                <button class="dl-btn" onclick="openDownloadModal('${movie.link}')"><i class="fa-solid fa-download"></i> High Speed Download</button>`;
+                <div class="btn-group">
+                    <button class="dl-btn" onclick="openActionModal('${movie.link}')"><i class="fa-solid fa-download"></i> Download</button>
+                    <button class="watch-btn" onclick="openActionModal('${movie.link}')"><i class="fa-solid fa-play"></i> Watch Online</button>
+                </div>`;
         }
 
-        function openDownloadModal(link) {
+        function openActionModal(link) {
             document.getElementById('overlay').style.display = 'block';
             document.getElementById('downloadModal').style.display = 'block';
             let count = 5;
