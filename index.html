@@ -17,37 +17,52 @@
         #movieSearch { width: 100%; padding: 8px 30px 8px 12px; border-radius: 20px; border: 1px solid #333; background: #222; color: #fff; font-size: 13px; outline: none; box-sizing: border-box; }
         .nav-req-btn { background: #0088cc; color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; white-space: nowrap; }
 
-        /* মুভি গ্রিড ও কার্ড */
+        /* ৩ডি মুভি গ্রিড ও অ্যানিমেশন */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; gap: 10px; }
-        .movie-box { width: 48%; margin-bottom: 10px; perspective: 1000px; }
-        .movie-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: 0.5s; opacity: 0; transform: translateY(20px); }
-        .movie-card.show { opacity: 1; transform: translateY(0); }
+        .movie-box { width: 48%; margin-bottom: 10px; perspective: 1200px; }
+        .movie-card { 
+            background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #222; 
+            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); 
+            opacity: 0; transform: translateX(-100px) rotateY(-30deg) scale(0.9);
+            transform-style: preserve-3d;
+        }
+        .movie-card.show { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
 
-        /* ইমেজ ফিক্স - Contain (পুরো ছবি দেখা যাবে) */
-        .image-container { position: relative; width: 100%; height: 230px; background: #000; display: flex; align-items: center; justify-content: center; }
-        .movie-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        /* ইমেজ কার্ড জুড়ে */
+        .image-container { position: relative; width: 100%; height: 250px; overflow: hidden; }
+        .movie-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         
-        .half-trending-bar { position: absolute; bottom: 8px; left: 0; width: 65%; background: linear-gradient(90deg, var(--primary), transparent); color: #fff; font-size: 8px; padding: 4px 8px; font-weight: bold; border-top-right-radius: 10px; border-bottom-right-radius: 10px; z-index: 5; }
+        /* প্রিমিয়াম হাফ ট্রেন্ডিং বার */
+        .half-trending-bar { 
+            position: absolute; bottom: 8px; left: 0; width: 65%; 
+            background: linear-gradient(90deg, var(--primary), #ff4d4d, transparent); 
+            color: #fff; font-size: 9px; padding: 4px 8px; font-weight: bold;
+            border-top-right-radius: 15px; border-bottom-right-radius: 15px;
+            box-shadow: 5px 0 15px rgba(229, 9, 20, 0.5);
+            animation: slideGlow 1.5s infinite alternate; z-index: 5; 
+        }
+        @keyframes slideGlow { from { filter: brightness(1); } to { filter: brightness(1.4); } }
+        
         .res-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--gold); padding: 2px 6px; border-radius: 5px; font-size: 9px; font-weight: bold; border: 0.5px solid var(--gold); }
 
-        .upload-info { padding: 8px 5px; text-align: center; }
+        .upload-info { padding: 8px 5px; text-align: center; background: #111; }
         .time-text { font-size: 9px; color: #00ff88; font-weight: bold; }
         .movie-title { font-size: 11px; font-weight: bold; color: #eee; margin: 2px 0; height: 30px; overflow: hidden; line-height: 1.2; }
 
-        /* ডিটেইলস পেজ - Netflix Style */
-        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; animation: slideIn 0.3s ease-out; }
+        /* ডিটেইলস পেজ */
+        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; animation: slideIn 0.4s ease-out; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
         .back-btn { position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 10px; border-radius: 50%; font-size: 18px; z-index: 10; }
-        .hero-banner { height: 250px; background-size: cover; background-position: center; position: relative; }
+        .hero-banner { height: 280px; background-size: cover; background-position: center; position: relative; }
         .hero-overlay { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to top, var(--bg), transparent); }
-        .content-wrap { padding: 20px; margin-top: -50px; position: relative; }
-        .details-poster { width: 110px; border-radius: 10px; border: 2px solid var(--primary); }
-        .description { font-size: 13px; line-height: 1.6; color: #ccc; background: var(--glass); padding: 15px; border-radius: 12px; margin: 20px 0; }
-        .action-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; margin-bottom: 10px; font-size: 14px; cursor: pointer; }
+        .content-wrap { padding: 20px; margin-top: -60px; position: relative; }
+        .details-poster { width: 120px; border-radius: 12px; border: 3px solid var(--primary); }
+        .description { font-size: 13px; line-height: 1.6; color: #ccc; background: var(--glass); padding: 15px; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.05); }
+        .btn-main { width: 100%; padding: 15px; border-radius: 12px; border: none; font-size: 15px; font-weight: bold; cursor: pointer; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 12px; }
-        .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #222; }
+        .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -68,7 +83,7 @@
             <span id="pageNumber">Page 1</span>
             <button class="page-btn" id="nextBtn" onclick="changePage(1)">সামনে</button>
         </div>
-        <footer class="footer">Made with ❤️ by Pritam</footer>
+        <footer class="footer">Made with <i class="fa-solid fa-heart" style="color:red"></i> by Pritam</footer>
     </div>
 
     <div id="detailsPage">
@@ -77,17 +92,18 @@
     </div>
 
     <script>
+        // ৪০টি মুভির রিয়েল স্লট
         const allMovies = [
-            { id: 1, title: "Aa Khanda 2 (2026)", img: "https://image2url.com/r2/bucket2/images/1768068439676-894c0955-d1cc-4e9f-b7e1-e1d12ece7ba1.jpg", uploadTime: "2026-01-11T00:15:00", res: "1080p WEB-DL", lang: "Bengali", year: "2026", rating: "9.5", desc: "Aa Khanda 2 মুভিটি এখন হাই কোয়ালিটিতে দেখুন।", watchUrl: "#", dlUrl: "#" },
-            { id: 2, title: "Movie Name 2", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T23:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "8.0", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
-            { id: 3, title: "Movie Name 3", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T22:00:00", res: "1080p", lang: "English", year: "2025", rating: "7.5", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
-            { id: 4, title: "Movie Name 4", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T21:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.2", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
-            { id: 5, title: "Movie Name 5", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T20:00:00", res: "1080p", lang: "Bengali", year: "2025", rating: "8.5", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
-            { id: 6, title: "Movie Name 6", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T19:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "9.0", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
-            { id: 7, title: "Movie Name 7", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T18:00:00", res: "1080p", lang: "English", year: "2024", rating: "7.8", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
-            { id: 8, title: "Movie Name 8", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T17:00:00", res: "720p", lang: "Dubbed", year: "2024", rating: "8.1", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
-            { id: 9, title: "Movie Name 9", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T16:00:00", res: "1080p", lang: "Hindi", year: "2024", rating: "8.4", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
-            { id: 10, title: "Movie Name 10", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T15:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "বর্ণনা এখানে...", watchUrl: "#", dlUrl: "#" },
+            { id: 1, title: "Aa Khanda 2 (2026)", img: "https://image2url.com/r2/bucket2/images/1768068439676-894c0955-d1cc-4e9f-b7e1-e1d12ece7ba1.jpg", uploadTime: "2026-01-11T00:20:00", res: "1080p WEB-DL", lang: "Bengali", year: "2026", rating: "9.5", desc: "অসাধারণ অ্যাকশন মুভি Aa Khanda 2। এখনই উপভোগ করুন হাই কোয়ালিটিতে।", watchUrl: "#", dlUrl: "#" },
+            { id: 2, title: "Movie Name 2", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T23:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "8.0", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
+            { id: 3, title: "Movie Name 3", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T22:00:00", res: "1080p", lang: "English", year: "2025", rating: "7.5", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
+            { id: 4, title: "Movie Name 4", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T21:00:00", res: "720p", lang: "Hindi", year: "2025", rating: "8.2", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
+            { id: 5, title: "Movie Name 5", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T20:00:00", res: "1080p", lang: "Bengali", year: "2025", rating: "8.5", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
+            { id: 6, title: "Movie Name 6", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T19:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "9.0", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
+            { id: 7, title: "Movie Name 7", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T18:00:00", res: "1080p", lang: "English", year: "2024", rating: "7.8", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
+            { id: 8, title: "Movie Name 8", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T17:00:00", res: "720p", lang: "Dubbed", year: "2024", rating: "8.1", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
+            { id: 9, title: "Movie Name 9", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T16:00:00", res: "1080p", lang: "Hindi", year: "2024", rating: "8.4", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
+            { id: 10, title: "Movie Name 10", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T15:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
             // প্রীতম, একইভাবে ১১ থেকে ৪০ পর্যন্ত স্লট বাড়াতে পারবে...
         ];
 
@@ -140,7 +156,7 @@
             const cards = document.querySelectorAll('.movie-card');
             cards.forEach(card => {
                 const rect = card.getBoundingClientRect();
-                if(rect.top < window.innerHeight) card.classList.add('show');
+                if(rect.top < window.innerHeight - 30 && rect.bottom > 0) card.classList.add('show');
                 else card.classList.remove('show');
             });
         }
@@ -157,8 +173,8 @@
                     <h2>${movie.title}</h2>
                     <div style="color:var(--gold); margin:10px 0;">★ ${movie.rating} | ${movie.year} | ${movie.res}</div>
                     <div class="description">${movie.desc}</div>
-                    <button class="action-btn" style="background:var(--primary); color:#fff;" onclick="window.open('${movie.watchUrl}')"><i class="fa-solid fa-play"></i> Watch Online</button>
-                    <button class="action-btn" style="background:#fff; color:#000;" onclick="window.location.href='${movie.dlUrl}'"><i class="fa-solid fa-download"></i> Download Now</button>
+                    <button class="btn-main" style="background:var(--primary); color:#fff;" onclick="window.open('${movie.watchUrl}')"><i class="fa-solid fa-play"></i> Watch Online</button>
+                    <button class="btn-main" style="background:#fff; color:#000;" onclick="window.open('${movie.dlUrl}')"><i class="fa-solid fa-download"></i> Download Now</button>
                 </div>`;
         }
 
