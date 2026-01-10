@@ -9,37 +9,49 @@
         :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; --card-bg: #1a1a1a; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* নেভিবার ও এক লাইনে সার্চ ও রিকোয়েস্ট বাটন */
+        /* নেভিবার */
         .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 15px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
         .navbar h1 { font-size: 20px; margin: 0 0 12px 0; font-weight: 900; background: linear-gradient(to right, #fff, var(--gold), var(--gold), #fff); background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* এক লাইনে সার্চ এবং বাটন */
         .top-action-bar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 95%; max-width: 400px; margin: 0 auto; }
-        
         .search-container { position: relative; flex: 1; }
         #movieSearch { width: 100%; padding: 10px 35px 10px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; transition: 0.4s; font-size: 13px; box-sizing: border-box; }
-        #movieSearch:focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(229, 9, 20, 0.3); }
         .search-icon { position: absolute; right: 12px; top: 11px; color: #888; font-size: 14px; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg); }
 
-        .nav-req-btn { background: #0088cc; color: #fff; border: none; padding: 10px 15px; border-radius: 25px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap; transition: 0.3s; }
-        .nav-req-btn:active { transform: scale(0.9); }
+        .nav-req-btn { background: #0088cc; color: #fff; border: none; padding: 10px 15px; border-radius: 25px; font-size: 12px; font-weight: bold; cursor: pointer; white-space: nowrap; }
 
-        /* ৩ডি মুভি গ্রিড */
+        /* মুভি গ্রিড ও ৩ডি কার্ড */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; gap: 12px; min-height: 50vh; }
         .movie-box { width: 48%; margin-bottom: 10px; perspective: 1200px; }
         .movie-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid #333; transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); opacity: 0; transform: translateX(-120px) rotateY(-35deg) scale(0.9); transform-style: preserve-3d; }
         .movie-card.show { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
 
+        /* ইমেজ কন্টেইনার ও প্রিমিয়াম ট্রেন্ডিং বার */
         .image-container { position: relative; width: 100%; height: 210px; overflow: hidden; }
         .movie-img { width: 100%; height: 100%; object-fit: cover; }
-        .trending-badge { position: absolute; top: 10px; left: 10px; background: linear-gradient(45deg, #ff0844, #ffb199); color: #fff; padding: 4px 10px; border-radius: 30px; font-size: 9px; font-weight: bold; z-index: 5; }
-        .res-badge { position: absolute; top: 10px; right: 10px; background: var(--primary); color: #fff; padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; }
+        
+        .premium-trending-bar { 
+            position: absolute; bottom: 0; left: 0; width: 100%; 
+            background: linear-gradient(90deg, transparent, rgba(229, 9, 20, 0.9), transparent); 
+            color: #fff; font-size: 10px; padding: 5px 0; text-align: center; font-weight: bold;
+            letter-spacing: 1px; text-transform: uppercase;
+            background-size: 200% 100%;
+            animation: premiumGlow 2s infinite linear;
+            z-index: 5;
+        }
+        @keyframes premiumGlow {
+            0% { background-position: -200% 0; box-shadow: 0 0 5px var(--primary); }
+            50% { box-shadow: 0 0 15px var(--primary); }
+            100% { background-position: 200% 0; box-shadow: 0 0 5px var(--primary); }
+        }
+        
+        .res-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: var(--gold); padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; border: 1px solid var(--gold); }
 
         .upload-info { padding: 12px; text-align: center; }
         .time-text { font-size: 10px; color: #00ff88; font-weight: bold; }
-        .movie-title { font-size: 12px; font-weight: bold; color: #eee; margin: 6px 0; height: 34px; overflow: hidden; line-height: 1.4; }
+        .movie-title { font-size: 12px; font-weight: bold; color: #eee; margin: 6px 0; height: 34px; overflow: hidden; }
         .movie-tags { font-size: 9px; display: flex; justify-content: center; gap: 6px; color: #aaa; }
         .tag { background: #2a2a2a; padding: 2px 7px; border-radius: 6px; border: 1px solid #444; }
 
@@ -132,12 +144,21 @@
 
             list.innerHTML = paginated.map((movie, index) => {
                 const globalIndex = allMovies.findIndex(m => m.id === movie.id);
-                const trendingHtml = (globalIndex < 8) ? `<div class="trending-badge"><i class="fa-solid fa-fire"></i> Trending</div>` : "";
+                // প্রথম ৮টি মুভিতে পোস্টারের নিচে প্রিমিয়াম ট্রেন্ডিং বার
+                const trendingHtml = (globalIndex < 8) ? `<div class="premium-trending-bar">🔥 Trending Now</div>` : "";
                 return `
                 <div class="movie-box" onclick="showDetails(${movie.id})"> 
                     <div class="movie-card">
-                        <div class="image-container">${trendingHtml}<img src="${movie.img}" class="movie-img"><div class="res-badge">${movie.res}</div></div>
-                        <div class="upload-info"><div class="time-text">${timeAgo(movie.uploadTime)}</div><div class="movie-title">${movie.title}</div><div class="movie-tags"><span class="tag">${movie.res}</span><span class="tag">${movie.lang}</span></div></div>
+                        <div class="image-container">
+                            <img src="${movie.img}" class="movie-img">
+                            ${trendingHtml}
+                            <div class="res-badge">${movie.res}</div>
+                        </div>
+                        <div class="upload-info">
+                            <div class="time-text">${timeAgo(movie.uploadTime)}</div>
+                            <div class="movie-title">${movie.title}</div>
+                            <div class="movie-tags"><span class="tag">${movie.res}</span><span class="tag">${movie.lang}</span></div>
+                        </div>
                     </div>
                 </div>`;
             }).join('');
