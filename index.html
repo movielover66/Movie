@@ -96,10 +96,44 @@
         .page-btn:active { transform: scale(0.9); }
         .page-btn:disabled { background: #333; cursor: not-allowed; }
 
-        /* ডিটেইলস পেজ ও ডাউনলোড বাটন */
-        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0c0c0c; z-index: 2000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .back-btn { background: #333; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; transition: 0.2s; }
-        .back-btn:active { transform: translateX(-5px); }
+                /* ডিটেইলস পেজ আসার অ্যানিমেশন */
+        #detailsPage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0c0c0c;
+            z-index: 2000;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            /* নতুন অ্যানিমেশন এখানে */
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ইমেজ আসার সময় হালকা জুম ইফেক্ট */
+        #detailsContent img {
+            animation: imageZoom 0.8s ease;
+        }
+
+        @keyframes imageZoom {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
         
         .download-now-btn { 
             background: linear-gradient(45deg, #2ecc71, #27ae60); color: #fff; text-decoration: none; 
