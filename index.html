@@ -772,11 +772,11 @@ const allMovies = [
             displayMovies(filtered);
             document.querySelector('.pagination').style.display = term ? 'none' : 'flex';
         }
-
-        function showDetails(id) {
-            const movie = allMovies.find(m => m.id === id);
-            const content = document.getElementById('detailsContent');
-            // লাইন ৭৭৯ থেকে ৭৮৮ পর্যন্ত এটি রিপ্লেস করো
+function showDetails(id) {
+    const movie = allMovies.find(m => m.id === id);
+    const content = document.getElementById('detailsContent');
+    
+    // মুভি ডিটেইলস এবং ৫ সেকেন্ডের টাইমার সেটআপ
     content.innerHTML = `
         <div id="countdown-container" style="display:none;">
             আপনার ফাইলটি তৈরি হচ্ছে... <span id="timer">5</span> সেকেন্ড অপেক্ষা করুন।
@@ -785,14 +785,8 @@ const allMovies = [
             Download Now
         </button>
     `;
-        }
-        
-    `;
-    }
+}
 
-`;
-            
-            // এই ফাংশনটি লাইন ৭৭৯-এর আশেপাশে বসাও
 function startDownload(link) {
     const btn = document.getElementById('download-btn');
     const timerContainer = document.getElementById('countdown-container');
@@ -815,19 +809,17 @@ function startDownload(link) {
         }
     }, 1000);
 }
-            
-        }
 
-        function closeDetails() {
-            document.getElementById('mainPage').style.display = 'block';
-            document.getElementById('detailsPage').style.display = 'none';
-        }
+function closeDetails() {
+    document.getElementById('mainPage').style.display = 'block';
+    document.getElementById('detailsPage').style.display = 'none';
+}
 
-        function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
-        function prevPage() { currentPage--; displayMovies(); window.scrollTo(0,0); }
+function nextPage() { currentPage++; displayMovies(); window.scrollTo(0,0); }
+function prevPage() { currentPage--; displayMovies(); window.scrollTo(0,0); }
 
-        displayMovies();
-        setInterval(updateTimes, 60000);
-    </script>
+displayMovies();
+setInterval(updateTimes, 60000);
+</script>
 </body>
 </html>
