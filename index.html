@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pritam Movie Zone - Master Pro</title>
+    <title>প্রীতম মুভি জোন - প্রিমিয়াম কালেকশন</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --primary: #e50914; --success: #00ff88; --bg: #0c0c0c; }
-        body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', 'SolaimanLipi', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* Navbar & Glowing Title */
+        /* নেভিগেশন বার */
         .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
         .navbar h1 { font-size: 24px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 15px var(--primary); }
         
+        /* সার্চ বার */
         .search-container { position: relative; max-width: 400px; margin: 0 auto; }
-        #movieSearch { width: 100%; padding: 12px 45px 12px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; transition: 0.3s; box-sizing: border-box; }
+        #movieSearch { width: 100%; padding: 12px 45px 12px 15px; border-radius: 25px; border: 1px solid #333; background: #222; color: #fff; outline: none; transition: 0.3s; box-sizing: border-box; font-size: 14px; }
         .search-icon { position: absolute; right: 15px; top: 12px; color: #888; transition: 0.5s; }
         #movieSearch:focus + .search-icon { color: var(--primary); transform: rotate(360deg); }
 
-        /* Movie Grid & Repeat Scroll Animation */
+        /* মুভি গ্রিড এবং এনিমেশন */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; min-height: 400px; }
         .movie-box { width: 48%; margin-bottom: 15px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .movie-card { 
@@ -32,15 +33,15 @@
         .movie-img { width: 100%; height: 100%; object-fit: cover; }
         .quality-tag { position: absolute; top: 8px; right: 8px; background: var(--primary); padding: 3px 8px; font-size: 10px; border-radius: 4px; font-weight: bold; }
 
-        /* Full Screen Movie Details Page */
+        /* মুভি ডিটেইলস পেজ (ফুল স্ক্রিন) */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; padding: 20px; box-sizing: border-box; }
         .movie-info-header { text-align: center; }
         .movie-info-header img { width: 180px; border-radius: 15px; border: 2px solid var(--primary); box-shadow: 0 0 20px rgba(229, 9, 20, 0.4); }
-        .movie-desc { background: #1a1a1a; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--primary); color: #ccc; }
+        .movie-desc { background: #1a1a1a; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--primary); color: #ccc; font-size: 14px; }
         .screenshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
         .screenshot-grid img { width: 100%; border-radius: 8px; border: 1px solid #333; }
 
-        /* Professional 5s Waiting Popup */
+        /* প্রফেশনাল ৫ সেকেন্ডের ওয়েটিং পপআপ */
         #downloadModal {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 85%; max-width: 320px; background: #161616; z-index: 3000; padding: 30px; 
@@ -48,18 +49,18 @@
         }
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 2500; backdrop-filter: blur(5px); }
 
-        /* Professional Progress Ring */
+        /* প্রগ্রেস রিং */
         .progress-ring { position: relative; width: 80px; height: 80px; margin: 0 auto 20px; }
         .progress-ring circle { fill: transparent; stroke: #333; stroke-width: 8; stroke-dasharray: 226; stroke-dashoffset: 0; transform: rotate(-90deg); transform-origin: 50% 50%; }
         .progress-ring .progress-bar { stroke: var(--success); stroke-dashoffset: 226; transition: stroke-dashoffset 1s linear; }
         #timer { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; font-weight: bold; color: var(--success); }
 
-        .dl-trigger-btn { background: linear-gradient(135deg, var(--primary), #900); color: #fff; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; margin-top: 20px; box-shadow: 0 10px 15px -3px rgba(229, 9, 20, 0.3); }
-        .back-btn { background: #222; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 30px; cursor: pointer; margin-bottom: 20px; }
+        .dl-trigger-btn { background: linear-gradient(135deg, var(--primary), #900); color: #fff; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; margin-top: 20px; }
+        .back-btn { background: #222; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 30px; cursor: pointer; margin-bottom: 20px; font-size: 14px; }
 
-        /* Pagination & Layout */
+        /* প্যাগিনেশন এবং লেআউট */
         .pagination { display: flex; justify-content: center; padding: 30px; gap: 15px; }
-        .page-btn { background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px 25px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .page-btn { background: #111; color: #fff; border: 1px solid var(--primary); padding: 10px 25px; border-radius: 8px; cursor: pointer; }
         .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         .request-btn { background: #222; color: #fff; padding: 14px 30px; border-radius: 35px; border: 1px solid var(--primary); text-decoration: none; display: inline-block; margin-bottom: 50px; font-weight: bold; }
 
@@ -70,9 +71,9 @@
 
     <div id="mainPage">
         <div class="navbar">
-            <h1>🎬 Pritam Movie Zone</h1>
+            <h1>🎬 প্রীতম মুভি জোন</h1>
             <div class="search-container">
-                <input type="text" id="movieSearch" placeholder="Search premium movies..." onkeyup="searchMovie()">
+                <input type="text" id="movieSearch" placeholder="পছন্দের মুভিটি খুঁজুন..." onkeyup="searchMovie()">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
             </div>
         </div>
@@ -80,17 +81,17 @@
         <div class="movie-grid" id="movieList"></div>
 
         <div class="pagination">
-            <button class="page-btn" id="prevBtn" onclick="changePage(-1)">Previous</button>
-            <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next Page</button>
+            <button class="page-btn" id="prevBtn" onclick="changePage(-1)">আগের পাতা</button>
+            <button class="page-btn" id="nextBtn" onclick="changePage(1)">পরের পাতা</button>
         </div>
 
         <div style="text-align: center;">
-            <a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" class="request-btn">Request a Movie</a>
+            <a href="https://forms.gle/R3ybhBxp9HuWyzbHA" target="_blank" class="request-btn"><i class="fa-solid fa-paper-plane"></i> মুভি রিকোয়েস্ট করুন</a>
         </div>
     </div>
 
     <div id="detailsPage">
-        <button class="back-btn" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i> Back to Gallery</button>
+        <button class="back-btn" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i> গ্যালারিতে ফিরে যান</button>
         <div id="detailsContent"></div>
     </div>
 
@@ -103,20 +104,21 @@
             </svg>
             <div id="timer">5</div>
         </div>
-        <h3 style="margin:0; color:#fff; font-size:18px;">Securing Connection...</h3>
-        <p style="color:#888; font-size:13px; margin: 10px 0;">Your download link is being generated securely.</p>
-        <div id="startMsg" style="display:none; color:var(--success); font-weight:bold; animation: pulse 1s infinite;">Redirecting Now...</div>
+        <h3 style="margin:0; color:#fff; font-size:18px;">লিঙ্কটি তৈরি হচ্ছে...</h3>
+        <p style="color:#888; font-size:13px; margin: 10px 0;">আপনার ফাইলটি সুরক্ষিতভাবে প্রস্তুত করা হচ্ছে।</p>
+        <div id="startMsg" style="display:none; color:var(--success); font-weight:bold;">ডাউনলোড শুরু হচ্ছে...</div>
     </div>
 
     <script>
+        // ডেমো মুভি ডেটা (৪০টি কার্ড)
         const allMovies = [];
         for (let i = 1; i <= 40; i++) {
             allMovies.push({
                 id: i,
-                title: `Premium Movie ${i}`,
+                title: `অ্যাকশন মুভি ${i}`,
                 img: "https://i.ibb.co/KpCT91TG/bp-new.webp",
-                quality: i % 2 === 0 ? "4K UHD" : "1080p HD",
-                desc: `Experience the best of cinema with Movie ${i}. Featuring high-bitrate audio and stunning visuals. Exclusive on Pritam Movie Zone.`,
+                quality: i % 2 === 0 ? "4K আল্ট্রা HD" : "1080p ফুল HD",
+                desc: `মুভি ${i} এর এক দুর্দান্ত অভিজ্ঞতা নিন। এতে রয়েছে হাই-কোয়ালিটি অডিও এবং চমৎকার সব দৃশ্য। শুধুমাত্র প্রীতম মুভি জোনে।`,
                 ss: ["https://i.ibb.co/KpCT91TG/bp-new.webp", "https://i.ibb.co/KpCT91TG/bp-new.webp", "https://i.ibb.co/KpCT91TG/bp-new.webp", "https://i.ibb.co/KpCT91TG/bp-new.webp"],
                 link: "https://file-to-link-2-64f1046bd8ac.herokuapp.com/dl/6961697dd57e3c3d063120c0"
             });
@@ -188,10 +190,10 @@
                     <h2 style="margin: 15px 0 5px;">${movie.title}</h2>
                     <p style="color:var(--primary); font-weight:bold;">${movie.quality}</p>
                 </div>
-                <div class="movie-desc"><strong>Synopsis:</strong><br>${movie.desc}</div>
-                <h4 style="margin: 25px 0 10px; border-bottom:1px solid #333; padding-bottom:5px;">Screenshots Preview</h4>
+                <div class="movie-desc"><strong>মুভির কাহিনী সংক্ষেপ:</strong><br>${movie.desc}</div>
+                <h4 style="margin: 25px 0 10px; border-bottom:1px solid #333; padding-bottom:5px;">স্ক্রিনশট প্রিভিউ</h4>
                 <div class="screenshot-grid">${ssHtml}</div>
-                <button class="dl-trigger-btn" onclick="openDownloadModal('${movie.link}')"><i class="fa-solid fa-cloud-arrow-down"></i> GET DOWNLOAD LINK</button>
+                <button class="dl-trigger-btn" onclick="openDownloadModal('${movie.link}')"><i class="fa-solid fa-cloud-arrow-down"></i> ডাউনলোড লিঙ্ক নিন</button>
             `;
         }
 
@@ -211,7 +213,6 @@
             const countdown = setInterval(() => {
                 count--;
                 timerText.innerText = count;
-                // Progress circle animation calculation
                 circle.style.strokeDashoffset = 226 - ( (5 - count) * (226 / 5) );
                 
                 if(count <= 0) {
