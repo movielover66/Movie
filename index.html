@@ -187,6 +187,7 @@
         }
         .download-now-btn:active { transform: scale(0.96); }
         @media (min-width: 768px) { .movie-box { width: 23%; } }
+        
                 /* কার্ডগুলো নিচ থেকে ভেসে ওঠার অ্যানিমেশন */
         .movie-card {
             opacity: 0;
@@ -232,9 +233,26 @@
     
     <script>
         // এখানে তুমি তোমার মুভিগুলো এক এক করে যোগ করবে
-        const allMovies = [
-            { 
-                id: 1, 
+function revealCards() {
+    const cards = document.querySelectorAll('.movie-card');
+    cards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        const triggerBottom = window.innerHeight - 100;
+        if(cardTop < triggerBottom) {
+            card.classList.add('show');
+        }
+    });
+}
+
+// স্ক্রল ইভেন্ট লিসেনার
+window.addEventListener('scroll', revealCards);
+// পেজ লোড হওয়ার সময় একবার কল করা (যাতে শুরুর কার্ডগুলো দেখা যায়)
+window.addEventListener('load', revealCards);
+         // লাইন ২৫১ থেকে ঠিক এভাবে লেখো
+const allMovies = [
+    {
+        id: 1,
+        
                 title: "Magha Dhira 2", 
                 time: "2026-01-10T01:01:50", 
                 img: "https://i.ibb.co/KpCT91TG/bp-new.webp", 
