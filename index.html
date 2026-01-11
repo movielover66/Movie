@@ -5,171 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>প্রীতম মুভি স্টুডিও - প্রিমিয়াম ওটিটি</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
     <style>
         :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; --card-bg: #1a1a1a; --glass: rgba(255, 255, 255, 0.1); }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* --- প্রফেশনাল অ্যানিমেটেড নেভিগেশন বার --- */
-        .navbar { 
-            background-color: #0c0c0c; 
-            padding: 20px 10px; 
-            text-align: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-            border-bottom: 1px solid #222;
-        }
+        /* অফলাইন পপ-আপ */
+        #offlineMessage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); color: white; text-align: center; z-index: 9999; padding-top: 30%; }
+        .reload-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; margin-top: 20px; cursor: pointer; }
 
-        .nav-header { 
-            margin-bottom: 20px; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .navbar h1 { 
-            font-size: 26px; 
-            margin: 0; 
-            font-weight: 900; 
-            background: linear-gradient(90deg, #ffd700, #fff, #ffd700);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
+        /* নেভিবার */
+        .navbar { background-color: #0c0c0c; padding: 20px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
+        .navbar h1 { font-size: 26px; margin: 0; font-weight: 900; background: linear-gradient(90deg, #ffd700, #fff, #ffd700); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; letter-spacing: 1px; text-transform: uppercase; }
         @keyframes shine { to { background-position: 200% center; } }
+        .navbar p { font-size: 10px; margin: 5px 0 0 0; color: #e50914; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; }
 
-        .navbar p { 
-            font-size: 10px; 
-            margin: 5px 0 0 0; 
-            color: #e50914; 
-            font-weight: bold; 
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
+        .req-notice-container { width: 100%; overflow: hidden; background: rgba(229, 9, 20, 0.1); margin-top: 10px; padding: 6px 0; border-top: 1px solid rgba(255, 215, 0, 0.1); border-bottom: 1px solid rgba(255, 215, 0, 0.1); }
+        .req-notice { display: inline-block; white-space: nowrap; font-size: 12px; color: #ffd700; font-weight: 600; animation: marquee 15s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .req-notice-container {
-            width: 100%;
-            overflow: hidden;
-            background: rgba(229, 9, 20, 0.1);
-            margin-top: 10px;
-            padding: 6px 0;
-            border-top: 1px solid rgba(255, 215, 0, 0.1);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-        }
+        .top-action-bar { display: flex; align-items: center; gap: 10px; width: 95%; margin: 15px auto 0 auto; }
+        .search-container { position: relative; flex: 1; display: flex; align-items: center; background: #1a1a1a; border: 1px solid #333; border-radius: 25px; padding: 2px 15px; }
+        #movieSearch { width: 100%; padding: 10px; border: none; background: transparent; color: #fff; outline: none; }
+        .nav-req-btn { background: #e50914; color: #fff; border: none; padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 900; cursor: pointer; }
 
-        .req-notice {
-            display: inline-block;
-            white-space: nowrap;
-            font-size: 12px;
-            color: #ffd700;
-            font-weight: 600;
-            animation: marquee 15s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .top-action-bar { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            width: 95%; 
-            margin: 15px auto 0 auto; 
-        }
-        
-        .search-container { 
-            position: relative; 
-            flex: 1; 
-            display: flex; 
-            align-items: center; 
-            background: #1a1a1a; 
-            border: 1px solid #333; 
-            border-radius: 25px; 
-            padding: 2px 15px;
-        }
-
-        .search-container i { color: #888; font-size: 14px; }
-
-        #movieSearch { 
-            width: 100%; 
-            padding: 10px; 
-            border: none; 
-            background: transparent; 
-            color: #fff; 
-            font-size: 14px; 
-            outline: none; 
-        }
-
-        .nav-req-btn { 
-            background: #e50914; 
-            color: #fff; 
-            border: none; 
-            padding: 10px 18px; 
-            border-radius: 20px; 
-            font-size: 13px; 
-            font-weight: 900; 
-            white-space: nowrap; 
-            cursor: pointer;
-        }
-
-        /* --- মুভি গ্রিড এবং কার্ড ডিজাইন --- */
+        /* মুভি গ্রিড */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; gap: 10px; }
         .movie-box { width: 48%; margin-bottom: 15px; perspective: 1200px; }
-        
-        .movie-card { 
-            background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; 
-            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); 
-            opacity: 0; transform: translateY(20px);
-            height: 405px; 
-            display: flex; flex-direction: column;
-        }
+        .movie-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: all 0.8s ease; opacity: 0; transform: translateY(20px); height: 415px; display: flex; flex-direction: column; }
         .movie-card.show { opacity: 1; transform: translateY(0); }
-
-        .image-container { position: relative; width: 100%; height: 260px; min-height: 260px; overflow: hidden; }
-        .movie-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .image-container { position: relative; width: 100%; height: 260px; overflow: hidden; }
+        .movie-img { width: 100%; height: 100%; object-fit: cover; }
         
-        .half-trending-bar { 
-            position: absolute; bottom: 8px; left: 0; width: 65%; 
-            background: linear-gradient(90deg, var(--primary), #ff4d4d, transparent); 
-            color: #fff; font-size: 9px; padding: 4px 8px; font-weight: bold;
-            border-top-right-radius: 15px; border-bottom-right-radius: 15px;
-            box-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
-            z-index: 5; animation: pulse 2s infinite ease-in-out;
-        }
+        .half-trending-bar { position: absolute; bottom: 8px; left: 0; width: 65%; background: linear-gradient(90deg, #ff8c00, #ff4d4d, transparent); color: #fff; font-size: 9px; padding: 4px 8px; font-weight: bold; border-top-right-radius: 15px; border-bottom-right-radius: 15px; z-index: 5; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
         .tag-area { height: 22px; margin: 6px 0; display: flex; justify-content: center; align-items: center; }
-        
         .recent-tag { background: #ff0000; color: #fff; font-size: 10px; font-weight: bold; padding: 2px 10px; border-radius: 4px; text-transform: uppercase; }
-        
-        .newly-tag { background: #00d2ff; color: #000; font-size: 10px; font-weight: bold; padding: 2px 10px; border-radius: 4px; text-transform: uppercase; box-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
-        
-        .must-tag { background: #ff9800; color: #000; font-size: 10px; font-weight: bold; padding: 2px 10px; border-radius: 4px; text-transform: uppercase; }
-        
         .res-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--gold); padding: 3px 8px; border-radius: 5px; font-size: 9px; font-weight: bold; border: 0.5px solid var(--gold); }
-
         .upload-info { padding: 10px 5px; text-align: center; background: #111; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-        .time-text { font-size: 13px; color: #ccc; font-weight: 600; margin-bottom: 4px; display: block; opacity: 0.9; }
+        .time-text { font-size: 13px; color: #ccc; font-weight: 600; margin-bottom: 4px; display: block; }
         .movie-title { font-size: 13px; font-weight: bold; color: #ffffff; margin: 4px 0; height: 34px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; animation: slideIn 0.4s ease-out; }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        /* ডিটেইলস পেজ */
+        #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; }
         .back-btn { position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 10px; border-radius: 50%; font-size: 18px; z-index: 10; }
         .hero-banner { height: 280px; background-size: cover; background-position: center; position: relative; }
         .hero-overlay { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to top, var(--bg), transparent); }
         .content-wrap { padding: 20px; margin-top: -60px; position: relative; }
         .details-poster { width: 120px; border-radius: 12px; border: 3px solid var(--primary); }
-        .description { font-size: 13px; line-height: 1.6; color: #ccc; background: var(--glass); padding: 15px; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.05); }
-        
-        .btn-main { width: 90%; padding: 10px; border-radius: 8px; border: none; font-size: 14px; font-weight: bold; cursor: pointer; margin: 8px auto; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-sizing: border-box; }
-
+        .btn-main { width: 90%; padding: 10px; border-radius: 8px; border: none; font-size: 14px; font-weight: bold; cursor: pointer; margin: 8px auto; display: flex; align-items: center; justify-content: center; text-decoration: none; box-sizing: border-box; }
         .season-box { background: #222; border-radius: 10px; border: 1px solid #333; overflow: hidden; margin-top: 15px; }
         .season-header { padding: 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: #2a2a2a; }
         .season-content { display: none; padding: 15px; background: #1a1a1a; text-align: center; }
@@ -181,26 +69,22 @@
 </head>
 <body>
 
+    <div id="offlineMessage">
+        <i class="fa-solid fa-wifi-slash" style="font-size: 60px; color: var(--primary); margin-bottom: 20px;"></i>
+        <h2>ইন্টারনেট সংযোগ নেই!</h2>
+        <button class="reload-btn" onclick="location.reload()">আবার চেষ্টা করুন</button>
+    </div>
+
     <div id="mainPage">
         <div class="navbar">
-            <div class="nav-header">
-                <h1>🎬 প্রীতম মুভি স্টুডিও</h1>
-                <p>PREMIUM OTT PLATFORM</p>
-            </div>
-            <div class="req-notice-container">
-                <div class="req-notice">📢 রিকোয়েস্ট করার ২৪ ঘণ্টার মধ্যে মুভি পেয়ে যাবেন &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📢 রিকোয়েস্ট করার ২৪ ঘণ্টার মধ্যে মুভি পেয়ে যাবেন</div>
-            </div>
+            <div class="nav-header"><h1>🎬 প্রীতম মুভি স্টুডিও</h1><p>PREMIUM OTT PLATFORM</p></div>
+            <div class="req-notice-container"><div class="req-notice">📢 রিকোয়েস্ট করার ২৪ ঘণ্টার মধ্যে মুভি পেয়ে যাবেন &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📢 রিকোয়েস্ট করার ২৪ ঘণ্টার মধ্যে মুভি পেয়ে যাবেন</div></div>
             <div class="top-action-bar">
-                <div class="search-container">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="movieSearch" placeholder="মুভি খুঁজুন..." onkeyup="searchMovie()">
-                </div>
+                <div class="search-container"><i class="fas fa-search"></i><input type="text" id="movieSearch" placeholder="মুভি খুঁজুন..." onkeyup="searchMovie()"></div>
                 <button class="nav-req-btn" onclick="window.open('https://forms.gle/V5RG8aAoV5UW6P287')">রিকোয়েস্ট</button>
             </div>
         </div>
-
         <div class="movie-grid" id="movieList"></div>
-
         <div class="pagination">
             <button class="page-btn" id="prevBtn" onclick="changePage(-1)">পেছনে</button>
             <span id="pageNumber">Page 1</span>
@@ -215,42 +99,45 @@
     </div>
 
     <script>
-        const allMovies = [
-            { 
-                id: 12, title: "She (Season 1,2&3) NetFlix", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/YMDfnHowqwi4xRwbZhyFuz15J8.jpg", 
-                uploadTime: "2026-01-11T18:28:00", res: "WEB-DL", lang: "Hindi", year: "2022", rating: "8.8", 
-                desc: "She (2020-2022) NetFlix Web Series.",
-                seasons: [
-                    { name:"Season 01", dl: "https://new5.cinecloud.site/f/dbdf0dc4", watch: "https://new5.cinecloud.site/v/dbdf0dc4" },
-                    { name:"Season 02", dl: "#", watch: "#" },
-                    { name:"Season 03", dl: "#", watch: "#" },
-                ]
-            },
-            { id: 1, title: "Aa Khanda 2 (2026)", img: "https://image2url.com/r2/bucket2/images/1768068439676-894c0955-d1cc-4e9f-b7e1-e1d12ece7ba1.jpg", uploadTime: "2026-01-11T00:08:15", res: "1080p WEB-DL", lang: "Hindi Dubbed", year: "2026", rating: "9.5", desc: "Aa Khanda 2 Full Movie.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/8a63a1ab", watch: "https://new5.cinecloud.site/v/8a63a1ab" }] },
-            { id: 11, title: "Dragon (2025) 1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/sKO0EFi0aSdKZXZxqjTunLlNdjU.jpg", uploadTime: "2026-01-10T18:28:00", res: "1080p MKV", lang: "Hindi", year: "2025", rating: "8.8", desc: "Dragon 2025 NF.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/1f04e6c9", watch: "https://new5.cinecloud.site/v/1f04e6c9" }] },
-            { id: 13, title: "Hawa (2022) WEB-DL", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/19JrYJIicR7vqiDmjdsTRXUHMFK.jpg", uploadTime: "2026-01-10T10:09:48", res: "1080p WEB-DL", lang: "Bengali", year: "2022", rating: "7.6", desc: "Hawa 2022 Full Movie.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/w/c00f0359", watch: "https://new5.cinecloud.site/v/c00f0359" }] },
-            { id: 2, title: "Raja Saab (2026) HD-1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/qTSqltjLzEmXTOohqRW3c2uSBIP.jpg", uploadTime: "2026-01-10T23:08:20", res: "1080p HD MKV", lang: "Hindi", year: "2025", rating: "8.0", desc: "Raja Saab.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/402ccae3", watch: "https://new5.cinecloud.site/v/402ccae3" }] },
-            { id: 3, title: "Kaal Ratri 2 Sesan-2 EP 01-07", img: "https://image2url.com/r2/bucket2/images/1768099928842-c2bcba63-fad1-4d7c-ac4e-79d5ffd4db50.webp", uploadTime: "2026-01-10T22:08:30", res: "4K-2160p", lang: "Bengali", year: "2026", rating: "7.5", desc: "Kaalratri S02.", seasons: [{ name: "S02 Pack", dl: "https://new5.cinecloud.site/f/44f60a48", watch: "https://new5.cinecloud.site/v/44f60a48" }] },
-            { id: 4, title: "Eko (2025) Hindi Dubbed 4k-2160p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/wwTRcagd2QZ36JuFQnWBbXs40YM.jpg", uploadTime: "2026-01-10T21:08:33", res: "4K-2060p", lang: "Hindi", year: "2025", rating: "8.2", desc: "Eko.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/47c7382a", watch: "https://new5.cinecloud.site/v/47c7382a" }] },
-            { 
-                id: 5, title: "Dude (2025) Hindi Dubbed 4K-2160p", 
-                img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/6UVxW4ktk5050j1VPb7mOKhT6Es.jpg", 
-                uploadTime: "2026-01-05T08:50:00", // এটি ৭২ ঘণ্টার বেশি পুরনো (৫ই জানুয়ারি)
-                res: "4K-2060p", lang: "Hindi Dubbed", year: "2025", rating: "8.5", 
-                desc: "Dude.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/1a0f2c98", watch: "https://new5.cinecloud.site/v/1a0f2c98" }] 
-            }
-        ];
+        const firebaseConfig = {
+            apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI",
+            authDomain: "pritam-ott.firebaseapp.com",
+            databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com",
+            projectId: "pritam-ott",
+            storageBucket: "pritam-ott.firebasestorage.app",
+            messagingSenderId: "8916733532",
+            appId: "1:8916733532:web:8b1143a7352770ff7e6099"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-        let filteredMovies = [...allMovies];
+        let allMovies = []; 
+        let filteredMovies = [];
         let currentPage = 1;
-        const moviesPerPage = 10;
+        let globalClicks = {};
+
+        // ফায়ারবেস থেকে মুভি ডাটা লোড
+        db.ref('movies').on('value', (snapshot) => {
+            const data = snapshot.val();
+            allMovies = [];
+            for (let id in data) {
+                allMovies.push({ id: id, ...data[id] });
+            }
+            allMovies.reverse(); 
+            filteredMovies = [...allMovies];
+            displayMovies();
+        });
+
+        // ক্লিক শোনা
+        db.ref('movieClicks').on('value', (snap) => {
+            globalClicks = snap.val() || {};
+            displayMovies();
+        });
 
         function timeAgo(date) {
             const seconds = Math.floor((new Date() - new Date(date)) / 1000);
-            if (seconds < 60) return "সবেমাত্র";
-            let interval = Math.floor(seconds / 86400);
-            if (interval >= 1) return interval + " দিন আগে";
-            interval = Math.floor(seconds / 3600);
+            if (seconds < 60 || isNaN(seconds)) return "সবেমাত্র";
+            let interval = Math.floor(seconds / 3600);
             if (interval >= 1) return interval + " ঘণ্টা আগে";
             interval = Math.floor(seconds / 60);
             return interval + " মিনিট আগে";
@@ -258,106 +145,44 @@
 
         function displayMovies() {
             const list = document.getElementById('movieList');
-            list.innerHTML = "";
-            const start = (currentPage - 1) * moviesPerPage;
-            const end = start + moviesPerPage;
-            const paginated = filteredMovies.slice(start, end);
-
-            list.innerHTML = paginated.map((movie) => {
-                const isTrending = (allMovies.indexOf(movie) < 8) ? `<div class="half-trending-bar">🔥 Trending</div>` : "";
-                const uploadDate = new Date(movie.uploadTime);
-                const diffHours = (new Date() - uploadDate) / (1000 * 60 * 60);
-                
-                let tagHtml = "";
-                if (diffHours < 24) {
-                    tagHtml = `<div class="recent-tag">Recently Added</div>`;
-                } else if (diffHours < 72) {
-                    tagHtml = `<div class="newly-tag">Newly Added</div>`;
-                } else {
-                    tagHtml = `<div class="must-tag">Must Watch</div>`;
-                }
-
+            const start = (currentPage - 1) * 10;
+            const paginated = filteredMovies.slice(start, start + 10);
+            list.innerHTML = paginated.map((movie, idx) => {
+                const clicks = globalClicks[movie.id] || 0;
+                const trending = (clicks >= 10 || idx < 3) ? `<div class="half-trending-bar">🔥 Trending</div>` : "";
                 return `
-                <div class="movie-box" onclick="showDetails(${movie.id})"> 
-                    <div class="movie-card">
-                        <div class="image-container">
-                            <img src="${movie.img}" class="movie-img">
-                            ${isTrending}
-                            <div class="res-badge">${movie.res}</div>
-                        </div>
-                        <div class="upload-info">
-                            <div>
-                                <span class="time-text">${timeAgo(movie.uploadTime)}</span>
-                                <div class="tag-area">${tagHtml}</div>
-                                <div class="movie-title">${movie.title}</div>
-                            </div>
-                        </div>
+                <div class="movie-box" onclick="showDetails('${movie.id}')"> 
+                    <div class="movie-card show">
+                        <div class="image-container"><img src="${movie.img}" class="movie-img">${trending}<div class="res-badge">${movie.res}</div></div>
+                        <div class="upload-info"><span class="time-text">${timeAgo(movie.uploadTime)}</span><div class="tag-area"><div class="recent-tag">Must Watch</div></div><div class="movie-title">${movie.title}</div></div>
                     </div>
                 </div>`;
             }).join('');
-            
             document.getElementById('pageNumber').innerText = `Page ${currentPage}`;
             document.getElementById('prevBtn').disabled = (currentPage === 1);
-            document.getElementById('nextBtn').disabled = (end >= filteredMovies.length);
-            setTimeout(revealCards, 100);
+            document.getElementById('nextBtn').disabled = (start + 10 >= filteredMovies.length);
         }
 
         function showDetails(id) {
+            db.ref('movieClicks/' + id).transaction(c => (c || 0) + 1);
             const movie = allMovies.find(m => m.id === id);
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('detailsPage').style.display = 'block';
             window.scrollTo(0,0);
-
-            let seasonHtml = movie.seasons.map((s, index) => `
-                <div class="season-box">
-                    <div class="season-header" onclick="toggleSeason('s${index}')">
-                        <span style="color:var(--gold); font-weight:bold;">${s.name} - [${movie.lang}]</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="season-content" id="s${index}">
-                        <a href="${s.dl}" class="btn-main" style="background:#00bcd4; color:#fff;" target="_blank"><i class="fa-solid fa-download"></i> DOWNLOAD ${s.name.toUpperCase()}</a>
-                        <a href="${s.watch}" class="btn-main" style="background:#ff007f; color:#fff;" target="_blank"><i class="fa-solid fa-play"></i> WATCH ONLINE</a>
-                    </div>
-                </div>
-            `).join('');
-
-            document.getElementById('detailsContent').innerHTML = `
-                <div class="hero-banner" style="background-image: url('${movie.img}')"><div class="hero-overlay"></div></div>
-                <div class="content-wrap">
-                    <img src="${movie.img}" class="details-poster">
-                    <h2>${movie.title}</h2>
-                    <div style="color:var(--gold); margin:10px 0;">★ ${movie.rating} | ${movie.year} | ${movie.res}</div>
-                    <div class="description">${movie.desc}</div>
-                    ${seasonHtml}
-                </div>`;
+            let sHtml = "";
+            if(movie.seasons) {
+                sHtml = movie.seasons.map((s, i) => `<div class="season-box"><div class="season-header" onclick="toggleS('s${i}')"><span>${s.name || 'Full Movie'}</span><i class="fa-solid fa-chevron-down"></i></div><div class="season-content" id="s${i}"><a href="${s.dl}" class="btn-main" style="background:#00bcd4; color:#fff;" target="_blank">DOWNLOAD</a><a href="${s.watch}" class="btn-main" style="background:#ff007f; color:#fff;" target="_blank">WATCH ONLINE</a></div></div>`).join('');
+            }
+            document.getElementById('detailsContent').innerHTML = `<div class="hero-banner" style="background-image: url('${movie.img}')"><div class="hero-overlay"></div></div><div class="content-wrap"><img src="${movie.img}" class="details-poster"><h2>${movie.title}</h2><div style="color:var(--gold); margin:10px 0;">★ ${movie.rating || 'N/A'} | ${movie.year || ''}</div>${sHtml}</div>`;
         }
 
-        function toggleSeason(id) {
-            const content = document.getElementById(id);
-            const isVisible = content.style.display === "block";
-            document.querySelectorAll('.season-content').forEach(el => el.style.display = 'none');
-            content.style.display = isVisible ? "none" : "block";
-        }
-
-        function searchMovie() {
-            const term = document.getElementById('movieSearch').value.toLowerCase();
-            filteredMovies = allMovies.filter(m => m.title.toLowerCase().includes(term));
-            currentPage = 1;
-            displayMovies();
-        }
-
-        function revealCards() {
-            const cards = document.querySelectorAll('.movie-card');
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                if(rect.top < window.innerHeight - 30) card.classList.add('show');
-            });
-        }
-
+        function toggleS(id) { const el = document.getElementById(id); el.style.display = (el.style.display === "block") ? "none" : "block"; }
+        function searchMovie() { const term = document.getElementById('movieSearch').value.toLowerCase(); filteredMovies = allMovies.filter(m => m.title.toLowerCase().includes(term)); currentPage = 1; displayMovies(); }
         function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
         function changePage(step) { currentPage += step; displayMovies(); window.scrollTo(0,0); }
-        window.addEventListener('scroll', revealCards);
-        displayMovies();
+        function checkStatus() { document.getElementById('offlineMessage').style.display = navigator.onLine ? 'none' : 'block'; }
+        window.addEventListener('offline', checkStatus); window.addEventListener('online', checkStatus);
+        checkStatus();
     </script>
 </body>
 </html>
