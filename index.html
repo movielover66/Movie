@@ -9,7 +9,6 @@
         :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; --card-bg: #1a1a1a; --glass: rgba(255, 255, 255, 0.1); }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* নেভিবার - স্লিম ডিজাইন */
         .navbar { background-color: #111; border-bottom: 2px solid var(--primary); padding: 12px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
         .navbar h1 { font-size: 18px; margin: 0 0 10px 0; font-weight: 900; color: var(--gold); }
         .top-action-bar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 95%; margin: 0 auto; }
@@ -17,39 +16,52 @@
         #movieSearch { width: 100%; padding: 8px 30px 8px 12px; border-radius: 20px; border: 1px solid #333; background: #222; color: #fff; font-size: 13px; outline: none; box-sizing: border-box; }
         .nav-req-btn { background: #0088cc; color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; white-space: nowrap; }
 
-        /* ৩ডি মুভি গ্রিড ও অ্যানিমেশন */
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; gap: 10px; }
-        .movie-box { width: 48%; margin-bottom: 10px; perspective: 1200px; }
+        .movie-box { width: 48%; margin-bottom: 15px; perspective: 1200px; }
         .movie-card { 
-            background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #222; 
+            background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; 
             transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); 
-            opacity: 0; transform: translateX(-100px) rotateY(-30deg) scale(0.9);
-            transform-style: preserve-3d;
+            opacity: 0; transform: translateY(20px);
         }
-        .movie-card.show { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
+        .movie-card.show { opacity: 1; transform: translateY(0); }
 
-        /* ইমেজ কার্ড জুড়ে */
-        .image-container { position: relative; width: 100%; height: 250px; overflow: hidden; }
+        /* কার্ড লম্বা করার জন্য হাইট সেট করা হয়েছে */
+        .image-container { position: relative; width: 100%; height: 260px; overflow: hidden; }
         .movie-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         
-        /* প্রিমিয়াম হাফ ট্রেন্ডিং বার */
+        /* ট্রেন্ডিং অ্যানিমেশন */
         .half-trending-bar { 
             position: absolute; bottom: 8px; left: 0; width: 65%; 
             background: linear-gradient(90deg, var(--primary), #ff4d4d, transparent); 
             color: #fff; font-size: 9px; padding: 4px 8px; font-weight: bold;
             border-top-right-radius: 15px; border-bottom-right-radius: 15px;
-            box-shadow: 5px 0 15px rgba(229, 9, 20, 0.5);
-            animation: slideGlow 1.5s infinite alternate; z-index: 5; 
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
+            z-index: 5; 
+            overflow: hidden;
+            animation: pulse 2s infinite ease-in-out;
         }
-        @keyframes slideGlow { from { filter: brightness(1); } to { filter: brightness(1.4); } }
+
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        /* Recently Added ট্যাগ ডিজাইন */
+        .recent-tag {
+            background: #ff0000;
+            color: #fff;
+            font-size: 9px;
+            font-weight: bold;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 5px 0;
+            text-transform: uppercase;
+        }
         
-        .res-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--gold); padding: 2px 6px; border-radius: 5px; font-size: 9px; font-weight: bold; border: 0.5px solid var(--gold); }
+        .res-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--gold); padding: 3px 8px; border-radius: 5px; font-size: 9px; font-weight: bold; border: 0.5px solid var(--gold); }
 
         .upload-info { padding: 8px 5px; text-align: center; background: #111; }
-        .time-text { font-size: 9px; color: #00ff88; font-weight: bold; }
-        .movie-title { font-size: 11px; font-weight: bold; color: #eee; margin: 2px 0; height: 30px; overflow: hidden; line-height: 1.2; }
+        .time-text { font-size: 10px; color: #aaa; font-weight: normal; margin-bottom: 2px; }
+        .movie-title { font-size: 13px; font-weight: bold; color: #ffffff; margin: 4px 0; height: 34px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-        /* ডিটেইলস পেজ */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; animation: slideIn 0.4s ease-out; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
         .back-btn { position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 10px; border-radius: 50%; font-size: 18px; z-index: 10; }
@@ -58,7 +70,12 @@
         .content-wrap { padding: 20px; margin-top: -60px; position: relative; }
         .details-poster { width: 120px; border-radius: 12px; border: 3px solid var(--primary); }
         .description { font-size: 13px; line-height: 1.6; color: #ccc; background: var(--glass); padding: 15px; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.05); }
-        .btn-main { width: 100%; padding: 15px; border-radius: 12px; border: none; font-size: 15px; font-weight: bold; cursor: pointer; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        
+        .btn-main { width: 90%; padding: 10px; border-radius: 8px; border: none; font-size: 14px; font-weight: bold; cursor: pointer; margin: 8px auto; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-sizing: border-box; }
+
+        .season-box { background: #222; border-radius: 10px; border: 1px solid #333; overflow: hidden; margin-top: 15px; }
+        .season-header { padding: 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: #2a2a2a; }
+        .season-content { display: none; padding: 10px 0; background: #1a1a1a; text-align: center; }
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 12px; }
@@ -70,12 +87,12 @@
     <div id="mainPage">
         <div class="navbar">
             <h1>🎬 প্রীতম মুভি স্টুডিও</h1>
-                    <div class="top-action-bar">
-            <div class="search-container">
-                <input type="text" id="movieSearch" placeholder="মুভি খুঁজুন..." onkeyup="searchMovie()">
+            <div class="top-action-bar">
+                <div class="search-container">
+                    <input type="text" id="movieSearch" placeholder="মুভি খুঁজুন..." onkeyup="searchMovie()">
+                </div>
+                <button class="nav-req-btn" onclick="window.open('https://forms.gle/V5RG8aAoV5UW6P287')">রিকোয়েস্ট</button>
             </div>
-            <button class="nav-req-btn" onclick="window.open('https://forms.gle/V5RG8aAoV5UW6P287')">রিকোয়েস্ট</button>
-         </div>
         </div>
         <div class="movie-grid" id="movieList"></div>
         <div class="pagination">
@@ -92,22 +109,28 @@
     </div>
 
     <script>
-        // ৪০টি মুভির রিয়েল স্লট
         const allMovies = [
-            { id: 13, title: "Hawa (2022) WEB-DL", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/19JrYJIicR7vqiDmjdsTRXUHMFK.jpg", uploadTime: "2026-01-10T10:09:48", res: "1080p WEB-DL", lang: "Bengali", year: "2022", rating: "7.6", desc: "Hawa 2022 DP WEB-DL [Bengali] 480p, 720p & 1080p Full Movie Download | GDRive | ESub | ", watchUrl: "https://new5.cinecloud.site/v/c00f0359", dlUrl: "https://new5.cinecloud.site/w/c00f0359" },
-            { id: 11, title: "Dragon (2025) 1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/sKO0EFi0aSdKZXZxqjTunLlNdjU.jpg", uploadTime: "2026-01-10T18:28:00", res: "1080p MKV", lang: "Hindi", year: "2025", rating: "8.8", desc: "Dragon 2025 NF WEB-DL [Hindi Dubbed] 480p, 720p & 1080p Full Movie Download | GDRive | ESub", watchUrl: "https://new5.cinecloud.site/v/1f04e6c9", dlUrl: "https://new5.cinecloud.site/f/1f04e6c9" },
-            { id: 1, title: "Aa Khanda 2 (2026)", img: "https://image2url.com/r2/bucket2/images/1768068439676-894c0955-d1cc-4e9f-b7e1-e1d12ece7ba1.jpg", uploadTime: "2026-01-11T00:08:15", res: "1080p WEB-DL", lang: "Hindi Dubbed", year: "2026", rating: "9.5", desc: "অসাধারণ অ্যাকশন মুভি Aa Khanda 2। এখনই উপভোগ করুন হাই কোয়ালিটিতে।", watchUrl: "https://new5.cinecloud.site/v/8a63a1ab", dlUrl: "https://new5.cinecloud.site/f/8a63a1ab" },
-            { id: 2, title: "Raja Saab (2026) HD-1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/qTSqltjLzEmXTOohqRW3c2uSBIP.jpg", uploadTime: "2026-01-10T23:08:20", res: "1080p HD MKV", lang: "Hindi", year: "2025", rating: "8.0", desc: "মুভির বর্ণনা...", watchUrl: "https://new5.cinecloud.site/v/402ccae3", dlUrl: "https://new5.cinecloud.site/f/402ccae3" },
-            { id: 3, title: "Kaal Ratri 2 Sesan-2 EP 01-07", img: "https://image2url.com/r2/bucket2/images/1768099928842-c2bcba63-fad1-4d7c-ac4e-79d5ffd4db50.webp", uploadTime: "2026-01-10T22:08:30", res: "4K-2160p", lang: "Bengali", year: "2026", rating: "7.5", desc: " Kaalratri (2026) S02 WEB-DL [Bengali] Hoichoi 4K-2160p.mkv", watchUrl: "https://new5.cinecloud.site/v/44f60a48", dlUrl: "https://new5.cinecloud.site/f/44f60a48" },
-            { id: 4, title: "Eko (2025) Hindi Dubbed 4k-2160p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/wwTRcagd2QZ36JuFQnWBbXs40YM.jpg", uploadTime: "2026-01-10T21:08:33", res: "4K-2060p", lang: "Hindi", year: "2025", rating: "8.2", desc: "Eko (2025) Hindi Dubbed [Hindi & Malayalam] WEB-DL 480p, 720p, 1080p & 4K-2160p | Full Movie Download & Watch Online – Netflix | GDrive | ESub", watchUrl: "https://new5.cinecloud.site/v/47c7382a", dlUrl: "https://new5.cinecloud.site/f/47c7382a" },
-            { id: 5, title: "Dude (2025) Hindi Dubbed 4K-2160p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/6UVxW4ktk5050j1VPb7mOKhT6Es.jpg", uploadTime: "2026-01-10T08:50:00", res: "4K-2060p", lang: "Hindi Dubbed", year: "2025", rating: "8.5", desc: "Dude (2025) Hindi Dubbed [Hindi & Tamil] WEB-DL 480p, 720p, 1080p & 4K-2160p | Full Movie Download & Watch Online – Netflix | GDrive | ESub", watchUrl: "https://new5.cinecloud.site/v/1a0f2c98", dlUrl: "https://new5.cinecloud.site/f/1a0f2c98" },
-            { id: 6, title: "Movie Name 6", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T19:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "9.0", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 7, title: "Movie Name 7", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T18:00:00", res: "1080p", lang: "English", year: "2024", rating: "7.8", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 8, title: "Movie Name 8", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T17:00:00", res: "720p", lang: "Dubbed", year: "2024", rating: "8.1", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 9, title: "Movie Name 9", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T16:00:00", res: "1080p", lang: "Hindi", year: "2024", rating: "8.4", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 10, title: "Movie Name 10", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T15:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "মুভির বর্ণনা...", watchUrl: "#", dlUrl: "#" },
-            { id: 12, title: " She Sesan-1 EP-01/07 (2025) 1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/YMDfnHowqwi4xRwbZhyFuz15J8.jpg", uploadTime: "2026-01-10T18:28:00", res: "WEB-DL", lang: "Hindi", year: "2025", rating: "8.8", desc: "She 2020 (Season 1 & 2) WEB-DL {Hindi} NetFlix Web Series Download", watchUrl: "", dlUrl: "https://new5.cinecloud.site/w/dbdf0dc4" },
-            // প্রীতম, একইভাবে ১১ থেকে ৪০ পর্যন্ত স্লট বাড়াতে পারবে...
+            { 
+                id: 12, title: "She (Season 1 & 2) NetFlix", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/YMDfnHowqwi4xRwbZhyFuz15J8.jpg", 
+                uploadTime: "2026-01-10T18:28:00", res: "WEB-DL", lang: "Hindi", year: "2022", rating: "8.8", 
+                desc: "She (2020-2022) NetFlix Web Series. Follows an undercover assignment to expose a drug ring.",
+                seasons: [
+                    { name: "Season 01", dl: "https://new5.cinecloud.site/f/dbdf0dc4", watch: "https://new5.cinecloud.site/v/dbdf0dc4" },
+                    { name: "Season 02", dl: "#", watch: "#" } 
+                ]
+            },
+            { id: 13, title: "Hawa (2022) WEB-DL", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/19JrYJIicR7vqiDmjdsTRXUHMFK.jpg", uploadTime: "2026-01-10T10:09:48", res: "1080p WEB-DL", lang: "Bengali", year: "2022", rating: "7.6", desc: "Hawa 2022 DP WEB-DL [Bengali] Full Movie Download.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/w/c00f0359", watch: "https://new5.cinecloud.site/v/c00f0359" }] },
+            { id: 11, title: "Dragon (2025) 1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/sKO0EFi0aSdKZXZxqjTunLlNdjU.jpg", uploadTime: "2026-01-10T18:28:00", res: "1080p MKV", lang: "Hindi", year: "2025", rating: "8.8", desc: "Dragon 2025 NF WEB-DL [Hindi Dubbed].", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/1f04e6c9", watch: "https://new5.cinecloud.site/v/1f04e6c9" }] },
+            { id: 1, title: "Aa Khanda 2 (2026)", img: "https://image2url.com/r2/bucket2/images/1768068439676-894c0955-d1cc-4e9f-b7e1-e1d12ece7ba1.jpg", uploadTime: "2026-01-11T00:08:15", res: "1080p WEB-DL", lang: "Hindi Dubbed", year: "2026", rating: "9.5", desc: "Aa Khanda 2।", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/8a63a1ab", watch: "https://new5.cinecloud.site/v/8a63a1ab" }] },
+            { id: 2, title: "Raja Saab (2026) HD-1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/qTSqltjLzEmXTOohqRW3c2uSBIP.jpg", uploadTime: "2026-01-10T23:08:20", res: "1080p HD MKV", lang: "Hindi", year: "2025", rating: "8.0", desc: "মুভির বর্ণনা...", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/402ccae3", watch: "https://new5.cinecloud.site/v/402ccae3" }] },
+            { id: 3, title: "Kaal Ratri 2 Sesan-2 EP 01-07", img: "https://image2url.com/r2/bucket2/images/1768099928842-c2bcba63-fad1-4d7c-ac4e-79d5ffd4db50.webp", uploadTime: "2026-01-10T22:08:30", res: "4K-2160p", lang: "Bengali", year: "2026", rating: "7.5", desc: "Kaalratri S02 Hoichoi.", seasons: [{ name: "S02 Full Pack", dl: "https://new5.cinecloud.site/f/44f60a48", watch: "https://new5.cinecloud.site/v/44f60a48" }] },
+            { id: 4, title: "Eko (2025) Hindi Dubbed 4k-2160p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/wwTRcagd2QZ36JuFQnWBbXs40YM.jpg", uploadTime: "2026-01-10T21:08:33", res: "4K-2060p", lang: "Hindi", year: "2025", rating: "8.2", desc: "Eko Hindi Dubbed.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/47c7382a", watch: "https://new5.cinecloud.site/v/47c7382a" }] },
+            { id: 5, title: "Dude (2025) Hindi Dubbed 4K-2160p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/6UVxW4ktk5050j1VPb7mOKhT6Es.jpg", uploadTime: "2026-01-10T08:50:00", res: "4K-2060p", lang: "Hindi Dubbed", year: "2025", rating: "8.5", desc: "Dude Hindi Dubbed.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/1a0f2c98", watch: "https://new5.cinecloud.site/v/1a0f2c98" }] },
+            { id: 6, title: "Movie Name 6", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T19:00:00", res: "4K", lang: "Hindi", year: "2025", rating: "9.0", desc: "মুভির বর্ণনা...", seasons: [{ name: "Full Movie", dl: "#", watch: "#" }] },
+            { id: 7, title: "Movie Name 7", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T18:00:00", res: "1080p", lang: "English", year: "2024", rating: "7.8", desc: "মুভির বর্ণনা...", seasons: [{ name: "Full Movie", dl: "#", watch: "#" }] },
+            { id: 8, title: "Movie Name 8", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T17:00:00", res: "720p", lang: "Dubbed", year: "2024", rating: "8.1", desc: "মুভির বর্ণনা...", seasons: [{ name: "Full Movie", dl: "#", watch: "#" }] },
+            { id: 9, title: "Movie Name 9", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T16:00:00", res: "1080p", lang: "Hindi", year: "2024", rating: "8.4", desc: "মুভির বর্ণনা...", seasons: [{ name: "Full Movie", dl: "#", watch: "#" }] },
+            { id: 10, title: "Movie Name 10", img: "https://i.ibb.co/KpCT91TG/bp-new.webp", uploadTime: "2026-01-10T15:00:00", res: "4K UHD", lang: "Hindi", year: "2025", rating: "8.8", desc: "মুভির বর্ণনা...", seasons: [{ name: "Full Movie", dl: "#", watch: "#" }] }
         ];
 
         let filteredMovies = [...allMovies];
@@ -116,11 +139,11 @@
 
         function timeAgo(date) {
             const seconds = Math.floor((new Date() - new Date(date)) / 1000);
-            if (seconds < 60) return "সবেমাত্র";
+            if (seconds < 60) return "Just now";
             let interval = Math.floor(seconds / 3600);
-            if (interval >= 1) return interval + " ঘণ্টা আগে";
+            if (interval >= 1) return interval + " hours ago";
             interval = Math.floor(seconds / 60);
-            return interval + " মিনিট আগে";
+            return interval + " mins ago";
         }
 
         function displayMovies() {
@@ -131,13 +154,20 @@
             const paginated = filteredMovies.slice(start, end);
 
             list.innerHTML = paginated.map((movie, index) => {
-                const globalIndex = allMovies.findIndex(m => m.id === movie.id);
-                const trendingHtml = (globalIndex < 8) ? `<div class="half-trending-bar">🔥 Trending</div>` : "";
+                const isTrending = (allMovies.indexOf(movie) < 8) ? `<div class="half-trending-bar">🔥 Trending</div>` : "";
                 return `
                 <div class="movie-box" onclick="showDetails(${movie.id})"> 
                     <div class="movie-card">
-                        <div class="image-container"><img src="${movie.img}" class="movie-img">${trendingHtml}<div class="res-badge">${movie.res}</div></div>
-                        <div class="upload-info"><div class="time-text">${timeAgo(movie.uploadTime)}</div><div class="movie-title">${movie.title}</div></div>
+                        <div class="image-container">
+                            <img src="${movie.img}" class="movie-img">
+                            ${isTrending}
+                            <div class="res-badge">${movie.res}</div>
+                        </div>
+                        <div class="upload-info">
+                            <div class="time-text">${timeAgo(movie.uploadTime)}</div>
+                            <div class="recent-tag">Recently Added</div>
+                            <div class="movie-title">${movie.title}</div>
+                        </div>
                     </div>
                 </div>`;
             }).join('');
@@ -146,6 +176,41 @@
             document.getElementById('prevBtn').disabled = (currentPage === 1);
             document.getElementById('nextBtn').disabled = (end >= filteredMovies.length);
             setTimeout(revealCards, 100);
+        }
+
+        function showDetails(id) {
+            const movie = allMovies.find(m => m.id === id);
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('detailsPage').style.display = 'block';
+            window.scrollTo(0,0);
+
+            let seasonHtml = movie.seasons.map((s, index) => `
+                <div class="season-box">
+                    <div class="season-header" onclick="toggleSeason('s${index}')">
+                        <span style="color:var(--gold); font-weight:bold;">${s.name} - [${movie.lang}]</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="season-content" id="s${index}">
+                        <a href="${s.dl}" class="btn-main" style="background:#00bcd4; color:#fff;" target="_blank"><i class="fa-solid fa-download"></i> DOWNLOAD</a>
+                        <a href="${s.watch}" class="btn-main" style="background:#ff007f; color:#fff;" target="_blank"><i class="fa-solid fa-play"></i> WATCH ONLINE</a>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('detailsContent').innerHTML = `
+                <div class="hero-banner" style="background-image: url('${movie.img}')"><div class="hero-overlay"></div></div>
+                <div class="content-wrap">
+                    <img src="${movie.img}" class="details-poster">
+                    <h2>${movie.title}</h2>
+                    <div style="color:var(--gold); margin:10px 0;">★ ${movie.rating} | ${movie.year} | ${movie.res}</div>
+                    <div class="description">${movie.desc}</div>
+                    ${seasonHtml}
+                </div>`;
+        }
+
+        function toggleSeason(id) {
+            const content = document.getElementById(id);
+            content.style.display = (content.style.display === "block") ? "none" : "block";
         }
 
         function searchMovie() {
@@ -159,26 +224,8 @@
             const cards = document.querySelectorAll('.movie-card');
             cards.forEach(card => {
                 const rect = card.getBoundingClientRect();
-                if(rect.top < window.innerHeight - 30 && rect.bottom > 0) card.classList.add('show');
-                else card.classList.remove('show');
+                if(rect.top < window.innerHeight - 30) card.classList.add('show');
             });
-        }
-
-        function showDetails(id) {
-            const movie = allMovies.find(m => m.id === id);
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('detailsPage').style.display = 'block';
-            window.scrollTo(0,0);
-            document.getElementById('detailsContent').innerHTML = `
-                <div class="hero-banner" style="background-image: url('${movie.img}')"><div class="hero-overlay"></div></div>
-                <div class="content-wrap">
-                    <img src="${movie.img}" class="details-poster">
-                    <h2>${movie.title}</h2>
-                    <div style="color:var(--gold); margin:10px 0;">★ ${movie.rating} | ${movie.year} | ${movie.res}</div>
-                    <div class="description">${movie.desc}</div>
-                    <button class="btn-main" style="background:var(--primary); color:#fff;" onclick="window.open('${movie.watchUrl}')"><i class="fa-solid fa-play"></i> Watch Online</button>
-                    <button class="btn-main" style="background:#fff; color:#000;" onclick="window.open('${movie.dlUrl}')"><i class="fa-solid fa-download"></i> Download Now</button>
-                </div>`;
         }
 
         function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
