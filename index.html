@@ -24,9 +24,8 @@
             background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; 
             transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); 
             opacity: 0; transform: translateY(20px);
-            height: 380px; /* সম্পূর্ণ কার্ডের ফিক্সড হাইট */
-            display: flex;
-            flex-direction: column;
+            height: 390px; 
+            display: flex; flex-direction: column;
         }
         .movie-card.show { opacity: 1; transform: translateY(0); }
 
@@ -41,15 +40,10 @@
             box-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
             z-index: 5; animation: pulse 2s infinite ease-in-out;
         }
-
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* ট্যাগ না থাকলেও জায়গা খালি রাখার জন্য নির্দিষ্ট হাইট */
         .tag-area { height: 20px; margin: 5px 0; display: flex; justify-content: center; align-items: center; }
-        .recent-tag {
-            background: #ff0000; color: #fff; font-size: 9px; font-weight: bold;
-            padding: 2px 8px; border-radius: 4px; text-transform: uppercase;
-        }
+        .recent-tag { background: #ff0000; color: #fff; font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
         
         .res-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--gold); padding: 3px 8px; border-radius: 5px; font-size: 9px; font-weight: bold; border: 0.5px solid var(--gold); }
 
@@ -70,7 +64,7 @@
 
         .season-box { background: #222; border-radius: 10px; border: 1px solid #333; overflow: hidden; margin-top: 15px; }
         .season-header { padding: 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: #2a2a2a; }
-        .season-content { display: none; padding: 10px 0; background: #1a1a1a; text-align: center; }
+        .season-content { display: none; padding: 15px; background: #1a1a1a; text-align: center; }
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 12px; }
@@ -104,11 +98,24 @@
     </div>
 
     <script>
+        // Movie Database - আপনার সব মুভি এখানে আছে
         const allMovies = [
-            { id: 12, title: "She (Netflix Series)", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/YMDfnHowqwi4xRwbZhyFuz15J8.jpg", uploadTime: "2026-01-11T18:28:00", res: "WEB-DL", lang: "Hindi", year: "2022", rating: "8.8", desc: "She (2020-2022) NetFlix Web Series.", seasons: [{ name: "Season 01", dl: "#", watch: "#" }, { name: "Season 02", dl: "#", watch: "#" }] },
-            { id: 1, title: "Aa Khanda 2 (2026)", img: "https://image2url.com/r2/bucket2/images/1768068439676-894c0955-d1cc-4e9f-b7e1-e1d12ece7ba1.jpg", uploadTime: "2026-01-11T00:08:15", res: "1080p WEB-DL", lang: "Hindi Dubbed", year: "2026", rating: "9.5", desc: "Aa Khanda 2।", seasons: [{ name: "Full Movie", dl: "#", watch: "#" }] },
-            { id: 11, title: "Dragon (2025) 1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/sKO0EFi0aSdKZXZxqjTunLlNdjU.jpg", uploadTime: "2026-01-10T18:28:00", res: "1080p MKV", lang: "Hindi", year: "2025", rating: "8.8", desc: "Dragon 2025 NF.", seasons: [{ name: "Full Movie", dl: "#", watch: "#" }] },
-            { id: 13, title: "Hawa (2022) WEB-DL", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/19JrYJIicR7vqiDmjdsTRXUHMFK.jpg", uploadTime: "2026-01-10T10:09:48", res: "1080p WEB-DL", lang: "Bengali", year: "2022", rating: "7.6", desc: "Hawa 2022 Full Movie.", seasons: [{ name: "Full Movie", dl: "#", watch: "#" }] }
+            { 
+                id: 12, title: "She (Season 1 & 3) NetFlix", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/YMDfnHowqwi4xRwbZhyFuz15J8.jpg", 
+                uploadTime: "2026-01-11T18:28:00", res: "WEB-DL", lang: "Hindi", year: "2022", rating: "8.8", 
+                desc: "She (2020-2022) NetFlix Web Series.",
+                seasons: [
+                    { name: "Season 01", dl: "https://new5.cinecloud.site/f/dbdf0dc4", watch: "https://new5.cinecloud.site/v/dbdf0dc4" },
+                    { name: "Season 02", dl: "#", watch: "#" }
+                ]
+            },
+            { id: 1, title: "Aa Khanda 2 (2026)", img: "https://image2url.com/r2/bucket2/images/1768068439676-894c0955-d1cc-4e9f-b7e1-e1d12ece7ba1.jpg", uploadTime: "2026-01-11T00:08:15", res: "1080p WEB-DL", lang: "Hindi Dubbed", year: "2026", rating: "9.5", desc: "Aa Khanda 2 Full Movie.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/8a63a1ab", watch: "https://new5.cinecloud.site/v/8a63a1ab" }] },
+            { id: 11, title: "Dragon (2025) 1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/sKO0EFi0aSdKZXZxqjTunLlNdjU.jpg", uploadTime: "2026-01-10T18:28:00", res: "1080p MKV", lang: "Hindi", year: "2025", rating: "8.8", desc: "Dragon 2025 NF.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/1f04e6c9", watch: "https://new5.cinecloud.site/v/1f04e6c9" }] },
+            { id: 13, title: "Hawa (2022) WEB-DL", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/19JrYJIicR7vqiDmjdsTRXUHMFK.jpg", uploadTime: "2026-01-10T10:09:48", res: "1080p WEB-DL", lang: "Bengali", year: "2022", rating: "7.6", desc: "Hawa 2022 Full Movie.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/w/c00f0359", watch: "https://new5.cinecloud.site/v/c00f0359" }] },
+            { id: 2, title: "Raja Saab (2026) HD-1080p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/qTSqltjLzEmXTOohqRW3c2uSBIP.jpg", uploadTime: "2026-01-10T23:08:20", res: "1080p HD MKV", lang: "Hindi", year: "2025", rating: "8.0", desc: "Raja Saab.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/402ccae3", watch: "https://new5.cinecloud.site/v/402ccae3" }] },
+            { id: 3, title: "Kaal Ratri 2 Sesan-2 EP 01-07", img: "https://image2url.com/r2/bucket2/images/1768099928842-c2bcba63-fad1-4d7c-ac4e-79d5ffd4db50.webp", uploadTime: "2026-01-10T22:08:30", res: "4K-2160p", lang: "Bengali", year: "2026", rating: "7.5", desc: "Kaalratri S02.", seasons: [{ name: "S02 Pack", dl: "https://new5.cinecloud.site/f/44f60a48", watch: "https://new5.cinecloud.site/v/44f60a48" }] },
+            { id: 4, title: "Eko (2025) Hindi Dubbed 4k-2160p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/wwTRcagd2QZ36JuFQnWBbXs40YM.jpg", uploadTime: "2026-01-10T21:08:33", res: "4K-2060p", lang: "Hindi", year: "2025", rating: "8.2", desc: "Eko.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/47c7382a", watch: "https://new5.cinecloud.site/v/47c7382a" }] },
+            { id: 5, title: "Dude (2025) Hindi Dubbed 4K-2160p", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/6UVxW4ktk5050j1VPb7mOKhT6Es.jpg", uploadTime: "2026-01-10T08:50:00", res: "4K-2060p", lang: "Hindi Dubbed", year: "2025", rating: "8.5", desc: "Dude.", seasons: [{ name: "Full Movie", dl: "https://new5.cinecloud.site/f/1a0f2c98", watch: "https://new5.cinecloud.site/v/1a0f2c98" }] }
         ];
 
         let filteredMovies = [...allMovies];
@@ -137,7 +144,6 @@
                 const uploadDate = new Date(movie.uploadTime);
                 const now = new Date();
                 const diffHours = (now - uploadDate) / (1000 * 60 * 60);
-                // যদি ২৪ ঘণ্টার মুভি হয় তবে ট্যাগ দেখাবে, নাহলে ফাঁকা জায়গা থাকবে
                 const recentTag = (diffHours < 24) ? `<div class="recent-tag">Recently Added</div>` : "";
 
                 return `
