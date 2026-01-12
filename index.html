@@ -10,46 +10,49 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
-    <style>/* ১-১০ র‌্যাঙ্কিং স্লাইডার ডিজাইন */
-.portrait-slider { 
-    display: flex; 
-    overflow-x: auto; 
-    gap: 15px; 
-    padding: 10px 15px 30px; 
-    scrollbar-width: none; /* ফায়ারফক্সের জন্য */
-    scroll-behavior: smooth; 
-}
-.portrait-slider::-webkit-scrollbar { display: none; } /* ক্রোম/সাফারি এর জন্য */
-
-.p-card { 
-    min-width: 140px; 
-    height: 200px; 
-    border-radius: 12px; 
-    background-size: cover; 
-    background-position: center; 
-    position: relative; 
-    flex-shrink: 0; 
-    border: 1px solid #222; 
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-}
-
-.p-num { 
-    position: absolute; 
-    bottom: -15px; 
-    left: -8px; 
-    font-size: 75px; 
-    font-weight: 900; 
-    color: rgba(255,255,255,0.05); 
-    -webkit-text-stroke: 2px var(--gold); 
-    z-index: 1; 
-    line-height: 1;
-}
-        
+    <style>
         /* ১. কালার সেটিংস */
         :root { --primary: #e50914; --gold: #ffd700; --bg: #050505; --card-bg: #111; }
         
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
+        /* ১-১০ র‌্যাঙ্কিং স্লাইডার ডিজাইন */
+        .portrait-slider { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 15px; 
+            padding: 10px 15px 40px; /* নিচ থেকে একটু স্পেস বাড়ানো হয়েছে */
+            scrollbar-width: none; 
+            scroll-behavior: smooth; 
+        }
+        .portrait-slider::-webkit-scrollbar { display: none; }
+
+        .p-card { 
+            min-width: 140px; 
+            height: 200px; 
+            border-radius: 12px; 
+            background-size: cover; 
+            background-position: center; 
+            position: relative; 
+            flex-shrink: 0; 
+            border: 1px solid #222; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            z-index: 5;
+        }
+
+        .p-num { 
+            position: absolute; 
+            bottom: -20px; 
+            left: -10px; 
+            font-size: 85px; 
+            font-weight: 900; 
+            color: rgba(0,0,0,0.5); 
+            -webkit-text-stroke: 2px var(--gold); 
+            z-index: 10; 
+            line-height: 1;
+            font-family: 'Arial Black', sans-serif;
+        }
+        
         /* ২. ড্রয়ার ও ২৪ঘণ্টা গ্যারান্টি ডিজাইন */
         #drawer { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: linear-gradient(180deg, #111, #050505); z-index: 20000; transition: 0.5s; border-right: 1px solid #222; }
         #drawer.open { left: 0; }
@@ -65,7 +68,7 @@
         .search-box { margin-top: 15px; background: #1a1a1a; padding: 12px 20px; border-radius: 50px; display: flex; border: 1px solid #333; }
         .search-box input { background: transparent; border: none; color: #fff; width: 100%; outline: none; }
 
-        /* ৪. হোম পেজ মুভি গ্রিড (ম্যানেজড লুক) */
+        /* ৪. মুভি গ্রিড ডিজাইন */
         .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); padding: 15px; gap: 15px; }
         .m-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #222; display: flex; flex-direction: column; height: 380px; }
         .img-box { height: 280px; min-height: 280px; position: relative; background: #222; }
@@ -73,12 +76,12 @@
         .m-info { padding: 12px; flex-grow: 1; }
         .m-title { font-size: 14px; font-weight: 600; color: #eee; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
 
-        /* ৫. ক্যাটাগরি ফিল্টার বাটন */
+        /* ৫. ক্যাটাগরি ফিল্টার */
         .cat-row { display: flex; overflow-x: auto; padding: 10px 15px; gap: 12px; scrollbar-width: none; }
         .cat-btn { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 13px; white-space: nowrap; font-weight: 600; cursor: pointer; }
         .cat-btn.active { background: var(--primary); border-color: var(--primary); }
 
-        /* ৬. ডিটেইলস পেজ ও হিরো প্লেয়ার (১৬:৯) */
+        /* ৬. ডিটেইলস পেজ ও হিরো প্লেয়ার */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 30000; overflow-y: auto; }
         .back-circle { position: absolute; top: 25px; left: 25px; background: rgba(0,0,0,0.5); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 40000; color: #fff; border: 1px solid #444; }
         .hero-player-container { width: 100%; aspect-ratio: 16 / 9; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; background-color: #000; }
@@ -116,7 +119,8 @@
             <div class="search-box"><input type="text" id="movieSearch" placeholder="খুঁজুন..." onkeyup="searchMovie()"></div>
         </div>
         <div class="section-title">🔥 Top 10 New Shows</div>
-        <div id="pSlider" style="display:flex; overflow-x:auto; gap:15px; padding:10px 15px;"></div>
+        
+        <div id="pSlider" class="portrait-slider"></div>
         
         <div class="cat-row">
             <button class="cat-btn active" onclick="filterCat('All', this)">সব মুভি</button>
@@ -133,13 +137,11 @@
     </div>
 
     <script>
-        // ফায়ারবেস কানেকশন
         const firebaseConfig = { apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI", authDomain: "pritam-ott.firebaseapp.com", databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com", projectId: "pritam-ott", storageBucket: "pritam-ott.firebasestorage.app", messagingSenderId: "8916733532", appId: "1:8916733532:web:8b1143a7352770ff7e6099" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         let allM = []; let filteredM = [];
 
-        // ডেটা লোড করা
         db.ref('movies').on('value', (s) => {
             const data = s.val(); allM = [];
             for (let id in data) { allM.push({ id: id, ...data[id] }); }
@@ -147,7 +149,6 @@
         });
 
         function renderHome() {
-            // ১-১০ র‌্যাঙ্কিং স্লাইডার রেন্ডার
             const top10 = allM.slice(0, 10);
             document.getElementById('pSlider').innerHTML = top10.map((m, i) => `
                 <div class="p-card" onclick="showD('${m.id}')" style="background-image: url('${m.img}')">
@@ -155,17 +156,20 @@
                 </div>`).join('');
             
             displayMovies(filteredM);
-            setupAutoSlider(); // স্লাইডার চালু
+            setupAutoSlider(); 
         }
 
-        // অটো-স্লাইড লজিক (এটি তোমার ফাইলে ছিল না)
+        // অটো-স্লাইড লজিক আপডেট করা হয়েছে
         function setupAutoSlider() {
             const slider = document.getElementById('pSlider');
             let scrollAmount = 0;
-            setInterval(() => {
+            // আগের টাইমার ক্লিয়ার করা যাতে ডুপ্লিকেট না হয়
+            if(window.sliderTimer) clearInterval(window.sliderTimer);
+            
+            window.sliderTimer = setInterval(() => {
                 if (slider) {
                     if (scrollAmount >= slider.scrollWidth - slider.clientWidth) scrollAmount = 0;
-                    else scrollAmount += 155;
+                    else scrollAmount += 155; 
                     slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
                 }
             }, 3000);
@@ -184,7 +188,7 @@
             document.getElementById('mainPage').style.display = 'none'; document.getElementById('detailsPage').style.display = 'block'; window.scrollTo(0,0);
             document.getElementById('detContent').innerHTML = `
                 <div class="hero-player-container" id="hPC" style="background-image:url('${m.img}')">
-                    <div id="heroVideo"></div>
+                    <div id="heroVideo" style="width:100%; height:100%; display:none;"></div>
                     <div class="hero-play-btn" id="hPlay" onclick="playHero('${m.trailerId}', '${m.title}')"><i class="fa fa-play"></i></div>
                 </div>
                 <div class="det-content">
