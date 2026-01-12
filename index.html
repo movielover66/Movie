@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PRITAM STUDIO - FULL POWERHOUSE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
@@ -17,7 +20,7 @@
         #drawer.open { left: 0; }
         .drawer-header { padding: 30px 20px; border-bottom: 1px solid #222; text-align: center; }
         .guarantee-badge { font-size: 10px; background: var(--primary); color: #fff; padding: 5px 12px; border-radius: 20px; display: inline-block; margin-top: 10px; font-weight: bold; text-transform: uppercase; }
-        #drawer li { padding: 18px 25px; cursor: pointer; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #1a1a1a; transition: 0.3s; }
+        #drawer li { padding: 18px 25px; cursor: pointer; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #1a1a1a; }
         #drawer li i { color: var(--gold); font-size: 18px; width: 25px; }
 
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 15000; backdrop-filter: blur(8px); }
@@ -38,7 +41,7 @@
         /* ক্যাটাগরি বাটন ফিল্টার */
         .cat-row { display: flex; overflow-x: auto; padding: 10px 15px; gap: 12px; scrollbar-width: none; }
         .cat-btn { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 13px; white-space: nowrap; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .cat-btn.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4); }
+        .cat-btn.active { background: var(--primary); border-color: var(--primary); }
 
         /* মুভি গ্রিড */
         .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); padding: 15px; gap: 15px; }
@@ -48,7 +51,7 @@
 
         /* ডিটেইলস ও চওড়া হিরো প্লেয়ার */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 30000; overflow-y: auto; }
-        .back-circle { position: absolute; top: 25px; left: 25px; background: rgba(0,0,0,0.5); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 40000; border: 1px solid #444; color: #fff; }
+        .back-circle { position: absolute; top: 25px; left: 25px; background: rgba(0,0,0,0.5); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 40000; color: #fff; }
         
         .hero-player-container { width: 100%; aspect-ratio: 16 / 9; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; background-color: #000; }
         .hero-play-btn { width: 75px; height: 75px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; cursor: pointer; border: 3px solid #fff; box-shadow: 0 0 25px rgba(229, 9, 20, 0.7); }
@@ -109,6 +112,7 @@
         <div id="detContent"></div>
     </div>
 
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <script>
         const firebaseConfig = { apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI", authDomain: "pritam-ott.firebaseapp.com", databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com", projectId: "pritam-ott", storageBucket: "pritam-ott.firebasestorage.app", messagingSenderId: "8916733532", appId: "1:8916733532:web:8b1143a7352770ff7e6099" };
         firebase.initializeApp(firebaseConfig);
@@ -133,7 +137,7 @@
         function filterCat(cat, btn) {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            filteredM = cat === 'All' ? [...allM] : allM.filter(m => m.title.toLowerCase().includes(cat.toLowerCase()) || (m.tags && m.tags.toLowerCase().includes(cat.toLowerCase())));
+            filteredM = cat === 'All' ? [...allM] : allM.filter(m => m.title.toLowerCase().includes(cat.toLowerCase()));
             displayMovies(filteredM);
         }
 
