@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রীতম মুভি স্টুডিও - পাওয়ারহাউস</title>
+    <title>PRITAM STUDIO - POWERHOUSE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
@@ -15,38 +13,37 @@
         :root { --primary: #e50914; --gold: #ffd700; --bg: #050505; --card-bg: #111; }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* ড্রয়ার মেনু ফিচার */
+        /* ড্রয়ার মেনু ৫টি ফিচার */
         #drawer { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: linear-gradient(180deg, #111, #050505); z-index: 20000; transition: 0.5s; border-right: 1px solid #222; }
         #drawer.open { left: 0; }
         .drawer-header { padding: 30px; border-bottom: 1px solid #222; text-align: center; color: var(--gold); }
         #drawer ul { list-style: none; padding: 20px 0; margin: 0; }
         #drawer li { padding: 18px 25px; cursor: pointer; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #1a1a1a; color: #ccc; }
         #drawer li i { color: var(--gold); width: 25px; }
-
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 15000; backdrop-filter: blur(8px); }
 
-        /* নেভিবার ও সার্চ বক্স */
+        /* নেভিবার ও স্মার্ট সার্চ */
         .navbar { background: rgba(12, 12, 12, 0.95); padding: 15px 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
         .nav-top { display: flex; justify-content: space-between; align-items: center; }
         .navbar h1 { font-size: 20px; color: var(--gold); font-weight: 900; margin: 0; }
         .search-box { margin-top: 15px; background: #1a1a1a; padding: 12px 20px; border-radius: 50px; display: flex; align-items: center; border: 1px solid #333; }
         .search-box input { background: transparent; border: none; color: #fff; width: 100%; outline: none; }
 
-        /* র‌্যাঙ্কিং স্লাইডার */
+        /* ১-১০ র‌্যাঙ্কিং স্লাইডার */
         .section-title { font-size: 18px; font-weight: bold; color: var(--gold); margin: 25px 15px 10px; display: flex; align-items: center; gap: 10px; }
-        .portrait-slider { display: flex; overflow-x: auto; gap: 15px; padding: 10px 15px 20px; scrollbar-width: none; }
+        .p-slider { display: flex; overflow-x: auto; gap: 15px; padding: 10px 15px 20px; scrollbar-width: none; }
         .p-card { min-width: 135px; height: 195px; border-radius: 12px; background-size: cover; background-position: center; position: relative; flex-shrink: 0; border: 1px solid #222; }
         .p-num { position: absolute; bottom: -12px; left: -6px; font-size: 70px; font-weight: 900; color: rgba(255,255,255,0.05); -webkit-text-stroke: 1.5px var(--gold); z-index: 1; }
 
-        /* মুভি কার্ড ও ব্যাজ */
+        /* মুভি গ্রিড ও ব্যাজ */
         .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); padding: 15px; gap: 15px; }
-        .m-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #222; height: 400px; position: relative; }
+        .m-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #222; height: 390px; position: relative; }
         .img-box { position: relative; height: 260px; overflow: hidden; }
         .m-img { width: 100%; height: 100%; object-fit: cover; }
         .badge-trend { position: absolute; top: 12px; left: 0; background: linear-gradient(90deg, #ff4d4d, #f9ca24); color: #000; font-size: 10px; padding: 5px 12px; font-weight: 900; border-radius: 0 20px 20px 0; z-index: 2; }
         .badge-res { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.8); color: var(--gold); padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; border: 1px solid var(--gold); z-index: 2; }
 
-        /* ডিটেইলস পেজ ও লাল প্লে বাটন */
+        /* ডিটেইলস পেজ ও সেই কাঙ্ক্ষিত লাল প্লে বাটন */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 30000; overflow-y: auto; }
         .back-circle { position: absolute; top: 25px; left: 25px; background: rgba(0,0,0,0.5); color: #fff; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 40000; cursor: pointer; border: 1px solid #444; }
         .hero-section { position: relative; width: 100%; height: 350px; overflow: hidden; background: #000; }
@@ -71,53 +68,40 @@
     </style>
 </head>
 <body>
-
     <div id="overlay" onclick="toggleMenu()"></div>
     <div id="drawer">
         <div class="drawer-header"><h2>PRITAM STUDIO</h2></div>
         <ul>
-            <li onclick="location.reload()"><i class="fa-solid fa-house"></i> হোম পেজ</li>
-            <li onclick="window.open('https://forms.gle/V5RG8aAoV5UW6P287')"><i class="fa-solid fa-plus-circle"></i> রিকোয়েস্ট</li>
-            <li onclick="alert('পছন্দের লিস্ট তৈরি হচ্ছে...')"><i class="fa-solid fa-heart"></i> ফেভারিট</li>
+            <li onclick="location.reload()"><i class="fa fa-house"></i> হোম</li>
+            <li onclick="window.open('https://forms.gle/V5RG8aAoV5UW6P287')"><i class="fa fa-plus-circle"></i> রিকোয়েস্ট</li>
+            <li onclick="alert('আসছে...')"><i class="fa fa-heart"></i> ফেভারিট</li>
             <li onclick="window.open('https://t.me/your_channel')"><i class="fa-brands fa-telegram"></i> টেলিগ্রাম</li>
-            <li onclick="alert('V 2.5.0')"><i class="fa-solid fa-code-branch"></i> ভার্সন</li>
+            <li onclick="alert('V 2.5.0')"><i class="fa fa-code-branch"></i> ভার্সন</li>
         </ul>
     </div>
 
     <div id="mainPage">
         <div class="navbar">
-            <div class="nav-top">
-                <i class="fa-solid fa-bars-staggered menu-icon" onclick="toggleMenu()"></i>
-                <h1>PRITAM STUDIO</h1>
-                <i class="fa-solid fa-user" style="color:var(--gold);"></i>
-            </div>
-            <div class="search-box"><input type="text" id="movieSearch" placeholder="খুঁজুন..." onkeyup="searchMovie()"></div>
+            <div class="nav-top"><i class="fa fa-bars-staggered menu-icon" onclick="toggleMenu()"></i><h1>PRITAM STUDIO</h1><i class="fa fa-user" style="color:var(--gold);"></i></div>
+            <div class="search-box"><input type="text" id="movieSearch" placeholder="মুভি খুঁজুন..." onkeyup="searchMovie()"></div>
         </div>
         <div class="section-title">🔥 Top 10 New Shows</div>
-        <div class="portrait-slider" id="pSlider"></div>
+        <div class="p-slider" id="pSlider"></div>
         <div class="movie-grid" id="mList"></div>
     </div>
 
     <div id="detailsPage">
-        <div class="back-circle" onclick="closeDetails()"><i class="fa-solid fa-arrow-left"></i></div>
+        <div class="back-circle" onclick="closeDetails()"><i class="fa fa-arrow-left"></i></div>
         <div id="detailsContent"></div>
     </div>
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI",
-            authDomain: "pritam-ott.firebaseapp.com",
-            databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com",
-            projectId: "pritam-ott",
-            storageBucket: "pritam-ott.firebasestorage.app",
-            messagingSenderId: "8916733532",
-            appId: "1:8916733532:web:8b1143a7352770ff7e6099"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI", authDomain: "pritam-ott.firebaseapp.com", databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com", projectId: "pritam-ott", storageBucket: "pritam-ott.firebasestorage.app", messagingSenderId: "8916733532", appId: "1:8916733532:web:8b1143a7352770ff7e6099" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+        let allMovies = [];
 
-        let allMovies = []; 
         db.ref('movies').on('value', (s) => {
             const data = s.val(); allMovies = [];
             for (let id in data) { allMovies.push({ id: id, ...data[id] }); }
@@ -126,37 +110,19 @@
 
         function renderHome() {
             document.getElementById('pSlider').innerHTML = allMovies.slice(0, 10).map((m, i) => `<div class="p-card" onclick="showDetails('${m.id}')" style="background-image: url('${m.img}')"><div class="p-num">${i+1}</div></div>`).join('');
-            document.getElementById('mList').innerHTML = allMovies.map((m, idx) => `
-                <div class="m-card" onclick="showDetails('${m.id}')">
-                    <div class="img-box"><img src="${m.img}" class="m-img" loading="lazy">${idx < 3 ? '<div class="badge-trend">🔥 TRENDING</div>' : ''}<div class="badge-res">HD</div></div>
-                    <div class="m-info"><b>${m.title}</b></div>
-                </div>`).join('');
+            document.getElementById('mList').innerHTML = allMovies.map((m, idx) => `<div class="m-card" onclick="showDetails('${m.id}')"><div class="img-box"><img src="${m.img}" class="m-img" loading="lazy">${idx < 3 ? '<div class="badge-trend">🔥 TRENDING</div>' : ''}<div class="badge-res">HD</div></div><div class="m-info"><b>${m.title}</b></div></div>`).join('');
         }
 
         function showDetails(id) {
             const m = allMovies.find(x => x.id === id);
             const s = (m.seasons && m.seasons[0]) ? m.seasons[0] : {dl:'#', watch:'#'};
             const tID = m.trailerId || "";
-
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('detailsPage').style.display = 'block';
             window.scrollTo(0,0);
-            
             document.getElementById('detailsContent').innerHTML = `
-                <div class="hero-section" id="hArea">
-                    <img src="${m.img}" class="hero-img">
-                    <div class="hero-grad"></div>
-                    ${tID ? `<div class="hero-play-btn" onclick="startPlay('${tID}')"><i class="fa-solid fa-play"></i></div>` : ''}
-                </div>
-                <div class="det-body">
-                    <div id="videoPlayerArea"></div>
-                    <img src="${m.img}" class="det-poster" id="pSmall">
-                    <h2>${m.title}</h2>
-                    <div class="btn-box">
-                        <a href="${s.watch}" class="btn-main btn-watch"><i class="fa-solid fa-play"></i> WATCH ONLINE</a>
-                        <a href="${s.dl}" class="btn-main btn-dl"><i class="fa-solid fa-download"></i> DOWNLOAD HD</a>
-                    </div>
-                </div>`;
+                <div class="hero-section" id="hArea"><img src="${m.img}" class="hero-img"><div class="hero-grad"></div>${tID ? `<div class="hero-play-btn" onclick="startPlay('${tID}')"><i class="fa-solid fa-play"></i></div>` : ''}</div>
+                <div class="det-body"><div id="videoPlayerArea"></div><img src="${m.img}" class="det-poster" id="pSmall"><h2>${m.title}</h2><div class="btn-box"><a href="${s.watch}" class="btn-main btn-watch">WATCH ONLINE</a><a href="${s.dl}" class="btn-main btn-dl">DOWNLOAD HD</a></div></div>`;
         }
 
         function startPlay(id) {
@@ -168,26 +134,9 @@
             new Plyr('#player', { autoplay: true });
         }
 
-        function toggleMenu() {
-            const d = document.getElementById('drawer');
-            d.classList.toggle('open');
-            document.getElementById('overlay').style.display = d.classList.contains('open') ? 'block' : 'none';
-        }
-
-        function searchMovie() {
-            const term = document.getElementById('movieSearch').value.toLowerCase();
-            const filtered = allMovies.filter(m => m.title.toLowerCase().includes(term));
-            document.getElementById('mList').innerHTML = filtered.map(m => `
-                <div class="m-card" onclick="showDetails('${m.id}')">
-                    <div class="img-box"><img src="${m.img}" class="m-img"></div>
-                    <div class="m-info"><b>${m.title}</b></div>
-                </div>`).join('');
-        }
-
-        function closeDetails() { 
-            document.getElementById('mainPage').style.display = 'block'; 
-            document.getElementById('detailsPage').style.display = 'none'; 
-        }
+        function toggleMenu() { const d = document.getElementById('drawer'); d.classList.toggle('open'); document.getElementById('overlay').style.display = d.classList.contains('open') ? 'block' : 'none'; }
+        function searchMovie() { const term = document.getElementById('movieSearch').value.toLowerCase(); const filtered = allMovies.filter(m => m.title.toLowerCase().includes(term)); document.getElementById('mList').innerHTML = filtered.map(m => `<div class="m-card" onclick="showDetails('${m.id}')"><div class="img-box"><img src="${m.img}" class="m-img"></div><div class="m-info"><b>${m.title}</b></div></div>`).join(''); }
+        function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
     </script>
 </body>
 </html>
