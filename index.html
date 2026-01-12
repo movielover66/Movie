@@ -3,48 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRITAM STUDIO - MASTER CODE</title>
+    <title>PRITAM STUDIO - MASTER FIX</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-
+    
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <style>
-        /* ১. রঙের সেটিংস (রং বদলাতে চাইলে এখানে হাত দাও) */
+        /* ১. কালার সেটিংস */
         :root { --primary: #e50914; --gold: #ffd700; --bg: #050505; --card-bg: #111; }
         
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* ২. ড্রয়ার মেনু ডিজাইন (বাম দিকের মেনু) */
+        /* ২. ড্রয়ার ও ২৪ঘণ্টা গ্যারান্টি ডিজাইন */
         #drawer { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: linear-gradient(180deg, #111, #050505); z-index: 20000; transition: 0.5s; border-right: 1px solid #222; }
         #drawer.open { left: 0; }
         .drawer-header { padding: 30px 20px; border-bottom: 1px solid #222; text-align: center; }
         .guarantee-badge { font-size: 10px; background: var(--primary); color: #fff; padding: 5px 12px; border-radius: 20px; display: inline-block; margin-top: 10px; font-weight: bold; text-transform: uppercase; }
+        #drawer li { padding: 18px 25px; cursor: pointer; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #1a1a1a; }
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 15000; backdrop-filter: blur(8px); }
 
-        /* ৩. নেভিবার এবং সার্চ বক্স */
+        /* ৩. নেভিবার ডিজাইন */
         .navbar { background: rgba(12, 12, 12, 0.95); padding: 15px 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
+        .nav-top { display: flex; justify-content: space-between; align-items: center; }
+        .navbar h1 { font-size: 20px; color: var(--gold); font-weight: 900; }
         .search-box { margin-top: 15px; background: #1a1a1a; padding: 12px 20px; border-radius: 50px; display: flex; border: 1px solid #333; }
+        .search-box input { background: transparent; border: none; color: #fff; width: 100%; outline: none; }
 
-        /* ৪. স্লাইডার এবং মুভি কার্ড (হোম পেজ গ্রিড) */
-        .p-slider { display: flex; overflow-x: auto; gap: 15px; padding: 10px 15px 20px; scrollbar-width: none; }
+        /* ৪. হোম পেজ মুভি গ্রিড (ম্যানেজড লুক) */
         .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); padding: 15px; gap: 15px; }
-        
-        /* মুভি কার্ডের ডিজাইন - এখান থেকে হাইট/উইডথ কন্ট্রোল হয় */
         .m-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #222; display: flex; flex-direction: column; height: 380px; }
-        .img-box { height: 280px; width: 100%; position: relative; background: #222; }
+        .img-box { height: 280px; min-height: 280px; position: relative; background: #222; }
         .m-img { width: 100%; height: 100%; object-fit: cover; }
-        .m-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
+        .m-info { padding: 12px; flex-grow: 1; }
         .m-title { font-size: 14px; font-weight: 600; color: #eee; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
 
-        /* ৫. ডিটেইলস পেজ এবং চওড়া প্লেয়ার (১৬:৯) */
+        /* ৫. ক্যাটাগরি ফিল্টার বাটন */
+        .cat-row { display: flex; overflow-x: auto; padding: 10px 15px; gap: 12px; scrollbar-width: none; }
+        .cat-btn { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 13px; white-space: nowrap; font-weight: 600; cursor: pointer; }
+        .cat-btn.active { background: var(--primary); border-color: var(--primary); }
+
+        /* ৬. ডিটেইলস পেজ ও হিরো প্লেয়ার (১৬:৯) */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 30000; overflow-y: auto; }
+        .back-circle { position: absolute; top: 25px; left: 25px; background: rgba(0,0,0,0.5); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 40000; color: #fff; border: 1px solid #444; }
         .hero-player-container { width: 100%; aspect-ratio: 16 / 9; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; background-color: #000; }
         .hero-play-btn { width: 75px; height: 75px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; cursor: pointer; border: 3px solid #fff; box-shadow: 0 0 25px rgba(229, 9, 20, 0.7); }
-        
-        /* মুভি পোস্টার কার্ড (যেটা নিচে নামিয়েছি) */
-        .det-poster-small { width: 150px; border-radius: 18px; border: 4px solid #222; margin-top: 15px; position: relative; z-index: 10; box-shadow: 0 15px 40px #000; }
+        #heroVideo { width: 100%; height: 100%; display: none; }
+        .det-content { padding: 0 25px 40px; text-align: center; }
+        .det-poster-small { width: 140px; border-radius: 18px; border: 4px solid #222; margin-top: 15px; position: relative; z-index: 10; box-shadow: 0 15px 40px #000; }
+        .btn-box { display: grid; gap: 15px; margin-top: 30px; }
+        .btn-main { padding: 18px; border-radius: 15px; text-decoration: none; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; color: #fff; }
     </style>
 </head>
 <body>
@@ -70,13 +79,10 @@
                 <h1>PRITAM STUDIO</h1>
                 <i class="fa fa-user" style="color:var(--gold);"></i>
             </div>
-            <div class="search-box">
-                <input type="text" id="movieSearch" placeholder="খুঁজুন..." onkeyup="searchMovie()">
-            </div>
+            <div class="search-box"><input type="text" id="movieSearch" placeholder="খুঁজুন..." onkeyup="searchMovie()"></div>
         </div>
-        
         <div class="section-title">🔥 Top 10 New Shows</div>
-        <div class="p-slider" id="pSlider"></div>
+        <div id="pSlider" style="display:flex; overflow-x:auto; gap:15px; padding:10px 15px;"></div>
         
         <div class="cat-row">
             <button class="cat-btn active" onclick="filterCat('All', this)">সব মুভি</button>
@@ -84,7 +90,6 @@
             <button class="cat-btn" onclick="filterCat('Hindi', this)">হিন্দি</button>
             <button class="cat-btn" onclick="filterCat('South', this)">সাউথ</button>
         </div>
-        
         <div class="movie-grid" id="mList"></div>
     </div>
 
@@ -94,29 +99,64 @@
     </div>
 
     <script>
-        // ফায়ারবেস কনফিগ (এখান থেকে ডেটা আসে)
+        // ফায়ারবেস কানেকশন
         const firebaseConfig = { apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI", authDomain: "pritam-ott.firebaseapp.com", databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com", projectId: "pritam-ott", storageBucket: "pritam-ott.firebasestorage.app", messagingSenderId: "8916733532", appId: "1:8916733532:web:8b1143a7352770ff7e6099" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         let allM = []; let filteredM = [];
 
-        // মুভি লোড করার ফাংশন
+        // ডেটা লোড করা
         db.ref('movies').on('value', (s) => {
             const data = s.val(); allM = [];
             for (let id in data) { allM.push({ id: id, ...data[id] }); }
             allM.reverse(); filteredM = [...allM]; renderHome();
         });
 
-        // হোম পেজে মুভি দেখানোর লজিক
+        function renderHome() {
+            displayMovies(filteredM);
+        }
+
+        // মুভি কার্ড দেখানোর ফাংশন
         function displayMovies(movies) {
             document.getElementById('mList').innerHTML = movies.map(m => `
                 <div class="m-card" onclick="showD('${m.id}')">
-                    <div class="img-box"><img src="${m.img}" class="m-img" onerror="this.src='https://via.placeholder.com/300x400?text=Poster+Unavailable'"></div>
+                    <div class="img-box"><img src="${m.img}" class="m-img" onerror="this.src='https://via.placeholder.com/300x400'"></div>
                     <div class="m-info"><p class="m-title">${m.title}</p></div>
                 </div>`).join('');
         }
 
-        // ক্যাটাগরি ফিল্টার করার লজিক (সাউথ/হিন্দি/বাংলা)
+        // মুভিতে ক্লিক করলে ডিটেইলস দেখানোর ফাংশন (এই অংশটি আগেরবার ভুল ছিল)
+        function showD(id) {
+            const m = allM.find(x => x.id === id); 
+            const s = m.seasons ? m.seasons[0] : {dl:'#', watch:'#'};
+            document.getElementById('mainPage').style.display = 'none'; 
+            document.getElementById('detailsPage').style.display = 'block'; 
+            window.scrollTo(0,0);
+            document.getElementById('detContent').innerHTML = `
+                <div class="hero-player-container" id="hPC" style="background-image:url('${m.img}')">
+                    <div id="heroVideo"></div>
+                    <div class="hero-play-btn" id="hPlay" onclick="playHero('${m.trailerId}', '${m.title}')"><i class="fa fa-play"></i></div>
+                </div>
+                <div class="det-content">
+                    <img src="${m.img}" class="det-poster-small">
+                    <h2 style="margin-top:20px;">${m.title}</h2>
+                    <div class="btn-box">
+                        <a href="${s.watch}" class="btn-main" style="background:var(--primary)">WATCH ONLINE</a>
+                        <a href="${s.dl}" class="btn-main" style="background:#1a1a1a">DOWNLOAD HD</a>
+                    </div>
+                </div>`;
+        }
+
+        // ট্রেইলার প্লে করার লজিক
+        function playHero(id, title) {
+            const v = document.getElementById('heroVideo'); const b = document.getElementById('hPlay');
+            const c = document.getElementById('hPC');
+            b.style.display = 'none'; v.style.display = 'block'; c.style.backgroundImage = 'none';
+            let url = id ? `https://www.youtube.com/embed/${id}?autoplay=1` : `https://www.youtube.com/embed?listType=search&list=${title}+trailer&autoplay=1`;
+            v.innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allowfullscreen allow="autoplay"></iframe>`;
+        }
+
+        // অন্যান্য লজিক (ফিল্টার, মেনু, ক্লোজ)
         function filterCat(cat, btn) {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -124,22 +164,8 @@
             displayMovies(filteredM);
         }
 
-        // ট্রেইলার প্লে করার লজিক (১৬:৯ চওড়া প্লেয়ার)
-        function playHero(id, title) {
-            const v = document.getElementById('heroVideo'); const b = document.getElementById('hPlay');
-            const c = document.getElementById('hPC');
-            b.style.display = 'none'; v.style.display = 'block'; c.style.backgroundImage = 'none';
-            let url = id ? `https://www.youtube.com/embed/${id}?autoplay=1&rel=0` : `https://www.youtube.com/embed?listType=search&list=${title}+trailer&autoplay=1`;
-            v.innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-        }
-
-        // ড্রয়ার খোলা/বন্ধ করার লজিক
         function toggleMenu() { const d = document.getElementById('drawer'); d.classList.toggle('open'); document.getElementById('overlay').style.display = d.classList.contains('open') ? 'block' : 'none'; }
-        
-        // সার্চ করার লজিক
         function searchMovie() { const t = document.getElementById('movieSearch').value.toLowerCase(); filteredM = allM.filter(m => m.title.toLowerCase().includes(t)); displayMovies(filteredM); }
-        
-        // ডিটেইলস পেজ বন্ধ করার লজিক
         function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
     </script>
 </body>
