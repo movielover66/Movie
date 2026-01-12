@@ -10,7 +10,41 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
-    <style>
+    <style>/* ১-১০ র‌্যাঙ্কিং স্লাইডার ডিজাইন */
+.portrait-slider { 
+    display: flex; 
+    overflow-x: auto; 
+    gap: 15px; 
+    padding: 10px 15px 30px; 
+    scrollbar-width: none; /* ফায়ারফক্সের জন্য */
+    scroll-behavior: smooth; 
+}
+.portrait-slider::-webkit-scrollbar { display: none; } /* ক্রোম/সাফারি এর জন্য */
+
+.p-card { 
+    min-width: 140px; 
+    height: 200px; 
+    border-radius: 12px; 
+    background-size: cover; 
+    background-position: center; 
+    position: relative; 
+    flex-shrink: 0; 
+    border: 1px solid #222; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.p-num { 
+    position: absolute; 
+    bottom: -15px; 
+    left: -8px; 
+    font-size: 75px; 
+    font-weight: 900; 
+    color: rgba(255,255,255,0.05); 
+    -webkit-text-stroke: 2px var(--gold); 
+    z-index: 1; 
+    line-height: 1;
+}
+        
         /* ১. কালার সেটিংস */
         :root { --primary: #e50914; --gold: #ffd700; --bg: #050505; --card-bg: #111; }
         
@@ -113,10 +147,30 @@
         });
 
         function renderHome() {
+            // ১-১০ র‌্যাঙ্কিং স্লাইডার রেন্ডার
+            const top10 = allM.slice(0, 10);
+            document.getElementById('pSlider').innerHTML = top10.map((m, i) => `
+                <div class="p-card" onclick="showD('${m.id}')" style="background-image: url('${m.img}')">
+                    <div class="p-num">${i+1}</div>
+                </div>`).join('');
+            
             displayMovies(filteredM);
+            setupAutoSlider(); // স্লাইডার চালু
         }
 
-        // মুভি কার্ড দেখানোর ফাংশন
+        // অটো-স্লাইড লজিক (এটি তোমার ফাইলে ছিল না)
+        function setupAutoSlider() {
+            const slider = document.getElementById('pSlider');
+            let scrollAmount = 0;
+            setInterval(() => {
+                if (slider) {
+                    if (scrollAmount >= slider.scrollWidth - slider.clientWidth) scrollAmount = 0;
+                    else scrollAmount += 155;
+                    slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+                }
+            }, 3000);
+        }
+
         function displayMovies(movies) {
             document.getElementById('mList').innerHTML = movies.map(m => `
                 <div class="m-card" onclick="showD('${m.id}')">
@@ -125,13 +179,9 @@
                 </div>`).join('');
         }
 
-        // মুভিতে ক্লিক করলে ডিটেইলস দেখানোর ফাংশন (এই অংশটি আগেরবার ভুল ছিল)
         function showD(id) {
-            const m = allM.find(x => x.id === id); 
-            const s = m.seasons ? m.seasons[0] : {dl:'#', watch:'#'};
-            document.getElementById('mainPage').style.display = 'none'; 
-            document.getElementById('detailsPage').style.display = 'block'; 
-            window.scrollTo(0,0);
+            const m = allM.find(x => x.id === id); const s = m.seasons ? m.seasons[0] : {dl:'#', watch:'#'};
+            document.getElementById('mainPage').style.display = 'none'; document.getElementById('detailsPage').style.display = 'block'; window.scrollTo(0,0);
             document.getElementById('detContent').innerHTML = `
                 <div class="hero-player-container" id="hPC" style="background-image:url('${m.img}')">
                     <div id="heroVideo"></div>
@@ -147,7 +197,6 @@
                 </div>`;
         }
 
-        // ট্রেইলার প্লে করার লজিক
         function playHero(id, title) {
             const v = document.getElementById('heroVideo'); const b = document.getElementById('hPlay');
             const c = document.getElementById('hPC');
@@ -156,7 +205,6 @@
             v.innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" allowfullscreen allow="autoplay"></iframe>`;
         }
 
-        // অন্যান্য লজিক (ফিল্টার, মেনু, ক্লোজ)
         function filterCat(cat, btn) {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
