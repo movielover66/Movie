@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRITAM STUDIO - FULL POWERHOUSE</title>
+    <title>PRITAM STUDIO - FIXED DESIGN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
@@ -19,7 +18,6 @@
         .drawer-header { padding: 30px 20px; border-bottom: 1px solid #222; text-align: center; }
         .guarantee-badge { font-size: 10px; background: var(--primary); color: #fff; padding: 5px 12px; border-radius: 20px; display: inline-block; margin-top: 10px; font-weight: bold; text-transform: uppercase; }
         #drawer li { padding: 18px 25px; cursor: pointer; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #1a1a1a; }
-        #drawer li i { color: var(--gold); font-size: 18px; width: 25px; }
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 15000; backdrop-filter: blur(8px); }
 
         /* নেভিবার */
@@ -29,20 +27,57 @@
         .search-box { margin-top: 15px; background: #1a1a1a; padding: 12px 20px; border-radius: 50px; display: flex; border: 1px solid #333; }
         .search-box input { background: transparent; border: none; color: #fff; width: 100%; outline: none; }
 
-        /* স্লাইডার ও গ্রিড */
+        /* স্লাইডার */
         .section-title { font-size: 18px; font-weight: bold; color: var(--gold); margin: 25px 15px 10px; }
         .p-slider { display: flex; overflow-x: auto; gap: 15px; padding: 10px 15px 20px; scrollbar-width: none; }
         .p-card { min-width: 135px; height: 195px; border-radius: 12px; background-size: cover; position: relative; flex-shrink: 0; border: 1px solid #222; }
         .p-num { position: absolute; bottom: -12px; left: -6px; font-size: 70px; font-weight: 900; color: rgba(255,255,255,0.05); -webkit-text-stroke: 1.5px var(--gold); }
+
+        /* ক্যাটাগরি ফিল্টার */
         .cat-row { display: flex; overflow-x: auto; padding: 10px 15px; gap: 12px; scrollbar-width: none; }
         .cat-btn { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 13px; white-space: nowrap; font-weight: 600; cursor: pointer; }
         .cat-btn.active { background: var(--primary); border-color: var(--primary); }
-        .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); padding: 15px; gap: 15px; }
-        .m-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #222; height: 390px; }
-        .img-box { height: 260px; position: relative; }
-        .m-img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* ডিটেইলস ও চওড়া হিরো প্লেয়ার */
+        /* মুভি গ্রিড ফিক্স (ম্যানেজড লুক) */
+        .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); padding: 15px; gap: 15px; }
+        .m-card { 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            border: 1px solid #222; 
+            display: flex;
+            flex-direction: column;
+            height: 380px; /* ফিক্সড কার্ড হাইট */
+        }
+        .img-box { 
+            height: 280px; /* ফিক্সড ইমেজ হাইট */
+            width: 100%;
+            position: relative; 
+            background: #222; /* ইমেজ লোড না হলে ব্যাকগ্রাউন্ড */
+        }
+        .m-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .m-info { 
+            padding: 12px; 
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        .m-title { 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #eee;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* ৩৪৪ লাইনের লজিক অনুযায়ী ২ লাইনের বেশি হলে ... */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        /* ডিটেইলস পেজ ও হিরো প্লেয়ার */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 30000; overflow-y: auto; }
         .back-circle { position: absolute; top: 25px; left: 25px; background: rgba(0,0,0,0.5); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 40000; color: #fff; border: 1px solid #444; }
         .hero-player-container { width: 100%; aspect-ratio: 16 / 9; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; background-color: #000; }
@@ -50,10 +85,7 @@
         #heroVideo { width: 100%; height: 100%; display: none; }
         
         .det-content { padding: 0 25px 40px; text-align: center; }
-        
-        /* পোস্টার কার্ড নিচে নামানোর ফিক্স */
-        .det-poster-small { width: 150px; border-radius: 18px; border: 4px solid #222; margin-top: 10px; position: relative; z-index: 10; box-shadow: 0 15px 40px #000; }
-        
+        .det-poster-small { width: 150px; border-radius: 18px; border: 4px solid #222; margin-top: 15px; position: relative; z-index: 10; box-shadow: 0 15px 40px #000; }
         .btn-box { display: grid; gap: 15px; margin-top: 30px; }
         .btn-main { padding: 18px; border-radius: 15px; text-decoration: none; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; color: #fff; }
     </style>
@@ -68,14 +100,9 @@
         </div>
         <ul>
             <li onclick="location.reload()"><i class="fa fa-house"></i> হোম পেজ</li>
-            <li onclick="window.open('https://forms.gle/V5RG8aAoV5UW6P287')">
-                <div style="display: flex; flex-direction: column;">
-                    <span><i class="fa fa-plus-circle"></i> মুভি রিকোয়েস্ট</span>
-                    <small style="color: var(--gold); font-size: 9px; margin-left: 30px;">(২৪ ঘণ্টার মধ্যে আপলোড হবে)</small>
-                </div>
-            </li>
+            <li onclick="window.open('https://forms.gle/V5RG8aAoV5UW6P287')"><span><i class="fa fa-plus-circle"></i> মুভি রিকোয়েস্ট</span></li>
             <li onclick="window.open('https://t.me/your_channel')"><i class="fa-brands fa-telegram"></i> টেলিগ্রাম</li>
-            <li onclick="alert('আসছে...')"><i class="fa fa-heart"></i> ফেভারিট</li>
+            <li onclick="alert('V 2.5.0')"><i class="fa fa-code-branch"></i> ভার্সন</li>
         </ul>
     </div>
 
@@ -94,7 +121,7 @@
             <button class="cat-btn active" onclick="filterCat('All', this)">সব মুভি</button>
             <button class="cat-btn" onclick="filterCat('Bengali', this)">বাংলা</button>
             <button class="cat-btn" onclick="filterCat('Hindi', this)">হিন্দি</button>
-            <button class="cat-btn" onclick="filterCat('South', this)">সাউথ ইন্ডিয়ান</button>
+            <button class="cat-btn" onclick="filterCat('South', this)">সাউথ</button>
         </div>
         <div class="movie-grid" id="mList"></div>
     </div>
@@ -104,7 +131,6 @@
         <div id="detContent"></div>
     </div>
 
-    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <script>
         const firebaseConfig = { apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI", authDomain: "pritam-ott.firebaseapp.com", databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com", projectId: "pritam-ott", storageBucket: "pritam-ott.firebasestorage.app", messagingSenderId: "8916733532", appId: "1:8916733532:web:8b1143a7352770ff7e6099" };
         firebase.initializeApp(firebaseConfig);
@@ -123,7 +149,11 @@
         }
 
         function displayMovies(movies) {
-            document.getElementById('mList').innerHTML = movies.map(m => `<div class="m-card" onclick="showD('${m.id}')"><div class="img-box"><img src="${m.img}" class="m-img"></div><div class="m-info"><b>${m.title}</b></div></div>`).join('');
+            document.getElementById('mList').innerHTML = movies.map(m => `
+                <div class="m-card" onclick="showD('${m.id}')">
+                    <div class="img-box"><img src="${m.img}" class="m-img" onerror="this.src='https://via.placeholder.com/300x400?text=Poster+Unavailable'"></div>
+                    <div class="m-info"><p class="m-title">${m.title}</p></div>
+                </div>`).join('');
         }
 
         function filterCat(cat, btn) {
