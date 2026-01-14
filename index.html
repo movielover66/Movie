@@ -111,19 +111,33 @@
         <div id="detailsContent"></div>
     </div>
     
-    <div id="playerPage" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:4000;">
-    <button onclick="closePlayer()" style="position:absolute; top:20px; left:20px; background:rgba(255,255,255,0.2); color:#fff; border:none; padding:10px 15px; border-radius:50%; z-index:10; cursor:pointer;">
-    <i class="fa-solid fa-xmark"></i>
-    </button>
-    <iframe id="videoIframe" 
-    src="" 
-    style="width:100%; height:100%; border:none;" 
-    sandbox="allow-forms allow-scripts allow-same-origin" <-- (আমরা navigation এবং popups ডিলিট করে দিয়েছি)
-    allow="autoplay; fullscreen" 
-    allowfullscreen>
-    </iframe>
+    <div id="playerPage" style="display:none; position:fixed; inset:0; background:#000; z-index:4000; font-family: sans-serif;">
+    <div style="position:absolute; top:0; width:100%; padding:15px; background:linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); z-index:10; display:flex; align-items:center; justify-content:space-between; box-sizing:border-box;">
+        <button onclick="closePlayer()" style="background:rgba(255,255,255,0.15); color:#fff; border:none; width:45px; height:45px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1);">
+            <i class="fa-solid fa-arrow-left" style="font-size: 20px;"></i>
+        </button>
+        <div style="text-align:right;">
+            <div style="color:#ffd700; font-weight:bold; font-size:14px; letter-spacing:1px;">PRITAM OTT PREMIUM</div>
+            <div style="color:rgba(255,255,255,0.6); font-size:10px;">এখন প্লে হচ্ছে...</div>
+        </div>
     </div>
 
+    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:10px; box-sizing:border-box; background: radial-gradient(circle, #111 0%, #000 100%);">
+        <iframe id="videoIframe" src="" 
+            style="width:100%; height:auto; aspect-ratio: 16/9; border:1px solid #333; border-radius:12px; box-shadow: 0 0 40px rgba(229, 9, 20, 0.25); background:#000;" 
+            sandbox="allow-forms allow-scripts allow-same-origin" 
+            allow="autoplay; fullscreen" allowfullscreen>
+        </iframe>
+    </div>
+
+    <div style="position:absolute; bottom:0; width:100%; padding:15px; background:linear-gradient(to top, rgba(0,0,0,0.9), transparent); text-align:center;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:8px; color:rgba(255,255,255,0.5); font-size:11px;">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>বিজ্ঞাপন আসলে ফোনের "Back" বাটন চেপে আবার প্লে করুন</span>
+        </div>
+    </div>
+    </div>
+    
     <!-- DOWNLOAD POPUP (নতুন যোগ করা অংশ) -->
     <div id="downloadPopup" style="
         display:none; position:fixed; inset:0;
