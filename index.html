@@ -370,11 +370,20 @@ function submitRequest() {
     const volSlider = document.getElementById('volSlider');
     const volValue = document.getElementById('volValue');
     volSlider.oninput = function() {
-        let boost = parseFloat(this.value);
-        volValue.innerText = "🔊 " + Math.round(boost * 100) + "%";
-        // আইফ্রেমের অডিও কন্ট্রোল করার জন্য স্লাইডারটি এখন কাজ করবে
-    };
-
+    let boost = parseFloat(this.value);
+    volValue.innerText = "🔊 " + Math.round(boost * 100) + "%";
+    
+    const iframe = document.getElementById('videoIframe');
+    try {
+        // ভিডিও এলিমেন্টকে টার্গেট করে সরাসরি সাউন্ড কন্ট্রোল
+        const video = iframe.contentWindow.document.querySelector('video');
+        if (video) {
+            video.volume = boost > 1 ? 1 : boost; 
+        }
+    } catch(e) {
+        console.warn("ক্রস-অরিজিন পলিসির কারণে ব্রাউজার এটি ব্লক করতে পারে।");
+    }
+};
     function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
     function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
 </script>
