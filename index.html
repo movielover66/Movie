@@ -431,7 +431,7 @@ volSlider.oninput = function() {
     window.onload = function() {
     console.log("Session Check: ", sessionStorage.getItem('popupShown'));
     if (sessionStorage.getItem('popupShown') === null) {
-        document.getElementById('vpnNotice').style.display = 'flex';
+        document.getElementById('vpnNotice').style.display = 'none';
         sessionStorage.setItem('popupShown', 'done');
     } else {
         document.getElementById('vpnNotice').style.display = 'none';
