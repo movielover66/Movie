@@ -426,7 +426,13 @@ volSlider.oninput = function() {
 };
     function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
     function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
-        
+    function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
+    function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
+
+// এই নতুন অংশটুকু এখানে যোগ করো
+function closeVpnNotice() { 
+    document.getElementById('vpnNotice').style.display = 'none'; 
+}
 </script>
     <div id="soundControl" style="display:none; position:absolute; bottom:50px; right:20px; background:rgba(0,0,0,0.8); padding:10px; border-radius:12px; z-index:5000; flex-direction:column; align-items:center; gap:8px; border:1px solid #ffd700;">
         <span id="volValue" style="color:#ffd700; font-weight:bold; font-size:11px;">🔊 100%</span>
@@ -441,6 +447,17 @@ volSlider.oninput = function() {
             <button onclick="submitRequest()" style="width:100%; padding:12px; background:#e50914; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">পাঠিয়ে দিন</button>
             <button onclick="closeReqModal()" style="width:100%; padding:10px; background:transparent; color:#888; border:none; margin-top:10px; cursor:pointer;">বন্ধ করুন</button>
         </div>
-    </div>
-</body>
-</html>
+    <div id="vpnNotice" style="display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 15px; max-width: 350px; text-align: center; border: 2px solid #ffd700; box-shadow: 0 0 30px rgba(255,215,0,0.3);">
+        <div style="font-size: 40px; margin-bottom: 15px;">🚀</div>
+        <h3 style="color: #ffd700; margin-top: 0; font-family: sans-serif;">স্মার্ট টিপস!</h3>
+        <p style="color: #eee; font-size: 15px; line-height: 1.6; font-family: sans-serif;">
+            বিজ্ঞাপন ছাড়া মুভি দেখতে চান? <br>
+            একটি ভালো **VPN** (যেমন: 1.1.1.1) কানেক্ট করে অন্য দেশের সার্ভার ব্যবহার করুন। এতে সব পপ-আপ অ্যাড বন্ধ হয়ে যাবে!
+        </p>
+        <button onclick="closeVpnNotice()" style="background: #ffd700; color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px;">বুঝেছি, ধন্যবাদ!</button>
+     </div>  
+   </div>
+   </body>
+   </html>
+
