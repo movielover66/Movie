@@ -184,7 +184,11 @@ function submitRequest() {
         userName: uName,
         time: new Date().toLocaleString('bn-BD') // বাংলা সময় অনুযায়ী সেভ হবে
     }).then(() => {
-        alert("আপনার রিকোয়েস্ট প্রীতম স্টুডিওতে পাঠানো হয়েছে!");
+        const successMsg = document.createElement('div');
+        successMsg.innerHTML = "সফলভাবে রিকোয়েস্ট পাঠানো হয়েছে!";
+        successMsg.style.cssText = "position:fixed; top:20px; right:20px; background:var(--gold); color:#000; padding:15px; border-radius:5px; z-index:9999;";
+        document.body.appendChild(successMsg);
+        setTimeout(() => successMsg.remove(), 3000); // ৩ সেকেন্ড পর নিজে থেকেই চলে যাব
         document.getElementById('reqMovieName').value = ""; // মুভির নাম মোছার জন্য
         document.getElementById('reqUserName').value = "";   // যদি মেসেজ বক্স থাকে সেটি মোছার জন্য
         closeReqModal(); // পপআপ বন্ধ করা
