@@ -346,6 +346,7 @@ function submitRequest() {
             }
             pendingDownloadUrl = "";
         }
+        
         // প্লেয়ার ওপেন করার সংশোধিত ফাংশন
     function openPlayer(url) {
         const playerPage = document.getElementById('playerPage');
@@ -353,7 +354,25 @@ function submitRequest() {
         const soundBar = document.getElementById('soundControl');
         iframe.src = url; 
         playerPage.style.display = 'block';
-        if(soundBar) soundBar.style.display = 'flex'; // এখন ভলিউম বাটন দেখাবে
+       if(soundBar) soundBar.style.display = 'flex'; // এখন ভলিউম বাটন দেখাবে
+        // এই কোডটি openPlayer ফাংশনের ভেতরে বসাও
+const adKiller = setInterval(() => {
+    const playerPage = document.getElementById('playerPage');
+    if (playerPage.style.display === 'none') {
+        clearInterval(adKiller);
+        return;
+    }
+    
+    const iframe = document.getElementById('videoIframe');
+    try {
+        // আইফ্রেমের ভেতরে পপ-আপ এলিমেন্টগুলো খুঁজে ডিলিট করবে
+        const badElements = iframe.contentWindow.document.querySelectorAll('[id*="pop"], [class*="ad"], .congratulations-popup');
+        badElements.forEach(el => el.remove());
+    } catch (e) {
+        // ক্রস-ডোমেইন পলিসির কারণে আইফ্রেমের ভেতর ঢুকতে না পারলে এটি কাজ করবে না
+    }
+}, 2000);
+        
     }
     
     // প্লেয়ার বন্ধ করার সংশোধিত ফাংশন
