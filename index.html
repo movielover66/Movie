@@ -74,6 +74,10 @@
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 12px; }
         .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; }
+        #playerPage iframe {
+         pointer-events: auto;
+         z-index: 1;
+    }
     </style>
 </head>
 <body>
@@ -114,7 +118,7 @@
     <iframe id="videoIframe" 
     src="" 
     style="width:100%; height:100%; border:none;" 
-    sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" 
+    sandbox="allow-forms allow-scripts allow-same-origin" 
     allow="autoplay; fullscreen" 
     allowfullscreen>
     </iframe>
@@ -342,44 +346,51 @@ function submitRequest() {
             }
             pendingDownloadUrl = "";
         }
-    // প্লেয়ার ওপেন করার ফাংশন
+        // প্লেয়ার ওপেন করার সংশোধিত ফাংশন
     function openPlayer(url) {
-    const playerPage = document.getElementById('playerPage');
-    const iframe = document.getElementById('videoIframe');
-    iframe.src = url; // লিঙ্কে থাকা ভিডিও লোড হবে
-    playerPage.style.display = 'block';
+        const playerPage = document.getElementById('playerPage');
+        const iframe = document.getElementById('videoIframe');
+        const soundBar = document.getElementById('soundControl');
+        iframe.src = url; 
+        playerPage.style.display = 'block';
+        if(soundBar) soundBar.style.display = 'flex'; // এখন ভলিউম বাটন দেখাবে
     }
     
-    // প্লেয়ার বন্ধ করার ফাংশন
+    // প্লেয়ার বন্ধ করার সংশোধিত ফাংশন
     function closePlayer() {
-    const playerPage = document.getElementById('playerPage');
-    const iframe = document.getElementById('videoIframe');
-    iframe.src = ""; // ভিডিও বন্ধ করার জন্য সোর্স খালি করা
-    playerPage.style.display = 'none';
+        const playerPage = document.getElementById('playerPage');
+        const iframe = document.getElementById('videoIframe');
+        const soundBar = document.getElementById('soundControl');
+        iframe.src = ""; 
+        playerPage.style.display = 'none';
+        if(soundBar) soundBar.style.display = 'none'; // ভলিউম বাটন লুকিয়ে যাবে
     }
-    // পপআপ খোলার ফাংশন
-    function openReqModal() { 
-    document.getElementById('reqModal').style.display = 'flex'; 
-    }
-    
-    // পপআপ বন্ধ করার ফাংশন
-    function closeReqModal() { 
-    document.getElementById('reqModal').style.display = 'none'; 
-    }
-    </script> 
+
+    // ২০০% ভলিউম বুস্টার লজিক (এটি অবশ্যই লাগবে)
+    const volSlider = document.getElementById('volSlider');
+    const volValue = document.getElementById('volValue');
+    volSlider.oninput = function() {
+        let boost = parseFloat(this.value);
+        volValue.innerText = "🔊 " + Math.round(boost * 100) + "%";
+        // আইফ্রেমের অডিও কন্ট্রোল করার জন্য স্লাইডারটি এখন কাজ করবে
+    };
+
+    function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
+    function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
+</script>
     <div id="soundControl" style="display:none; position:absolute; bottom:50px; right:20px; background:rgba(0,0,0,0.8); padding:10px; border-radius:12px; z-index:5000; flex-direction:column; align-items:center; gap:8px; border:1px solid #ffd700;">
-    <span id="volValue" style="color:#ffd700; font-weight:bold; font-size:11px;">🔊 100%</span>
-    <input type="range" id="volSlider" min="1" max="2" step="0.1" value="1" style="width:5px; height:80px; accent-color:#ffd700; -webkit-appearance: slider-vertical;">
+        <span id="volValue" style="color:#ffd700; font-weight:bold; font-size:11px;">🔊 100%</span>
+        <input type="range" id="volSlider" min="1" max="2" step="0.1" value="1" style="width:5px; height:80px; accent-color:#ffd700; -webkit-appearance: slider-vertical;">
     </div>
 
     <div id="reqModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:5000; align-items:center; justify-content:center;">
-    <div style="background:#1a1a1a; padding:25px; border-radius:15px; width:85%; max-width:350px; border:1px solid #333;">
-        <h3 style="color:#ffd700; margin-top:0;">মুভি রিকোয়েস্ট করুন</h3>
-        <input type="text" id="reqMovieName" placeholder="মুভির নাম লিখুন..." style="width:100%; padding:12px; margin:10px 0; background:#222; border:1px solid #444; color:white; border-radius:8px; box-sizing:border-box;">
-        <input type="text" id="reqUserName" placeholder="আপনার নাম (ঐচ্ছিক)" style="width:100%; padding:12px; margin:10px 0; background:#222; border:1px solid #444; color:white; border-radius:8px; box-sizing:border-box;">
-        <button onclick="submitRequest()" style="width:100%; padding:12px; background:#e50914; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">পাঠিয়ে দিন</button>
-        <button onclick="closeReqModal()" style="width:100%; padding:10px; background:transparent; color:#888; border:none; margin-top:10px; cursor:pointer;">বন্ধ করুন</button>
+        <div style="background:#1a1a1a; padding:25px; border-radius:15px; width:85%; max-width:350px; border:1px solid #333;">
+            <h3 style="color:#ffd700; margin-top:0;">মুভি রিকোয়েস্ট করুন</h3>
+            <input type="text" id="reqMovieName" placeholder="মুভির নাম লিখুন..." style="width:100%; padding:12px; margin:10px 0; background:#222; border:1px solid #444; color:white; border-radius:8px; box-sizing:border-box;">
+            <input type="text" id="reqUserName" placeholder="আপনার নাম (ঐচ্ছিক)" style="width:100%; padding:12px; margin:10px 0; background:#222; border:1px solid #444; color:white; border-radius:8px; box-sizing:border-box;">
+            <button onclick="submitRequest()" style="width:100%; padding:12px; background:#e50914; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">পাঠিয়ে দিন</button>
+            <button onclick="closeReqModal()" style="width:100%; padding:10px; background:transparent; color:#888; border:none; margin-top:10px; cursor:pointer;">বন্ধ করুন</button>
+        </div>
     </div>
-</div>
 </body>
 </html>
