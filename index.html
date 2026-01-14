@@ -428,10 +428,15 @@ volSlider.oninput = function() {
     function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
     function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
     function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
-window.onload = function() {
-    document.getElementById('vpnNotice').style.display = 'flex';
+    window.onload = function() {
+    if (!sessionStorage.getItem('popupShown')) {
+        document.getElementById('vpnNotice').style.display = 'flex';
+        sessionStorage.setItem('popupShown', 'true');
+    } else {
+        document.getElementById('vpnNotice').style.display = 'none';
+    }
 };
-
+        
 function closeVpnNotice() { 
     document.getElementById('vpnNotice').style.display = 'none'; 
 }
