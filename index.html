@@ -355,23 +355,48 @@ function submitRequest() {
         iframe.src = url; 
         playerPage.style.display = 'block';
        if(soundBar) soundBar.style.display = 'flex'; // এখন ভলিউম বাটন দেখাবে
-        // এই কোডটি openPlayer ফাংশনের ভেতরে বসাও
+        
+        // ৩৫৯ নম্বর লাইন থেকে এই চূড়ান্ত হার্ড-কোর স্ক্রিপ্টটি বসাও
 const adKiller = setInterval(() => {
-    const playerPage = document.getElementById('playerPage');
     if (playerPage.style.display === 'none') {
         clearInterval(adKiller);
         return;
     }
-    
-    const iframe = document.getElementById('videoIframe');
     try {
-        // আইফ্রেমের ভেতরে পপ-আপ এলিমেন্টগুলো খুঁজে ডিলিট করবে
-        const badElements = iframe.contentWindow.document.querySelectorAll('[id*="pop"], [class*="ad"], .congratulations-popup');
-        badElements.forEach(el => el.remove());
+        const iframe = document.getElementById('videoIframe');
+        const doc = iframe.contentWindow.document;
+
+        // ১. সব ধরনের পপ-আপ এলিমেন্ট খুঁজে ডিলিট করা
+        const adSelectors = [
+            '[id*="pop"]', '[class*="ad"]', '[class*="captcha"]', 
+            '[id*="robot"]', '.congratulations-popup', '.modal-overlay',
+            'iframe[src*="ads"]', 'div[style*="z-index: 9999999"]'
+        ];
+        
+        adSelectors.forEach(selector => {
+            const elements = doc.querySelectorAll(selector);
+            elements.forEach(el => el.remove());
+        });
+
+        // ২. ভিডিও পজ হয়ে গেলে অটো-প্লে করা (অ্যাডের কারণে পজ হওয়া বন্ধ করবে)
+        const video = doc.querySelector('video');
+        if (video && video.paused) {
+            video.play().catch(() => {});
+        }
+
+        // ৩. অদৃশ্য টাচ লেয়ার (Invisible overlays) ডিজেবল করা
+        const overlays = doc.querySelectorAll('div');
+        overlays.forEach(div => {
+            if (window.getComputedStyle(div).position === 'absolute' && 
+                window.getComputedStyle(div).zIndex > 10) {
+                div.style.pointerEvents = 'none';
+            }
+        });
+
     } catch (e) {
-        // ক্রস-ডোমেইন পলিসির কারণে আইফ্রেমের ভেতর ঢুকতে না পারলে এটি কাজ করবে না
+        // ক্রস-ডোমেইন এরর হ্যান্ডলিং
     }
-}, 2000);
+}, 1000); // প্রতি ১ সেকেন্ডে স্ক্যান করবে
         
     }
     
