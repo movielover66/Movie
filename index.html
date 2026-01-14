@@ -443,12 +443,12 @@ volSlider.oninput = function() {
     function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
     function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
     window.onload = function() {
-    console.log("Session Check: ", sessionStorage.getItem('popupShown'));
-    if (sessionStorage.getItem('popupShown') === null) {
+    // আগের সেশন ক্লিয়ার করার জন্য এই লাইনটি খুব জরুরি
+    let status = sessionStorage.getItem('popupShown');
+    
+    if (!status) {
         document.getElementById('vpnNotice').style.display = 'flex';
-        sessionStorage.setItem('popupShown', 'done');
-    } else {
-        document.getElementById('vpnNotice').style.display = 'none';
+        sessionStorage.setItem('popupShown', 'true');
     }
 };
         
