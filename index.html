@@ -365,27 +365,36 @@ function submitRequest() {
         playerPage.style.display = 'none';
         if(soundBar) soundBar.style.display = 'none'; // ভলিউম বাটন লুকিয়ে যাবে
     }
+        
+    // ২০০% ভলিউম বুস্টার লজিক (AudioContext)
+const volSlider = document.getElementById('volSlider');
+const volValue = document.getElementById('volValue');
+const iframe = document.getElementById('videoIframe');
+let audioCtx, source, gainNode;
 
-    // ২০০% ভলিউম বুস্টার লজিক (এটি অবশ্যই লাগবে)
-    const volSlider = document.getElementById('volSlider');
-    const volValue = document.getElementById('volValue');
-    volSlider.oninput = function() {
+volSlider.oninput = function() {
     let boost = parseFloat(this.value);
     volValue.innerText = "🔊 " + Math.round(boost * 100) + "%";
     
-    const iframe = document.getElementById('videoIframe');
     try {
-        // ভিডিও এলিমেন্টকে টার্গেট করে সরাসরি সাউন্ড কন্ট্রোল
         const video = iframe.contentWindow.document.querySelector('video');
         if (video) {
-            video.volume = boost > 1 ? 1 : boost; 
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                source = audioCtx.createMediaElementSource(video);
+                gainNode = audioCtx.createGain();
+                source.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+            }
+            gainNode.gain.value = boost; 
         }
-    } catch(e) {
-        console.warn("ক্রস-অরিজিন পলিসির কারণে ব্রাউজার এটি ব্লক করতে পারে।");
+    } catch (e) {
+        console.warn("ক্রস-অরিজিন পলিসির কারণে বুস্ট সীমাবদ্ধ হতে পারে।");
     }
 };
     function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
     function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
+        
 </script>
     <div id="soundControl" style="display:none; position:absolute; bottom:50px; right:20px; background:rgba(0,0,0,0.8); padding:10px; border-radius:12px; z-index:5000; flex-direction:column; align-items:center; gap:8px; border:1px solid #ffd700;">
         <span id="volValue" style="color:#ffd700; font-weight:bold; font-size:11px;">🔊 100%</span>
