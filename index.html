@@ -10,14 +10,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <style>
-        /* তোমার অরিজিনাল Powerhouse ডিজাইন - এক বিন্দুও পাল্টানো হয়নি */
         :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; --card-bg: #1a1a1a; --glass: rgba(255, 255, 255, 0.1); }
         body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
-        #offlineMessage {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); color: white; text-align: center; z-index: 9999; padding-top: 30%;
-        }
+        #offlineMessage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); color: white; text-align: center; z-index: 9999; padding-top: 30%; }
         .reload-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; margin-top: 20px; cursor: pointer; box-shadow: 0 0 15px rgba(229, 9, 20, 0.4); }
 
         .navbar { background-color: #0c0c0c; padding: 20px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
@@ -74,14 +70,14 @@
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 12px; }
         .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; }
-        #playerPage iframe {
-         pointer-events: auto;
-         z-index: 1;
-    }
+        #playerPage iframe { pointer-events: auto; z-index: 1; }
+        
+        /* New Toast Animation */
+        @keyframes fadeIn { from { opacity: 0; bottom: 0; } to { opacity: 1; bottom: 20px; } }
+        @keyframes fadeOut { from { opacity: 1; bottom: 20px; } to { opacity: 0; bottom: 0; } }
     </style>
 </head>
 <body>
-
     <div id="offlineMessage">
         <i class="fa-solid fa-wifi-slash" style="font-size: 60px; color: var(--primary); margin-bottom: 20px;"></i>
         <h2>ইন্টারনেট সংযোগ বিচ্ছিন্ন!</h2>
@@ -112,354 +108,32 @@
     </div>
     
     <div id="playerPage" style="display:none; position:fixed; inset:0; background:#000; z-index:4000; font-family: sans-serif;">
-    <div style="position:absolute; top:0; width:100%; padding:15px; background:linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); z-index:10; display:flex; align-items:center; justify-content:space-between; box-sizing:border-box;">
-        <button onclick="closePlayer()" style="background:rgba(255,255,255,0.15); color:#fff; border:none; width:45px; height:45px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1);">
-            <i class="fa-solid fa-arrow-left" style="font-size: 20px;"></i>
-        </button>
-        <div style="text-align:right;">
-            <div style="color:#ffd700; font-weight:bold; font-size:14px; letter-spacing:1px;">PRITAM OTT PREMIUM</div>
-            <div style="color:rgba(255,255,255,0.6); font-size:10px;">এখন প্লে হচ্ছে...</div>
+        <div style="position:absolute; top:0; width:100%; padding:15px; background:linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); z-index:10; display:flex; align-items:center; justify-content:space-between; box-sizing:border-box;">
+            <button onclick="closePlayer()" style="background:rgba(255,255,255,0.15); color:#fff; border:none; width:45px; height:45px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1);">
+                <i class="fa-solid fa-arrow-left" style="font-size: 20px;"></i>
+            </button>
+            <div style="text-align:right;">
+                <div style="color:#ffd700; font-weight:bold; font-size:14px; letter-spacing:1px;">PRITAM OTT PREMIUM</div>
+                <div style="color:rgba(255,255,255,0.6); font-size:10px;">এখন প্লে হচ্ছে...</div>
+            </div>
         </div>
-    </div>
-
-    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:10px; box-sizing:border-box; background: radial-gradient(circle, #111 0%, #000 100%);">
-        <iframe id="videoIframe" src="" 
-            style="width:100%; height:auto; aspect-ratio: 16/9; border:1px solid #333; border-radius:12px; box-shadow: 0 0 40px rgba(229, 9, 20, 0.25); background:#000;" 
-            sandbox="allow-forms allow-scripts allow-same-origin" 
-            allow="autoplay; fullscreen" allowfullscreen>
-        </iframe>
-    </div>
-
-    <div style="position:absolute; bottom:0; width:100%; padding:15px; background:linear-gradient(to top, rgba(0,0,0,0.9), transparent); text-align:center;">
-        <div style="display:flex; align-items:center; justify-content:center; gap:8px; color:rgba(255,255,255,0.5); font-size:11px;">
-            <i class="fa-solid fa-circle-info"></i>
-            <span>বিজ্ঞাপন আসলে ফোনের "Back" বাটন চেপে আবার প্লে করুন</span>
+        <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:10px; box-sizing:border-box; background: radial-gradient(circle, #111 0%, #000 100%);">
+            <iframe id="videoIframe" src="" style="width:100%; height:auto; aspect-ratio: 16/9; border:1px solid #333; border-radius:12px; box-shadow: 0 0 40px rgba(229, 9, 20, 0.25); background:#000;" sandbox="allow-forms allow-scripts allow-same-origin allow-popups" allow="autoplay; fullscreen" allowfullscreen></iframe>
         </div>
-    </div>
+        <div style="position:absolute; bottom:0; width:100%; padding:15px; background:linear-gradient(to top, rgba(0,0,0,0.9), transparent); text-align:center;">
+            <div style="display:flex; align-items:center; justify-content:center; gap:8px; color:rgba(255,255,255,0.5); font-size:11px;">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>বিজ্ঞাপন আসলে ফোনের "Back" বাটন চেপে আবার প্লে করুন</span>
+            </div>
+        </div>
     </div>
     
-    <!-- DOWNLOAD POPUP (নতুন যোগ করা অংশ) -->
-    <div id="downloadPopup" style="
-        display:none; position:fixed; inset:0;
-        background: rgba(0,0,0,0.85); z-index:3000;
-        align-items:center; justify-content:center;
-    ">
-      <div style="
-          background:#111; padding:20px; border-radius:12px;
-          width:80%; max-width:320px; text-align:center;
-          border:1px solid #333; box-shadow:0 0 20px rgba(0,0,0,0.8);
-      ">
+    <div id="downloadPopup" style="display:none; position:fixed; inset:0; background: rgba(0,0,0,0.85); z-index:3000; align-items:center; justify-content:center;">
+      <div style="background:#111; padding:20px; border-radius:12px; width:80%; max-width:320px; text-align:center; border:1px solid #333; box-shadow:0 0 20px rgba(0,0,0,0.8);">
         <h3 style="margin-top:0; color:#ffd700;">ডাউনলোড প্রস্তুত হচ্ছে…</h3>
-        <p style="font-size:14px; color:#ccc; margin-bottom:10px;">
-          দয়া করে <span id="dlCounter">5</span> সেকেন্ড অপেক্ষা করুন, তারপর অটো ডাউনলোড শুরু হবে।
-        </p>
-        <button onclick="closeDownloadPopup()" style="
-            margin-top:10px; padding:8px 16px; border:none;
-            border-radius:6px; background:#e50914; color:#fff;
-            font-weight:bold; cursor:pointer;
-        ">
-          বাতিল করুন
-        </button>
+        <p style="font-size:14px; color:#ccc; margin-bottom:10px;">দয়া করে <span id="dlCounter">5</span> সেকেন্ড অপেক্ষা করুন, তারপর অটো ডাউনলোড শুরু হবে।</p>
+        <button onclick="closeDownloadPopup()" style="margin-top:10px; padding:8px 16px; border:none; border-radius:6px; background:#e50914; color:#fff; font-weight:bold; cursor:pointer;">বাতিল করুন</button>
       </div>
-    </div>
-
-    <script>
-        // --- Firebase Config (একই রাখা হয়েছে) ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI",
-            authDomain: "pritam-ott.firebaseapp.com",
-            databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com",
-            projectId: "pritam-ott",
-            storageBucket: "pritam-ott.firebasestorage.app",
-            messagingSenderId: "8916733532",
-            appId: "1:8916733532:web:8b1143a7352770ff7e6099"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-const userStatusRef = db.ref('/status/' + Date.now());
-db.ref('.info/connected').on('value', (snapshot) => {
-    if (snapshot.val() == false) return;
-    userStatusRef.onDisconnect().remove().then(() => {
-        userStatusRef.set({ state: 'online', last_changed: firebase.database.ServerValue.TIMESTAMP });
-    });
-});
-
-// --- মুভি রিকোয়েস্ট পাঠানোর ফাংশন ---
-function submitRequest() {
-    // ইনপুট ফিল্ড থেকে মুভির নাম এবং ইউজারের নাম সংগ্রহ করা
-    const mName = document.getElementById('reqMovieName').value;
-    const uName = document.getElementById('reqUserName').value || "Anonymous";
-    
-    // মুভির নাম খালি থাকলে অ্যালার্ট দিবে
-    if(!mName) { 
-        alert("দয়া করে মুভির নাম লিখুন!"); 
-        return; 
-    }
-
-    // ফায়ারবেসের 'requests' ফোল্ডারে ডেটা পাঠানো
-    db.ref('requests').push({
-        movieName: mName,
-        userName: uName,
-        time: new Date().toLocaleString('bn-BD') // বাংলা সময় অনুযায়ী সেভ হবে
-    }).then(() => {
-        const successMsg = document.createElement('div');
-        successMsg.innerHTML = "সফলভাবে রিকোয়েস্ট পাঠানো হয়েছে!";
-        successMsg.style.cssText = "position:fixed; top:20px; right:20px; background:var(--gold); color:#000; padding:15px; border-radius:5px; z-index:9999;";
-        document.body.appendChild(successMsg);
-        setTimeout(() => successMsg.remove(), 3000); // ৩ সেকেন্ড পর নিজে থেকেই চলে যাব
-        document.getElementById('reqMovieName').value = ""; // মুভির নাম মোছার জন্য
-        document.getElementById('reqUserName').value = "";   // যদি মেসেজ বক্স থাকে সেটি মোছার জন্য
-        closeReqModal(); // পপআপ বন্ধ করা
-    }).catch((e) => {
-        alert("দুঃখিত, আবার চেষ্টা করুন: " + e.message);
-    });
-}
-
-        let allMovies = [];
-        let filteredMovies = [];
-        let currentPage = 1;
-        let globalClicks = {};
-
-        // Realtime Database থেকে মুভি লোড করা
-        db.ref('movies').on('value', (snap) => {
-            const data = snap.val();
-            allMovies = [];
-            for (let id in data) {
-                allMovies.push({ id: id, ...data[id] });
-            }
-            allMovies.sort((a, b) => new Date(b.uploadTime) - new Date(a.uploadTime));
-            filteredMovies = [...allMovies];
-            displayMovies();
-        });
-
-        // ক্লিক ডেটা শোনা
-        db.ref('movieClicks').on('value', (snap) => {
-            globalClicks = snap.val() || {};
-            displayMovies();
-        });
-
-        function timeAgo(date) {
-            const seconds = Math.floor((new Date() - new Date(date)) / 1000);
-            if (seconds < 60) return "সবেমাত্র";
-            let interval = Math.floor(seconds / 3600);
-            if (interval >= 1) return interval + " ঘণ্টা আগে";
-            interval = Math.floor(seconds / 60);
-            return interval + " মিনিট আগে";
-        }
-
-        function displayMovies() {
-            const list = document.getElementById('movieList');
-            const start = (currentPage - 1) * 10;
-            const paginated = filteredMovies.slice(start, start + 10);
-            
-            list.innerHTML = paginated.map((movie) => {
-                const clicks = globalClicks[movie.id] || 0;
-                const trending = (clicks >= 5 || allMovies.indexOf(movie) < 3) ? `<div class="half-trending-bar">🔥 Trending Now</div>` : "";
-                const diffHours = (new Date() - new Date(movie.uploadTime)) / (1000 * 3600);
-                let tag = diffHours < 24 ? `<div class="recent-tag">Recently Added</div>` : (diffHours < 72 ? `<div class="newly-tag">Newly Added</div>` : `<div class="must-tag">Must Watch</div>`);
-
-                return `<div class="movie-box" onclick="showDetails('${movie.id}')"> 
-                    <div class="movie-card show">
-                        <div class="image-container"><img src="${movie.img}" class="movie-img">${trending}<div class="res-badge">${movie.res}</div></div>
-                        <div class="upload-info"><span class="time-text">${timeAgo(movie.uploadTime)}</span><div class="tag-area">${tag}</div><div class="movie-title">${movie.title}</div></div>
-                    </div>
-                </div>`;
-            }).join('');
-            
-            document.getElementById('pageNumber').innerText = `Page ${currentPage}`;
-            document.getElementById('prevBtn').disabled = (currentPage === 1);
-            document.getElementById('nextBtn').disabled = (start + 10 >= filteredMovies.length);
-            setTimeout(revealCards, 100);
-        }
-
-        function showDetails(id) {
-            db.ref('movieClicks/' + id).transaction(c => (c || 0) + 1); // ক্লিক ট্র্যাক করা
-            const movie = allMovies.find(m => m.id === id);
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('detailsPage').style.display = 'block';
-            window.scrollTo(0,0);
-            
-            let sHtml = movie.seasons.map((s, i) => `
-                <div class="season-box">
-                    <div class="season-header" onclick="toggleS('s${i}')">
-                        <span style="color:var(--gold); font-weight:bold;">${s.name} - [${movie.lang}]</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="season-content" id="s${i}">
-                        <a href="javascript:void(0)" 
-                           onclick="showDownloadPopup('${s.dl}')"
-                           class="btn-main" 
-                           style="background:#00bcd4; color:#fff;">
-                           <i class="fa-solid fa-download"></i> DOWNLOAD
-                        </a>
-                        <a href="javascript:void(0)" 
-                           onclick="openPlayer('${s.watch}')" 
-                           class="btn-main" 
-                           style="background:#ff007f; color:#fff;">
-                           <i class="fa-solid fa-play"></i> WATCH ONLINE
-                        </a>
-                    </div>
-                </div>`).join('');
-
-            document.getElementById('detailsContent').innerHTML = `
-                <div class="hero-banner" style="background-image: url('${movie.img}')">
-                    <div class="hero-overlay"></div>
-                </div>
-                <div class="content-wrap">
-                    <img src="${movie.img}" class="details-poster">
-                    <h2 style="margin: 15px 0;">${movie.title}</h2>
-                    <div style="color:var(--gold); margin:10px 0;">★ ${movie.rating || '8.5'} | ${movie.year || '2025'} | ${movie.res}</div>
-                    <div class="description">${movie.desc}</div>
-                    ${sHtml}
-                    </div>;`
-                     }
-                     
-        function toggleS(id) { const el = document.getElementById(id); el.style.display = (el.style.display === "block") ? "none" : "block"; }
-        function searchMovie() { const term = document.getElementById('movieSearch').value.toLowerCase(); filteredMovies = allMovies.filter(m => m.title.toLowerCase().includes(term)); currentPage = 1; displayMovies(); }
-        function revealCards() { document.querySelectorAll('.movie-card').forEach(c => c.classList.add('show')); }
-        function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
-        function changePage(step) { currentPage += step; displayMovies(); window.scrollTo(0,0); }
-        function checkStatus() { document.getElementById('offlineMessage').style.display = navigator.onLine ? 'none' : 'block'; }
-        
-        window.addEventListener('offline', checkStatus);
-        window.addEventListener('online', checkStatus);
-        checkStatus();
-
-        // ------- DOWNLOAD POPUP + ৫ সেকেন্ড TIMER (নতুন JS) -------
-        let downloadTimer = null;
-        let downloadSeconds = 5;
-        let pendingDownloadUrl = "";
-
-        function showDownloadPopup(url) {
-            pendingDownloadUrl = url;
-            downloadSeconds = 5;
-            document.getElementById('dlCounter').innerText = downloadSeconds;
-            const popup = document.getElementById('downloadPopup');
-            popup.style.display = 'flex';
-
-            if (downloadTimer) clearInterval(downloadTimer);
-
-            downloadTimer = setInterval(() => {
-                downloadSeconds--;
-                document.getElementById('dlCounter').innerText = downloadSeconds;
-                if (downloadSeconds <= 0) {
-                    clearInterval(downloadTimer);
-                    downloadTimer = null;
-                    popup.style.display = 'none';
-                    window.open(pendingDownloadUrl, '_blank');
-                }
-            }, 1000);
-        }
-
-        function closeDownloadPopup() {
-            const popup = document.getElementById('downloadPopup');
-            popup.style.display = 'none';
-            if (downloadTimer) {
-                clearInterval(downloadTimer);
-                downloadTimer = null;
-            }
-            pendingDownloadUrl = "";
-        }
-        
-    function openPlayer(url) {
-    const playerPage = document.getElementById('playerPage');
-    const iframe = document.getElementById('videoIframe');
-    const soundBar = document.getElementById('soundControl');
-
-    // অ্যাড সার্ভার ডোমেইন লিস্ট (DNS ব্লকিং এর মতো কাজ করবে)
-    const blockedDomains = [
-        "1xbet", "popads", "adsterra", "doubleclick", "chickenroad", 
-        "memecoin", "gift-verify", "robot-check", "onclickads"
-    ];
-
-    // যদি মুভি লিঙ্কে কোনো অ্যাড ডোমেইন থাকে তবে তা আটকে দেবে
-    const isBlocked = blockedDomains.some(domain => url.toLowerCase().includes(domain));
-    if (isBlocked) {
-        alert("নিরাপত্তার স্বার্থে এই ক্ষতিকারক লিঙ্কটি ব্লক করা হয়েছে।");
-        return;
-    }
-
-    iframe.src = url;
-    playerPage.style.display = 'block';
-    if(soundBar) soundBar.style.display = 'flex';
-
-    const adKiller = setInterval(() => {
-        if (playerPage.style.display === 'none') {
-            clearInterval(adKiller);
-            return;
-        }
-        try {
-            const doc = iframe.contentWindow.document;
-            
-            // DNS লেভেলে যেভাবে এলিমেন্ট ব্লক হয়
-            const selectors = '[id*="pop"], [class*="ad"], .congratulations-popup, [id*="gift"]';
-            doc.querySelectorAll(selectors).forEach(el => el.remove());
-
-            // ভিডিও অটো-রিজিউম
-            const video = doc.querySelector('video');
-            if (video && video.paused) video.play().catch(() => {});
-        } catch (e) {}
-    }, 800); // প্রতি ০.৮ সেকেন্ডে স্ক্যান
-    }
-
-    // প্লেয়ার বন্ধ করার সংশোধিত ফাংশন
-    function closePlayer() {
-        const playerPage = document.getElementById('playerPage');
-        const iframe = document.getElementById('videoIframe');
-        const soundBar = document.getElementById('soundControl');
-        iframe.src = ""; 
-        playerPage.style.display = 'none';
-        if(soundBar) soundBar.style.display = 'none'; // ভলিউম বাটন লুকিয়ে যাবে
-    }
-        
-    // ২০০% ভলিউম বুস্টার লজিক (AudioContext)
-const volSlider = document.getElementById('volSlider');
-const volValue = document.getElementById('volValue');
-const iframe = document.getElementById('videoIframe');
-let audioCtx, source, gainNode;
-
-volSlider.oninput = function() {
-    let boost = parseFloat(this.value);
-    volValue.innerText = "🔊 " + Math.round(boost * 100) + "%";
-    
-    try {
-        const video = iframe.contentWindow.document.querySelector('video');
-        if (video) {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                source = audioCtx.createMediaElementSource(video);
-                gainNode = audioCtx.createGain();
-                source.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-            }
-            gainNode.gain.value = boost; 
-        }
-    } catch (e) {
-        console.warn("ক্রস-অরিজিন পলিসির কারণে বুস্ট সীমাবদ্ধ হতে পারে।");
-    }
-};
-    function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
-    function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
-    function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
-    function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
-    window.onload = function() {
-    // আগের সেশন ক্লিয়ার করার জন্য এই লাইনটি খুব জরুরি
-    let status = sessionStorage.getItem('popupShown');
-    
-    if (!status) {
-        document.getElementById('vpnNotice').style.display = 'flex';
-        sessionStorage.setItem('popupShown', 'true');
-    }
-};
-        
-function closeVpnNotice() { 
-    document.getElementById('vpnNotice').style.display = 'none'; 
-}
-</script>
-
-    <div id="soundControl" style="display:none; position:absolute; bottom:50px; right:20px; background:rgba(0,0,0,0.8); padding:10px; border-radius:12px; z-index:5000; flex-direction:column; align-items:center; gap:8px; border:1px solid #ffd700;">
-        <span id="volValue" style="color:#ffd700; font-weight:bold; font-size:11px;">🔊 100%</span>
-        <input type="range" id="volSlider" min="1" max="2" step="0.1" value="1" style="width:5px; height:80px; accent-color:#ffd700; -webkit-appearance: slider-vertical;">
     </div>
 
     <div id="reqModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:5000; align-items:center; justify-content:center;">
@@ -476,12 +150,169 @@ function closeVpnNotice() {
         <div style="background: #1a1a1a; padding: 25px; border-radius: 15px; max-width: 350px; text-align: center; border: 2px solid #ffd700; box-shadow: 0 0 30px rgba(255,215,0,0.3);">
             <div style="font-size: 40px; margin-bottom: 15px;">🚀</div>
             <h3 style="color: #ffd700; margin-top: 0; font-family: sans-serif;">স্মার্ট টিপস!</h3>
-            <p style="color: #eee; font-size: 15px; line-height: 1.6; font-family: sans-serif;">
-                বিজ্ঞাপন ছাড়া মুভি দেখতে চান? <br>
-                একটি ভালো **VPN** কানেক্ট করে অন্য দেশের সার্ভার ব্যবহার করুন। এতে সব পপ-আপ অ্যাড বন্ধ হয়ে যাবে!
-            </p>
+            <p style="color: #eee; font-size: 15px; line-height: 1.6; font-family: sans-serif;">বিজ্ঞাপন ছাড়া মুভি দেখতে চান? <br> একটি ভালো **VPN** কানেক্ট করে অন্য দেশের সার্ভার ব্যবহার করুন। এতে সব পপ-আপ অ্যাড বন্ধ হয়ে যাবে!</p>
             <button onclick="closeVpnNotice()" style="background: #ffd700; color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px;">বুঝেছি, ধন্যবাদ!</button>
         </div>  
-    </div> 
+    </div>
+
+    <div id="soundControl" style="display:none; position:absolute; bottom:50px; right:20px; background:rgba(0,0,0,0.8); padding:10px; border-radius:12px; z-index:5000; flex-direction:column; align-items:center; gap:8px; border:1px solid #ffd700;">
+        <span id="volValue" style="color:#ffd700; font-weight:bold; font-size:11px;">🔊 100%</span>
+        <input type="range" id="volSlider" min="1" max="2" step="0.1" value="1" style="width:5px; height:80px; accent-color:#ffd700; -webkit-appearance: slider-vertical;">
+    </div>
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI", authDomain: "pritam-ott.firebaseapp.com", databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com", projectId: "pritam-ott", storageBucket: "pritam-ott.firebasestorage.app", messagingSenderId: "8916733532", appId: "1:8916733532:web:8b1143a7352770ff7e6099" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const userStatusRef = db.ref('/status/' + Date.now());
+        db.ref('.info/connected').on('value', (s) => { if (s.val()) userStatusRef.onDisconnect().remove().then(() => userStatusRef.set({ state: 'online', last_changed: firebase.database.ServerValue.TIMESTAMP })); });
+
+        let allMovies = [], filteredMovies = [], currentPage = 1, globalClicks = {};
+
+        db.ref('movies').on('value', (snap) => {
+            const data = snap.val();
+            allMovies = [];
+            for (let id in data) { allMovies.push({ id: id, ...data[id] }); }
+            allMovies.sort((a, b) => new Date(b.uploadTime) - new Date(a.uploadTime));
+            filteredMovies = [...allMovies];
+            displayMovies();
+        });
+        db.ref('movieClicks').on('value', (snap) => { globalClicks = snap.val() || {}; displayMovies(); });
+
+        function timeAgo(date) {
+            const s = Math.floor((new Date() - new Date(date)) / 1000);
+            if (s < 60) return "সবেমাত্র";
+            let h = Math.floor(s / 3600);
+            return h >= 1 ? h + " ঘণ্টা আগে" : Math.floor(s / 60) + " মিনিট আগে";
+        }
+
+        function displayMovies() {
+            const list = document.getElementById('movieList');
+            const start = (currentPage - 1) * 10;
+            const paginated = filteredMovies.slice(start, start + 10);
+            list.innerHTML = paginated.map((m) => {
+                const clicks = globalClicks[m.id] || 0;
+                const trending = (clicks >= 5 || allMovies.indexOf(m) < 3) ? `<div class="half-trending-bar">🔥 Trending Now</div>` : "";
+                const dH = (new Date() - new Date(m.uploadTime)) / 36e5;
+                let tag = dH < 24 ? `<div class="recent-tag">Recently Added</div>` : (dH < 72 ? `<div class="newly-tag">Newly Added</div>` : `<div class="must-tag">Must Watch</div>`);
+                return `<div class="movie-box" onclick="showDetails('${m.id}')"> 
+                    <div class="movie-card show">
+                        <div class="image-container"><img src="${m.img}" class="movie-img">${trending}<div class="res-badge">${m.res}</div></div>
+                        <div class="upload-info"><span class="time-text">${timeAgo(m.uploadTime)}</span><div class="tag-area">${tag}</div><div class="movie-title">${m.title}</div></div>
+                    </div></div>`;
+            }).join('');
+            document.getElementById('pageNumber').innerText = `Page ${currentPage}`;
+            document.getElementById('prevBtn').disabled = (currentPage === 1);
+            document.getElementById('nextBtn').disabled = (start + 10 >= filteredMovies.length);
+            setTimeout(() => document.querySelectorAll('.movie-card').forEach(c => c.classList.add('show')), 100);
+        }
+
+        function showDetails(id) {
+            db.ref('movieClicks/' + id).transaction(c => (c || 0) + 1);
+            const m = allMovies.find(mov => mov.id === id);
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('detailsPage').style.display = 'block';
+            window.scrollTo(0,0);
+            
+            let sHtml = m.seasons.map((s, i) => `
+                <div class="season-box">
+                    <div class="season-header" onclick="toggleS('s${i}')">
+                        <span style="color:var(--gold); font-weight:bold;">${s.name} - [${m.lang}]</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="season-content" id="s${i}">
+                        <a href="javascript:void(0)" onclick="showDownloadPopup('${s.dl}')" class="btn-main" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-download"></i> DOWNLOAD</a>
+                        <a href="javascript:void(0)" onclick="openPlayer('${s.watch}')" class="btn-main" style="background:#ff007f; color:#fff;"><i class="fa-solid fa-play"></i> WATCH ONLINE</a>
+                    </div>
+                </div>`).join('');
+
+            document.getElementById('detailsContent').innerHTML = `
+                <div class="hero-banner" style="background-image: url('${m.img}')"><div class="hero-overlay"></div></div>
+                <div class="content-wrap">
+                    <img src="${m.img}" class="details-poster">
+                    <h2 style="margin: 15px 0;">${m.title}</h2>
+                    <div style="color:var(--gold); margin:10px 0;">★ ${m.rating || '8.5'} | ${m.year || '2025'} | ${m.res}</div>
+                    <div class="description">${m.desc}</div>
+                    ${sHtml}
+                </div>`;
+        }
+        
+        function toggleS(id) { const el = document.getElementById(id); el.style.display = (el.style.display === "block") ? "none" : "block"; }
+        function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
+        function changePage(s) { currentPage += s; displayMovies(); window.scrollTo(0,0); }
+        function searchMovie() { const t = document.getElementById('movieSearch').value.toLowerCase(); filteredMovies = allMovies.filter(m => m.title.toLowerCase().includes(t)); currentPage = 1; displayMovies(); }
+        function checkStatus() { document.getElementById('offlineMessage').style.display = navigator.onLine ? 'none' : 'block'; }
+        window.addEventListener('offline', checkStatus); window.addEventListener('online', checkStatus); checkStatus();
+
+        let downloadTimer = null, downloadSeconds = 5, pendingDownloadUrl = "";
+        function showDownloadPopup(url) {
+            pendingDownloadUrl = url; downloadSeconds = 5;
+            document.getElementById('dlCounter').innerText = downloadSeconds;
+            document.getElementById('downloadPopup').style.display = 'flex';
+            if (downloadTimer) clearInterval(downloadTimer);
+            downloadTimer = setInterval(() => {
+                downloadSeconds--;
+                document.getElementById('dlCounter').innerText = downloadSeconds;
+                if (downloadSeconds <= 0) { clearInterval(downloadTimer); document.getElementById('downloadPopup').style.display = 'none'; window.open(pendingDownloadUrl, '_blank'); }
+            }, 1000);
+        }
+        function closeDownloadPopup() { document.getElementById('downloadPopup').style.display = 'none'; clearInterval(downloadTimer); }
+
+        function openPlayer(url) {
+            const blocked = ["1xbet", "popads", "adsterra", "doubleclick", "chickenroad"];
+            if (blocked.some(d => url.toLowerCase().includes(d))) return showToast("❌ ক্ষতিকারক লিঙ্ক ব্লক করা হয়েছে।", "red");
+            const iframe = document.getElementById('videoIframe');
+            iframe.src = url;
+            document.getElementById('playerPage').style.display = 'block';
+            document.getElementById('soundControl').style.display = 'flex';
+            const adKiller = setInterval(() => {
+                if (document.getElementById('playerPage').style.display === 'none') { clearInterval(adKiller); return; }
+                try { iframe.contentWindow.document.querySelectorAll('[id*="pop"], [class*="ad"]').forEach(el => el.remove()); } catch (e) {}
+            }, 800);
+        }
+        function closePlayer() { document.getElementById('videoIframe').src = ""; document.getElementById('playerPage').style.display = 'none'; document.getElementById('soundControl').style.display = 'none'; }
+
+        // Volume Booster
+        const volSlider = document.getElementById('volSlider'), volValue = document.getElementById('volValue'), iframe = document.getElementById('videoIframe');
+        let audioCtx, source, gainNode;
+        volSlider.oninput = function() {
+            let boost = parseFloat(this.value);
+            volValue.innerText = "🔊 " + Math.round(boost * 100) + "%";
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    source = audioCtx.createMediaElementSource(iframe.contentWindow.document.querySelector('video'));
+                    gainNode = audioCtx.createGain();
+                    source.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                }
+                gainNode.gain.value = boost;
+            } catch (e) {}
+        };
+
+        // NEW: Submit Request with Beautiful Toast Notification
+        function submitRequest() {
+            const m = document.getElementById('reqMovieName').value, u = document.getElementById('reqUserName').value || "Anonymous";
+            if(!m) return showToast("❌ মুভির নাম দিন!", "red");
+            db.ref('requests').push({ movieName: m, userName: u, time: new Date().toLocaleString('bn-BD') })
+            .then(() => { 
+                showToast("✅ রিকোয়েস্ট সফল হয়েছে!", "#ffd700"); 
+                document.getElementById('reqMovieName').value = "";
+                closeReqModal(); 
+            });
+        }
+        
+        function showToast(text, color) {
+            const toast = document.createElement("div");
+            toast.innerText = text;
+            toast.style = `position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: ${color}; color: ${color==='#ffd700'?'black':'white'}; padding: 12px 25px; border-radius: 50px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 10000; animation: fadeIn 0.5s, fadeOut 0.5s 2.5s forwards;`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
+        function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
+        function closeVpnNotice() { document.getElementById('vpnNotice').style.display = 'none'; }
+        window.onload = () => { if (!sessionStorage.getItem('popupShown')) { document.getElementById('vpnNotice').style.display = 'flex'; sessionStorage.setItem('popupShown', 'done'); } };
+    </script>
 </body>
 </html>
