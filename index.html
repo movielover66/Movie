@@ -6,52 +6,76 @@
     <title>প্রীতম মুভি স্টুডিও - প্রিমিয়াম ওটিটি</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@800&family=Galada&family=Hind+Siliguri:wght@700&family=Noto+Serif+Bengali:wght@900&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <style>
         :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; --card-bg: #1a1a1a; --glass: rgba(255, 255, 255, 0.1); }
-        body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Hind Siliguri', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
         #offlineMessage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); color: white; text-align: center; z-index: 9999; padding-top: 30%; }
         .reload-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; margin-top: 20px; cursor: pointer; box-shadow: 0 0 15px rgba(229, 9, 20, 0.4); }
 
-        .navbar { background-color: #0c0c0c; padding: 20px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
+        .navbar { background-color: #0c0c0c; padding: 25px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
         .nav-header { margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
-        .navbar h1 { font-size: 26px; margin: 0; font-weight: 900; background: linear-gradient(90deg, #ffd700, #fff, #ffd700); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; letter-spacing: 1px; text-transform: uppercase; }
-        @keyframes shine { to { background-position: 200% center; } }
-        .navbar p { font-size: 10px; margin: 5px 0 0 0; color: #e50914; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; }
+        
+        /* DYNAMIC TITLE */
+        .navbar h1 { 
+            font-size: 34px; 
+            margin: 0; 
+            font-weight: 900; 
+            letter-spacing: 1px;
+            line-height: 1.4;
+            transition: all 0.5s ease;
+        }
+        .navbar p { font-size: 10px; margin: 5px 0 0 0; color: #fff; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; opacity: 0.7; font-family: 'Segoe UI', sans-serif; }
 
-        .req-notice-container { width: 100%; overflow: hidden; background: rgba(229, 9, 20, 0.1); margin-top: 10px; padding: 6px 0; border-top: 1px solid rgba(255, 215, 0, 0.1); border-bottom: 1px solid rgba(255, 215, 0, 0.1); }
+        .req-notice-container { width: 100%; overflow: hidden; background: rgba(229, 9, 20, 0.1); margin-top: 15px; padding: 6px 0; border-top: 1px solid rgba(255, 215, 0, 0.1); border-bottom: 1px solid rgba(255, 215, 0, 0.1); }
         .req-notice { display: inline-block; white-space: nowrap; font-size: 12px; color: #ffd700; font-weight: 600; animation: marquee 15s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         .top-action-bar { display: flex; align-items: center; gap: 10px; width: 95%; margin: 15px auto 0 auto; }
         .search-container { position: relative; flex: 1; display: flex; align-items: center; background: #1a1a1a; border: 1px solid #333; border-radius: 25px; padding: 2px 15px; }
         .search-container i { color: #888; font-size: 14px; }
-        #movieSearch { width: 100%; padding: 10px; border: none; background: transparent; color: #fff; font-size: 14px; outline: none; }
-        .nav-req-btn { background: #e50914; color: #fff; border: none; padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 900; white-space: nowrap; cursor: pointer; }
+        #movieSearch { width: 100%; padding: 10px; border: none; background: transparent; color: #fff; font-size: 14px; outline: none; font-family: 'Hind Siliguri', sans-serif; }
+        .nav-req-btn { background: #e50914; color: #fff; border: none; padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 900; white-space: nowrap; cursor: pointer; box-shadow: 0 0 10px rgba(229, 9, 20, 0.5); }
 
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; gap: 10px; }
         .movie-box { width: 48%; margin-bottom: 15px; perspective: 1200px; }
-        .movie-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); opacity: 0; transform: translateY(20px); height: 415px; display: flex; flex-direction: column; }
+        
+        .movie-card { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid #222; 
+            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); 
+            opacity: 0; 
+            transform: translateY(20px); 
+            height: 425px; 
+            display: flex; 
+            flex-direction: column;
+        }
         .movie-card.show { opacity: 1; transform: translateY(0); }
+        .movie-card:hover { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.5); border-color: #444; }
 
-        .image-container { position: relative; width: 100%; height: 260px; min-height: 260px; overflow: hidden; }
+        .image-container { position: relative; width: 100%; height: 320px; min-height: 320px; overflow: hidden; }
         .movie-img { width: 100%; height: 100%; object-fit: cover; }
         
-        .half-trending-bar { position: absolute; bottom: 8px; left: 0; width: 65%; background: linear-gradient(90deg, #ff8c00, #ff4d4d, transparent); color: #fff; font-size: 9px; padding: 4px 8px; font-weight: bold; border-top-right-radius: 15px; border-bottom-right-radius: 15px; box-shadow: 0 0 10px rgba(255, 140, 0, 0.6); z-index: 5; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .trending-badge { position: absolute; top: 10px; left: 0; background: linear-gradient(90deg, #ff8c00, #ff0000); color: #fff; font-size: 10px; padding: 4px 10px; font-weight: bold; border-radius: 0 20px 20px 0; box-shadow: 2px 2px 10px rgba(0,0,0,0.6); z-index: 5; animation: pulse 1.5s infinite; display: flex; align-items: center; gap: 5px;}
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 69, 0, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 69, 0, 0); } }
 
-        .tag-area { height: 22px; margin: 6px 0; display: flex; justify-content: center; align-items: center; }
-        .recent-tag { background: #ff0000; color: #fff; font-size: 10px; font-weight: bold; padding: 2px 10px; border-radius: 4px; text-transform: uppercase; }
-        .newly-tag { background: #00d2ff; color: #000; font-size: 10px; font-weight: bold; padding: 2px 10px; border-radius: 4px; text-transform: uppercase; }
-        .must-tag { background: #ff9800; color: #000; font-size: 10px; font-weight: bold; padding: 2px 10px; border-radius: 4px; text-transform: uppercase; }
+        .tag-area { height: 22px; margin: 4px 0; display: flex; justify-content: center; align-items: center; }
+        .recent-tag { background: #ff0000; color: #fff; font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+        .newly-tag { background: #00d2ff; color: #000; font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+        .must-tag { background: #ff9800; color: #000; font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+        
         .res-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--gold); padding: 3px 8px; border-radius: 5px; font-size: 9px; font-weight: bold; border: 0.5px solid var(--gold); }
 
-        .upload-info { padding: 10px 5px; text-align: center; background: #111; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-        .time-text { font-size: 13px; color: #ccc; font-weight: 600; margin-bottom: 4px; display: block; }
-        .movie-title { font-size: 13px; font-weight: bold; color: #ffffff; margin: 4px 0; height: 34px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .upload-info { padding: 6px 4px; text-align: center; background: #111; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .time-text { font-size: 11px; color: #ccc; font-weight: 600; margin-bottom: 2px; display: block; }
+        .movie-title { font-size: 12px; font-weight: bold; color: #ffffff; margin: 2px 0 0 0; height: 32px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; animation: slideIn 0.4s ease-out; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
@@ -71,13 +95,36 @@
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 12px; }
         .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; }
         #playerPage iframe { pointer-events: auto; z-index: 1; }
-        
-        /* New Toast Animation */
+
         @keyframes fadeIn { from { opacity: 0; bottom: 0; } to { opacity: 1; bottom: 20px; } }
         @keyframes fadeOut { from { opacity: 1; bottom: 20px; } to { opacity: 0; bottom: 0; } }
+
+        /* --- PLAYER WRAPPER --- */
+        .player-wrapper {
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 16/9; 
+            background: #000;
+            box-shadow: 0 0 35px rgba(229, 9, 20, 0.7); 
+            overflow: hidden;
+        }
+        @media (min-width: 768px) {
+            .player-wrapper { width: 85%; border-radius: 12px; }
+        }
+        
+        #dummyPlayer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10; cursor: pointer;
+        }
+        #dummyPlayer::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.5); }
+        .play-icon { font-size: 60px; color: #ffd700; z-index: 11; transition: transform 0.2s; filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)); }
+        #dummyPlayer:active .play-icon { transform: scale(0.9); }
     </style>
 </head>
 <body>
+
     <div id="offlineMessage">
         <i class="fa-solid fa-wifi-slash" style="font-size: 60px; color: var(--primary); margin-bottom: 20px;"></i>
         <h2>ইন্টারনেট সংযোগ বিচ্ছিন্ন!</h2>
@@ -86,7 +133,10 @@
 
     <div id="mainPage">
         <div class="navbar">
-            <div class="nav-header"><h1>🎬 প্রীতম মুভি স্টুডিও</h1><p>PREMIUM OTT PLATFORM</p></div>
+            <div class="nav-header">
+                <h1 id="dynamicTitle">🎬 প্রীতম মুভি স্টুডিও</h1>
+                <p>PREMIUM OTT PLATFORM</p>
+            </div>
             <div class="req-notice-container"><div class="req-notice">📢 রিকোয়েস্ট করার ২৪ ঘণ্টার মধ্যে মুভি পেয়ে যাবেন &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📢 মুভি খুঁজতে উপরের সার্চ বক্স ব্যবহার করুন</div></div>
             <div class="top-action-bar">
                 <div class="search-container"><i class="fas fa-search"></i><input type="text" id="movieSearch" placeholder="মুভি খুঁজুন..." onkeyup="searchMovie()"></div>
@@ -108,26 +158,33 @@
     </div>
     
     <div id="playerPage" style="display:none; position:fixed; inset:0; background:#000; z-index:4000; font-family: sans-serif;">
-        <div style="position:absolute; top:0; width:100%; padding:15px; background:linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); z-index:10; display:flex; align-items:center; justify-content:space-between; box-sizing:border-box;">
-            <button onclick="closePlayer()" style="background:rgba(255,255,255,0.15); color:#fff; border:none; width:45px; height:45px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1);">
-                <i class="fa-solid fa-arrow-left" style="font-size: 20px;"></i>
+        <div style="position:absolute; top:0; width:100%; padding:15px; background:linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); z-index:20; display:flex; align-items:center; justify-content:space-between; box-sizing:border-box;">
+            <button onclick="closePlayer()" style="background:rgba(255,255,255,0.15); color:#fff; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1);">
+                <i class="fa-solid fa-arrow-left" style="font-size: 18px;"></i>
             </button>
             <div style="text-align:right;">
-                <div style="color:#ffd700; font-weight:bold; font-size:14px; letter-spacing:1px;">PRITAM OTT PREMIUM</div>
-                <div style="color:rgba(255,255,255,0.6); font-size:10px;">এখন প্লে হচ্ছে...</div>
+                <div style="color:#ffd700; font-weight:bold; font-size:13px; letter-spacing:1px;">PRITAM OTT</div>
+                <div style="color:rgba(255,255,255,0.6); font-size:9px;">Now Playing...</div>
             </div>
         </div>
-        <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:10px; box-sizing:border-box; background: radial-gradient(circle, #111 0%, #000 100%);">
-            <iframe id="videoIframe" src="" style="width:100%; height:auto; aspect-ratio: 16/9; border:1px solid #333; border-radius:12px; box-shadow: 0 0 40px rgba(229, 9, 20, 0.25); background:#000;" sandbox="allow-forms allow-scripts allow-same-origin allow-popups" allow="autoplay; fullscreen" allowfullscreen></iframe>
-        </div>
-        <div style="position:absolute; bottom:0; width:100%; padding:15px; background:linear-gradient(to top, rgba(0,0,0,0.9), transparent); text-align:center;">
-            <div style="display:flex; align-items:center; justify-content:center; gap:8px; color:rgba(255,255,255,0.5); font-size:11px;">
-                <i class="fa-solid fa-circle-info"></i>
-                <span>বিজ্ঞাপন আসলে ফোনের "Back" বাটন চেপে আবার প্লে করুন</span>
+
+        <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:0; box-sizing:border-box;">
+            <div class="player-wrapper">
+                <div id="dummyPlayer" onclick="playVideo()">
+                    <i class="fa-regular fa-circle-play play-icon"></i>
+                </div>
+                <iframe id="videoIframe" src="" 
+                    style="width:100%; height:100%; border:none; display:none;" 
+                    frameborder="0"
+                    allowfullscreen="true" 
+                    webkitallowfullscreen="true" 
+                    mozallowfullscreen="true"
+                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture; screen-wake-lock; orientation-lock;"
+                    sandbox="allow-forms allow-scripts allow-same-origin allow-presentation allow-orientation-lock">
+                </iframe>
             </div>
         </div>
     </div>
-    
     <div id="downloadPopup" style="display:none; position:fixed; inset:0; background: rgba(0,0,0,0.85); z-index:3000; align-items:center; justify-content:center;">
       <div style="background:#111; padding:20px; border-radius:12px; width:80%; max-width:320px; text-align:center; border:1px solid #333; box-shadow:0 0 20px rgba(0,0,0,0.8);">
         <h3 style="margin-top:0; color:#ffd700;">ডাউনলোড প্রস্তুত হচ্ছে…</h3>
@@ -191,9 +248,9 @@
             const paginated = filteredMovies.slice(start, start + 10);
             list.innerHTML = paginated.map((m) => {
                 const clicks = globalClicks[m.id] || 0;
-                const trending = (clicks >= 5 || allMovies.indexOf(m) < 3) ? `<div class="half-trending-bar">🔥 Trending Now</div>` : "";
+                const trending = (clicks >= 5 || allMovies.indexOf(m) < 3) ? `<div class="trending-badge"><i class="fa-solid fa-fire"></i> TRENDING</div>` : "";
                 const dH = (new Date() - new Date(m.uploadTime)) / 36e5;
-                let tag = dH < 24 ? `<div class="recent-tag">Recently Added</div>` : (dH < 72 ? `<div class="newly-tag">Newly Added</div>` : `<div class="must-tag">Must Watch</div>`);
+                let tag = dH < 24 ? `<div class="recent-tag">RECENTLY ADDED</div>` : (dH < 72 ? `<div class="newly-tag">NEWLY ADDED</div>` : `<div class="must-tag">MUST WATCH</div>`);
                 return `<div class="movie-box" onclick="showDetails('${m.id}')"> 
                     <div class="movie-card show">
                         <div class="image-container"><img src="${m.img}" class="movie-img">${trending}<div class="res-badge">${m.res}</div></div>
@@ -221,7 +278,7 @@
                     </div>
                     <div class="season-content" id="s${i}">
                         <a href="javascript:void(0)" onclick="showDownloadPopup('${s.dl}')" class="btn-main" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-download"></i> DOWNLOAD</a>
-                        <a href="javascript:void(0)" onclick="openPlayer('${s.watch}')" class="btn-main" style="background:#ff007f; color:#fff;"><i class="fa-solid fa-play"></i> WATCH ONLINE</a>
+                        <a href="javascript:void(0)" onclick="openPlayer('${s.watch}', '${m.img}')" class="btn-main" style="background:#ff007f; color:#fff;"><i class="fa-solid fa-play"></i> WATCH ONLINE</a>
                     </div>
                 </div>`).join('');
 
@@ -257,21 +314,45 @@
         }
         function closeDownloadPopup() { document.getElementById('downloadPopup').style.display = 'none'; clearInterval(downloadTimer); }
 
-        function openPlayer(url) {
+        let currentVideoUrl = "";
+
+        function openPlayer(url, poster) {
             const blocked = ["1xbet", "popads", "adsterra", "doubleclick", "chickenroad"];
             if (blocked.some(d => url.toLowerCase().includes(d))) return showToast("❌ ক্ষতিকারক লিঙ্ক ব্লক করা হয়েছে।", "red");
-            const iframe = document.getElementById('videoIframe');
-            iframe.src = url;
+            
+            currentVideoUrl = url;
             document.getElementById('playerPage').style.display = 'block';
+            
+            const dummy = document.getElementById('dummyPlayer');
+            if(dummy) {
+                dummy.style.backgroundImage = `url('${poster}')`;
+                dummy.style.display = 'flex';
+            }
+            
+            document.getElementById('videoIframe').style.display = 'none';
+            document.getElementById('soundControl').style.display = 'none';
+        }
+
+        function playVideo() {
+            document.getElementById('dummyPlayer').style.display = 'none';
+            const iframe = document.getElementById('videoIframe');
+            iframe.style.display = 'block';
+            iframe.src = currentVideoUrl;
+            
             document.getElementById('soundControl').style.display = 'flex';
+
             const adKiller = setInterval(() => {
                 if (document.getElementById('playerPage').style.display === 'none') { clearInterval(adKiller); return; }
                 try { iframe.contentWindow.document.querySelectorAll('[id*="pop"], [class*="ad"]').forEach(el => el.remove()); } catch (e) {}
             }, 800);
         }
-        function closePlayer() { document.getElementById('videoIframe').src = ""; document.getElementById('playerPage').style.display = 'none'; document.getElementById('soundControl').style.display = 'none'; }
 
-        // Volume Booster
+        function closePlayer() { 
+            document.getElementById('videoIframe').src = ""; 
+            document.getElementById('playerPage').style.display = 'none'; 
+            document.getElementById('soundControl').style.display = 'none'; 
+        }
+
         const volSlider = document.getElementById('volSlider'), volValue = document.getElementById('volValue'), iframe = document.getElementById('videoIframe');
         let audioCtx, source, gainNode;
         volSlider.oninput = function() {
@@ -289,7 +370,6 @@
             } catch (e) {}
         };
 
-        // NEW: Submit Request with Beautiful Toast Notification
         function submitRequest() {
             const m = document.getElementById('reqMovieName').value, u = document.getElementById('reqUserName').value || "Anonymous";
             if(!m) return showToast("❌ মুভির নাম দিন!", "red");
@@ -312,7 +392,38 @@
         function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
         function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
         function closeVpnNotice() { document.getElementById('vpnNotice').style.display = 'none'; }
-        window.onload = () => { if (!sessionStorage.getItem('popupShown')) { document.getElementById('vpnNotice').style.display = 'flex'; sessionStorage.setItem('popupShown', 'done'); } };
+        
+        // --- RANDOM TITLE GENERATOR (New Fonts + Colors) ---
+        function randomizeTitle() {
+            const styles = [
+                { background: "linear-gradient(90deg, #FFD700, #FDB931, #FFD700)", textShadow: "2px 2px 5px rgba(0,0,0,0.8)" },
+                { background: "linear-gradient(90deg, #00d2ff, #3a7bd5)", textShadow: "0 0 10px #00d2ff" },
+                { background: "linear-gradient(90deg, #ff416c, #ff4b2b)", textShadow: "0 0 15px #ff4b2b" },
+                { background: "linear-gradient(90deg, #f12711, #f5af19)", textShadow: "0 0 10px #f5af19" },
+                { background: "linear-gradient(90deg, #0f0, #00ff00)", textShadow: "0 0 10px #0f0" }
+            ];
+            
+            const fonts = ["'Galada', cursive", "'Hind Siliguri', sans-serif", "'Baloo Da 2', cursive", "'Noto Serif Bengali', serif"];
+            
+            const randomStyle = styles[Math.floor(Math.random() * styles.length)];
+            const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+            const title = document.getElementById("dynamicTitle");
+            
+            title.style.background = randomStyle.background;
+            title.style.webkitBackgroundClip = "text";
+            title.style.webkitTextFillColor = "transparent";
+            title.style.textShadow = "none";
+            title.style.filter = `drop-shadow(${randomStyle.textShadow})`;
+            title.style.fontFamily = randomFont;
+        }
+
+        window.onload = () => { 
+            randomizeTitle(); 
+            if (!sessionStorage.getItem('popupShown')) { 
+                document.getElementById('vpnNotice').style.display = 'flex'; 
+                sessionStorage.setItem('popupShown', 'done'); 
+            } 
+        };
     </script>
 </body>
 </html>
