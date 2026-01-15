@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রীতম মুভি স্টুডিও</title>
+    <title>PREMIUM MOVIE STUDIO</title> <link rel="manifest" href="manifest.json">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@800&family=Galada&family=Hind+Siliguri:wght@700&family=Noto+Serif+Bengali:wght@900&family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@800&family=Galada&family=Hind+Siliguri:wght@700&family=Noto+Serif+Bengali:wght@900&family=Anton&family=Bebas+Neue&family=Poppins:wght@700;900&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
@@ -21,50 +21,17 @@
         .navbar { background-color: #0c0c0c; padding: 25px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; box-shadow: 0 4px 20px rgba(0,0,0,0.8); }
         .nav-header { margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; }
         
-        /* --- FIXED TITLE STYLE (No Cutting) --- */
         .navbar h1 { 
-            font-size: 38px; 
-            margin: 5px 0; 
-            font-weight: 900; 
-            letter-spacing: 1px;
-            line-height: 1.6; /* Increased to prevent cutting */
-            text-transform: uppercase;
-            padding-bottom: 5px; /* Extra space for descenders */
-            transition: all 0.5s ease;
-            display: inline-block;
+            font-size: 36px; margin: 5px 0; font-weight: 900; letter-spacing: 0.5px; line-height: 1.4; text-transform: uppercase; display: inline-block;
+            background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #fff; 
+            filter: drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.15));
         }
-        .navbar p { font-size: 10px; margin: 0; color: #aaa; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; }
+        .navbar p { font-size: 10px; margin: 0; color: #888; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; font-family: 'Poppins', sans-serif; }
 
-        /* --- BENGALI CATEGORY BAR --- */
-        .category-scroll { 
-            display: flex; 
-            overflow-x: auto; 
-            gap: 8px; 
-            padding: 10px 5px; 
-            margin: 10px 0; 
-            scrollbar-width: none; 
-        }
+        .category-scroll { display: flex; overflow-x: auto; gap: 8px; padding: 10px 5px; margin: 10px 0; scrollbar-width: none; }
         .category-scroll::-webkit-scrollbar { display: none; } 
-        
-        .cat-btn { 
-            background: #222; 
-            color: #ccc; 
-            border: 1px solid #444; 
-            padding: 8px 15px; 
-            border-radius: 20px; 
-            font-size: 13px; 
-            font-weight: bold; 
-            white-space: nowrap; 
-            cursor: pointer; 
-            transition: all 0.3s; 
-            font-family: 'Hind Siliguri', sans-serif;
-        }
-        .cat-btn.active, .cat-btn:hover { 
-            background: var(--primary); 
-            color: #fff; 
-            border-color: var(--primary); 
-            box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4); 
-        }
+        .cat-btn { background: #222; color: #ccc; border: 1px solid #444; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; transition: all 0.3s; font-family: 'Hind Siliguri', sans-serif; }
+        .cat-btn.active, .cat-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4); }
 
         .req-notice-container { width: 100%; overflow: hidden; background: rgba(229, 9, 20, 0.15); margin-top: 5px; padding: 6px 0; border-top: 1px solid rgba(255, 215, 0, 0.1); border-bottom: 1px solid rgba(255, 215, 0, 0.1); }
         .req-notice { display: inline-block; white-space: nowrap; font-size: 12px; color: #ffd700; font-weight: 600; animation: marquee 15s linear infinite; }
@@ -79,18 +46,7 @@
         .movie-grid { display: flex; flex-wrap: wrap; padding: 10px; justify-content: space-between; gap: 10px; }
         .movie-box { width: 48%; margin-bottom: 15px; perspective: 1200px; }
         
-        .movie-card { 
-            background: var(--card-bg); 
-            border-radius: 12px; 
-            overflow: hidden; 
-            border: 1px solid #222; 
-            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); 
-            opacity: 0; 
-            transform: translateY(20px); 
-            height: 430px; 
-            display: flex; 
-            flex-direction: column;
-        }
+        .movie-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); opacity: 0; transform: translateY(20px); height: 430px; display: flex; flex-direction: column; }
         .movie-card.show { opacity: 1; transform: translateY(0); }
         .movie-card:hover { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.5); border-color: #444; }
 
@@ -104,13 +60,13 @@
         .recent-tag { background: #ff0000; color: #fff; font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
         .newly-tag { background: #00d2ff; color: #000; font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
         .must-tag { background: #ff9800; color: #000; font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
-        
         .res-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--gold); padding: 3px 8px; border-radius: 5px; font-size: 9px; font-weight: bold; border: 0.5px solid var(--gold); }
 
         .upload-info { padding: 6px 4px; text-align: center; background: #111; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
         .time-text { font-size: 11px; color: #ccc; font-weight: 600; margin-bottom: 2px; display: block; }
         .movie-title { font-size: 12px; font-weight: bold; color: #ffffff; margin: 2px 0 0 0; height: 32px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
+/* DETAILS PAGE STYLES */
         #detailsPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; animation: slideIn 0.4s ease-out; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
         .back-btn { position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 10px; border-radius: 50%; font-size: 18px; z-index: 10; }
@@ -119,55 +75,61 @@
         .content-wrap { padding: 20px; margin-top: -60px; position: relative; }
         .details-poster { width: 120px; border-radius: 12px; border: 3px solid var(--primary); }
         .description { font-size: 13px; line-height: 1.6; color: #ccc; background: var(--glass); padding: 15px; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.05); }
-        .btn-main { width: 90%; padding: 10px; border-radius: 8px; border: none; font-size: 14px; font-weight: bold; cursor: pointer; margin: 8px auto; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-sizing: border-box; }
 
-        .season-box { background: #222; border-radius: 10px; border: 1px solid #333; overflow: hidden; margin-top: 15px; }
-        .season-header { padding: 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: #2a2a2a; }
-        .season-content { display: none; padding: 15px; background: #1a1a1a; text-align: center; }
+        /* RELATED MOVIES */
+        .related-section { margin-top: 30px; }
+        .related-title { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 15px; border-left: 4px solid var(--gold); padding-left: 10px; }
+        .related-grid { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; scrollbar-width: none; }
+        .related-card { min-width: 130px; width: 130px; background: #1a1a1a; border-radius: 8px; overflow: hidden; border: 1px solid #333; }
+        .related-img { width: 100%; height: 180px; object-fit: cover; }
+        .related-info { padding: 8px; font-size: 11px; text-align: center; }
+
+        /* INSTALL APP BUTTON */
+        #installAppBtn { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 50px; font-weight: bold; box-shadow: 0 5px 20px rgba(229, 9, 20, 0.5); z-index: 9000; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);} 40% {transform: translateX(-50%) translateY(-10px);} 60% {transform: translateX(-50%) translateY(-5px);} }
+
+        /* CINEFREAK CARD STYLES */
+        .cine-card { background: #1f1f1f; border-radius: 8px; margin-bottom: 12px; border: 1px solid #333; overflow: hidden; }
+        .cine-header { display: flex; align-items: center; padding: 15px; cursor: pointer; background: #252525; transition: 0.2s; position: relative; }
+        .cine-header:hover { background: #2a2a2a; }
+        .season-text { font-size: 20px; font-weight: 800; color: #ffc107; margin-right: 15px; min-width: 45px; text-shadow: 0 2px 10px rgba(255, 193, 7, 0.3); text-align: center; }
+        .ep-info { flex: 1; }
+        .ep-title { color: #fff; font-weight: 700; font-size: 15px; margin-bottom: 6px; display: block; }
+        .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+        .tag { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 50px; color: #fff; text-transform: uppercase; }
+        .tag-red { background: #ef4444; } .tag-teal { background: #14b8a6; } .tag-new { background: #ffc107; color: #000; animation: pulse 1.5s infinite; }
+        .arrow-icon { color: #888; transition: 0.3s; margin-left: 10px; } .rotate { transform: rotate(180deg); }
+        .cine-content { display: none; background: #151515; padding: 12px; border-top: 1px solid #333; }
+        .dl-row { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 10px; margin-bottom: 8px; border-radius: 6px; border-left: 3px solid #ffc107; }
+        .dl-btn { background: linear-gradient(45deg, #e50914, #ff4b2b); border: none; color: white; padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block;}
+        .note-box { border: 1px solid #ffc107; background: rgba(255, 193, 7, 0.1); color: #ffc107; padding: 12px; border-radius: 6px; font-size: 13px; text-align: center; margin-bottom: 20px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 12px; }
         .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; color: #777; }
-        #playerPage iframe { pointer-events: auto; z-index: 1; }
-
-        @keyframes fadeIn { from { opacity: 0; bottom: 0; } to { opacity: 1; bottom: 20px; } }
-        @keyframes fadeOut { from { opacity: 1; bottom: 20px; } to { opacity: 0; bottom: 0; } }
-
-        .player-wrapper {
-            position: relative; 
-            width: 100%; 
-            aspect-ratio: 16/9; 
-            background: #000;
-            box-shadow: 0 0 35px rgba(229, 9, 20, 0.7); 
-            overflow: hidden;
-        }
-        @media (min-width: 768px) {
-            .player-wrapper { width: 85%; border-radius: 12px; }
-        }
         
-        #dummyPlayer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 10; cursor: pointer;
-        }
+        /* PLAYER STYLES */
+        .player-wrapper { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; box-shadow: 0 0 35px rgba(229, 9, 20, 0.7); overflow: hidden; }
+        @media (min-width: 768px) { .player-wrapper { width: 85%; border-radius: 12px; } }
+        #dummyPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
         #dummyPlayer::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.5); }
         .play-icon { font-size: 60px; color: #ffd700; z-index: 11; transition: transform 0.2s; filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)); }
         #dummyPlayer:active .play-icon { transform: scale(0.9); }
     </style>
 </head>
 <body>
-
-    <div id="offlineMessage">
+<div id="offlineMessage">
         <i class="fa-solid fa-wifi-slash" style="font-size: 60px; color: var(--primary); margin-bottom: 20px;"></i>
         <h2>ইন্টারনেট সংযোগ বিচ্ছিন্ন!</h2>
         <button class="reload-btn" onclick="location.reload()">আবার চেষ্টা করুন</button>
     </div>
 
+    <button id="installAppBtn" onclick="installPWA()">📲 INSTALL APP</button>
+
     <div id="mainPage">
         <div class="navbar">
             <div class="nav-header">
-                <h1 id="dynamicTitle">PREMIUM MOVIE HUB</h1>
+                <h1 id="dynamicTitle">PREMIUM MOVIE STUDIO</h1>
                 <p>ULTIMATE MOVIE COLLECTION</p>
             </div>
             
@@ -196,7 +158,7 @@
             <span id="pageNumber">Page 1</span>
             <button class="page-btn" id="nextBtn" onclick="changePage(1)">সামনে</button>
         </div>
-        <footer class="footer">Made with <i class="fa-solid fa-heart" style="color:red"></i> by Pritam <br> &copy; 2025 Premium Movie Hub</footer>
+        <footer class="footer">Made with <i class="fa-solid fa-heart" style="color:red"></i> by Pritam <br> &copy; 2025 PREMIUM MOVIE STUDIO</footer>
     </div>
 
     <div id="detailsPage">
@@ -210,7 +172,7 @@
                 <i class="fa-solid fa-arrow-left" style="font-size: 18px;"></i>
             </button>
             <div style="text-align:right;">
-                <div style="color:#ffd700; font-weight:bold; font-size:13px; letter-spacing:1px;">PREMIUM HUB</div>
+                <div style="color:#ffd700; font-weight:bold; font-size:13px; letter-spacing:1px;">PREMIUM MOVIE STUDIO</div>
                 <div style="color:rgba(255,255,255,0.6); font-size:9px;">Now Playing...</div>
             </div>
         </div>
@@ -222,12 +184,8 @@
                 </div>
                 <iframe id="videoIframe" src="" 
                     style="width:100%; height:100%; border:none; display:none;" 
-                    frameborder="0"
-                    allowfullscreen="true" 
-                    webkitallowfullscreen="true" 
-                    mozallowfullscreen="true"
-                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture; screen-wake-lock; orientation-lock;"
-                    sandbox="allow-forms allow-scripts allow-same-origin allow-presentation allow-orientation-lock">
+                    frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
+                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture; screen-wake-lock; orientation-lock;">
                 </iframe>
             </div>
             
@@ -236,10 +194,11 @@
             </button>
         </div>
     </div>
+
     <div id="downloadPopup" style="display:none; position:fixed; inset:0; background: rgba(0,0,0,0.85); z-index:3000; align-items:center; justify-content:center;">
       <div style="background:#111; padding:20px; border-radius:12px; width:80%; max-width:320px; text-align:center; border:1px solid #333; box-shadow:0 0 20px rgba(0,0,0,0.8);">
         <h3 style="margin-top:0; color:#ffd700;">ডাউনলোড প্রস্তুত হচ্ছে…</h3>
-        <p style="font-size:14px; color:#ccc; margin-bottom:10px;">দয়া করে <span id="dlCounter">5</span> সেকেন্ড অপেক্ষা করুন, তারপর অটো ডাউনলোড শুরু হবে।</p>
+        <p style="font-size:14px; color:#ccc; margin-bottom:10px;">দয়া করে <span id="dlCounter">5</span> সেকেন্ড অপেক্ষা করুন...</p>
         <button onclick="closeDownloadPopup()" style="margin-top:10px; padding:8px 16px; border:none; border-radius:6px; background:#e50914; color:#fff; font-weight:bold; cursor:pointer;">বাতিল করুন</button>
       </div>
     </div>
@@ -267,7 +226,7 @@
         <span id="volValue" style="color:#ffd700; font-weight:bold; font-size:11px;">🔊 100%</span>
         <input type="range" id="volSlider" min="1" max="2" step="0.1" value="1" style="width:5px; height:80px; accent-color:#ffd700; -webkit-appearance: slider-vertical;">
     </div>
-    <script>
+<script>
         const firebaseConfig = { apiKey: "AIzaSyDq_l6aCUPm4SQoDbpROnUc7PMn_nF6kPI", authDomain: "pritam-ott.firebaseapp.com", databaseURL: "https://pritam-ott-default-rtdb.firebaseio.com", projectId: "pritam-ott", storageBucket: "pritam-ott.firebasestorage.app", messagingSenderId: "8916733532", appId: "1:8916733532:web:8b1143a7352770ff7e6099" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
@@ -275,10 +234,24 @@
         db.ref('.info/connected').on('value', (s) => { if (s.val()) userStatusRef.onDisconnect().remove().then(() => userStatusRef.set({ state: 'online', last_changed: firebase.database.ServerValue.TIMESTAMP })); });
 
         let allMovies = [], filteredMovies = [], currentPage = 1, globalClicks = {};
-        
-        // Track Current Playing Movie for Reporting
-        let currentPlayingMovieTitle = "";
-        let currentPlayingLink = "";
+        let currentPlayingMovieTitle = "", currentPlayingLink = "";
+        let deferredPrompt;
+
+        // PWA INSTALL LOGIC
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installAppBtn').style.display = 'block';
+        });
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') document.getElementById('installAppBtn').style.display = 'none';
+                    deferredPrompt = null;
+                });
+            }
+        }
 
         db.ref('movies').on('value', (snap) => {
             const data = snap.val();
@@ -300,17 +273,8 @@
         function filterCategory(cat) {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
-            
-            if (cat === 'All') {
-                filteredMovies = [...allMovies];
-            } else {
-                filteredMovies = allMovies.filter(m => 
-                    (m.genre && m.genre.toLowerCase().includes(cat.toLowerCase())) || 
-                    (m.desc && m.desc.toLowerCase().includes(cat.toLowerCase()))
-                );
-            }
-            currentPage = 1;
-            displayMovies();
+            if (cat === 'All') { filteredMovies = [...allMovies]; } else { filteredMovies = allMovies.filter(m => (m.genre && m.genre.toLowerCase().includes(cat.toLowerCase())) || (m.desc && m.desc.toLowerCase().includes(cat.toLowerCase()))); }
+            currentPage = 1; displayMovies();
         }
 
         function displayMovies() {
@@ -324,7 +288,7 @@
                 let tag = dH < 24 ? `<div class="recent-tag">RECENTLY ADDED</div>` : (dH < 72 ? `<div class="newly-tag">NEWLY ADDED</div>` : `<div class="must-tag">MUST WATCH</div>`);
                 return `<div class="movie-box" onclick="showDetails('${m.id}')"> 
                     <div class="movie-card show">
-                        <div class="image-container"><img src="${m.img}" class="movie-img">${trending}<div class="res-badge">${m.res}</div></div>
+                        <div class="image-container"><img src="${m.img}" class="movie-img">${trending}<div class="res-badge">${m.res || 'HD'}</div></div>
                         <div class="upload-info"><span class="time-text">${timeAgo(m.uploadTime)}</span><div class="tag-area">${tag}</div><div class="movie-title">${m.title}</div></div>
                     </div></div>`;
             }).join('');
@@ -334,41 +298,62 @@
             setTimeout(() => document.querySelectorAll('.movie-card').forEach(c => c.classList.add('show')), 100);
         }
 
+        // --- UPDATED DETAILS + RELATED MOVIES ---
         function showDetails(id) {
             db.ref('movieClicks/' + id).transaction(c => (c || 0) + 1);
             const m = allMovies.find(mov => mov.id === id);
-            
-            // Set current movie title for tracking
+            if(!m) return;
             currentPlayingMovieTitle = m.title;
-
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('detailsPage').style.display = 'block';
             window.scrollTo(0,0);
             
-            let sHtml = m.seasons.map((s, i) => `
-                <div class="season-box">
-                    <div class="season-header" onclick="toggleS('s${i}')">
-                        <span style="color:var(--gold); font-weight:bold;">${s.name} - [${m.lang}]</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="season-content" id="s${i}">
-                        <a href="javascript:void(0)" onclick="showDownloadPopup('${s.dl}')" class="btn-main" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-download"></i> DOWNLOAD</a>
-                        <a href="javascript:void(0)" onclick="openPlayer('${s.watch}', '${m.img}')" class="btn-main" style="background:#ff007f; color:#fff;"><i class="fa-solid fa-play"></i> WATCH ONLINE</a>
-                    </div>
+            let contentHtml = '';
+            if(m.note) contentHtml += `<div class="note-box"><i class="fa-solid fa-bell"></i> ${m.note}</div>`;
+
+            if (m.content) {
+                if (m.type === 'series') {
+                    let sNum = (m.seasonNum || 1).toString().padStart(2, '0');
+                    contentHtml += `<h3 style="color:#00d2ff; margin-bottom:15px; border-left:4px solid #00d2ff; padding-left:10px;">EPISODE LIST</h3>`;
+                    m.content.forEach(ep => {
+                        let newTag = ep.isNew ? `<span class="tag tag-new">New EP</span>` : '';
+                        contentHtml += `<div class="cine-card"><div class="cine-header" onclick="toggleS('ep${ep.epNum}')"><div class="season-text">S${sNum}</div><div class="ep-info"><span class="ep-title">${m.title}</span><div class="tag-row"><span class="tag tag-red">Episode ${ep.epNum.toString().padStart(2,'0')}</span><span class="tag tag-teal">${m.lang}</span>${newTag}</div></div><i class="fa-solid fa-chevron-down arrow-icon" id="arrow-ep${ep.epNum}"></i></div><div class="cine-content" id="ep${ep.epNum}">${ep.qualities.map(q => `<div class="dl-row"><div><div style="color:white;font-weight:bold;font-size:13px;">${q.qual}</div><div style="color:#888;font-size:11px;">${q.size||'Size N/A'}</div></div><div style="display:flex;gap:10px;"><button onclick="openPlayer('${q.watch}','${m.img}')" class="dl-btn" style="background:#222;border:1px solid #444;">Watch</button><button onclick="showDownloadPopup('${q.dl}')" class="dl-btn">Download</button></div></div>`).join('')}</div></div>`;
+                    });
+                } else {
+                    contentHtml += `<h3 style="color:#e50914; margin-bottom:15px; border-left:4px solid #e50914; padding-left:10px;">DOWNLOAD LINKS</h3>`;
+                    m.content.forEach(q => {
+                        contentHtml += `<div class="cine-card" style="border-left:3px solid #e50914;"><div class="cine-header" style="background:#222;cursor:default;"><div class="season-text" style="color:#e50914;font-size:24px;min-width:30px;"><i class="fa-solid fa-film"></i></div><div class="ep-info"><span class="ep-title" style="font-size:16px;">${m.title}</span><div class="tag-row"><span class="tag" style="background:#e50914;">${q.qual}</span><span class="tag tag-teal">${m.lang}</span><span class="tag" style="background:#444;">${q.size||'N/A'}</span></div></div></div><div class="cine-content" style="display:block;padding:10px;background:#1a1a1a;"><div class="dl-row" style="border:none;background:transparent;padding:0;"><div style="color:#888;font-size:11px;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-server"></i> High Speed Server</div><div style="display:flex;gap:10px;"><button onclick="openPlayer('${q.watch}','${m.img}')" class="dl-btn" style="background:#333;border:1px solid #555;">Watch</button><button onclick="showDownloadPopup('${q.dl}')" class="dl-btn">Download</button></div></div></div></div>`;
+                    });
+                }
+            } else if (m.seasons) {
+                m.seasons.forEach((s, i) => { contentHtml += `<div class="dl-row" style="border-left:3px solid #e50914;"><div><div style="color:white;font-weight:bold;">${s.name}</div></div><button onclick="showDownloadPopup('${s.dl}')" class="dl-btn">Download</button></div>`; });
+            }
+
+            // RELATED MOVIES LOGIC
+            let relatedMovies = allMovies.filter(mov => mov.id !== id && (mov.genre === m.genre || mov.lang === m.lang)).slice(0, 5);
+            let relatedHtml = relatedMovies.map(rm => `
+                <div class="related-card" onclick="showDetails('${rm.id}')">
+                    <img src="${rm.img}" class="related-img">
+                    <div class="related-info">${rm.title.substring(0,20)}...</div>
                 </div>`).join('');
 
+            let subHeaderInfo = (m.type === 'series') ? `Season ${m.seasonNum || 1}` : m.genre;
             document.getElementById('detailsContent').innerHTML = `
                 <div class="hero-banner" style="background-image: url('${m.img}')"><div class="hero-overlay"></div></div>
                 <div class="content-wrap">
                     <img src="${m.img}" class="details-poster">
                     <h2 style="margin: 15px 0;">${m.title}</h2>
-                    <div style="color:var(--gold); margin:10px 0;">★ ${m.rating || '8.5'} | ${m.year || '2025'} | ${m.res}</div>
-                    <div class="description">${m.desc}</div>
-                    ${sHtml}
+                    <div style="color:#ccc; font-size:12px; margin-bottom:15px;"><span style="background:#e50914; padding:2px 6px; border-radius:4px; color:white;">${m.res || 'HD'}</span> • <span>${subHeaderInfo}</span> • <span>${m.lang}</span></div>
+                    <div class="description">${m.desc}</div><br>${contentHtml}
+                    
+                    <div class="related-section">
+                        <div class="related-title">YOU MAY ALSO LIKE</div>
+                        <div class="related-grid">${relatedHtml}</div>
+                    </div>
                 </div>`;
         }
         
-        function toggleS(id) { const el = document.getElementById(id); el.style.display = (el.style.display === "block") ? "none" : "block"; }
+        function toggleS(id) { const el = document.getElementById(id); const arr = document.getElementById(`arrow-${id}`); if(el.style.display==="block"){el.style.display="none";if(arr)arr.classList.remove('rotate');}else{el.style.display="block";if(arr)arr.classList.add('rotate');}}
         function closeDetails() { document.getElementById('mainPage').style.display = 'block'; document.getElementById('detailsPage').style.display = 'none'; }
         function changePage(s) { currentPage += s; displayMovies(); window.scrollTo(0,0); }
         function searchMovie() { const t = document.getElementById('movieSearch').value.toLowerCase(); filteredMovies = allMovies.filter(m => m.title.toLowerCase().includes(t)); currentPage = 1; displayMovies(); }
@@ -376,146 +361,49 @@
         window.addEventListener('offline', checkStatus); window.addEventListener('online', checkStatus); checkStatus();
 
         let downloadTimer = null, downloadSeconds = 5, pendingDownloadUrl = "";
-        function showDownloadPopup(url) {
-            pendingDownloadUrl = url; downloadSeconds = 5;
-            document.getElementById('dlCounter').innerText = downloadSeconds;
-            document.getElementById('downloadPopup').style.display = 'flex';
-            if (downloadTimer) clearInterval(downloadTimer);
-            downloadTimer = setInterval(() => {
-                downloadSeconds--;
-                document.getElementById('dlCounter').innerText = downloadSeconds;
-                if (downloadSeconds <= 0) { clearInterval(downloadTimer); document.getElementById('downloadPopup').style.display = 'none'; window.open(pendingDownloadUrl, '_blank'); }
-            }, 1000);
-        }
+        function showDownloadPopup(url) { pendingDownloadUrl = url; downloadSeconds = 5; document.getElementById('dlCounter').innerText = downloadSeconds; document.getElementById('downloadPopup').style.display = 'flex'; if(downloadTimer) clearInterval(downloadTimer); downloadTimer = setInterval(() => { downloadSeconds--; document.getElementById('dlCounter').innerText = downloadSeconds; if(downloadSeconds <= 0) { clearInterval(downloadTimer); document.getElementById('downloadPopup').style.display = 'none'; window.open(pendingDownloadUrl, '_blank'); } }, 1000); }
         function closeDownloadPopup() { document.getElementById('downloadPopup').style.display = 'none'; clearInterval(downloadTimer); }
 
         let currentVideoUrl = "";
-
         function openPlayer(url, poster) {
             const blocked = ["1xbet", "popads", "adsterra", "doubleclick", "chickenroad"];
             if (blocked.some(d => url.toLowerCase().includes(d))) return showToast("❌ ক্ষতিকারক লিঙ্ক ব্লক করা হয়েছে।", "red");
-            
-            currentVideoUrl = url;
-            currentPlayingLink = url; // Save for Report
-
+            currentVideoUrl = url; currentPlayingLink = url;
             document.getElementById('playerPage').style.display = 'block';
-            
-            const dummy = document.getElementById('dummyPlayer');
-            if(dummy) {
-                dummy.style.backgroundImage = `url('${poster}')`;
-                dummy.style.display = 'flex';
-            }
-            
-            document.getElementById('videoIframe').style.display = 'none';
-            document.getElementById('soundControl').style.display = 'none';
+            const dummy = document.getElementById('dummyPlayer'); if(dummy) { dummy.style.backgroundImage = `url('${poster}')`; dummy.style.display = 'flex'; }
+            document.getElementById('videoIframe').style.display = 'none'; document.getElementById('soundControl').style.display = 'none';
         }
-
-        function playVideo() {
-            document.getElementById('dummyPlayer').style.display = 'none';
-            const iframe = document.getElementById('videoIframe');
-            iframe.style.display = 'block';
-            iframe.src = currentVideoUrl;
-            
-            document.getElementById('soundControl').style.display = 'flex';
-
-            const adKiller = setInterval(() => {
-                if (document.getElementById('playerPage').style.display === 'none') { clearInterval(adKiller); return; }
-                try { iframe.contentWindow.document.querySelectorAll('[id*="pop"], [class*="ad"]').forEach(el => el.remove()); } catch (e) {}
-            }, 800);
-        }
-
-        function closePlayer() { 
-            document.getElementById('videoIframe').src = ""; 
-            document.getElementById('playerPage').style.display = 'none'; 
-            document.getElementById('soundControl').style.display = 'none'; 
-        }
-
-        // --- NEW REPORT FUNCTION ---
-        function reportBrokenLink() {
-            if(!currentPlayingLink || !currentPlayingMovieTitle) return showToast("❌ প্লেয়ার চালু নেই!", "red");
-            
-            db.ref('reports').push({
-                movie: currentPlayingMovieTitle,
-                link: currentPlayingLink,
-                status: 'broken',
-                time: new Date().toLocaleString('bn-BD')
-            }).then(() => {
-                showToast("✅ রিপোর্ট পাঠানো হয়েছে! শীঘ্রই লিঙ্ক ঠিক করা হবে।", "#ffd700");
-            }).catch(e => {
-                showToast("❌ রিপোর্ট পাঠানো যায়নি।", "red");
-            });
-        }
-
-        const volSlider = document.getElementById('volSlider'), volValue = document.getElementById('volValue'), iframe = document.getElementById('videoIframe');
-        let audioCtx, source, gainNode;
-        volSlider.oninput = function() {
-            let boost = parseFloat(this.value);
-            volValue.innerText = "🔊 " + Math.round(boost * 100) + "%";
-            try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    source = audioCtx.createMediaElementSource(iframe.contentWindow.document.querySelector('video'));
-                    gainNode = audioCtx.createGain();
-                    source.connect(gainNode);
-                    gainNode.connect(audioCtx.destination);
-                }
-                gainNode.gain.value = boost;
-            } catch (e) {}
-        };
-
-        function submitRequest() {
-            const m = document.getElementById('reqMovieName').value, u = document.getElementById('reqUserName').value || "Anonymous";
-            if(!m) return showToast("❌ মুভির নাম দিন!", "red");
-            db.ref('requests').push({ movieName: m, userName: u, time: new Date().toLocaleString('bn-BD') })
-            .then(() => { 
-                showToast("✅ রিকোয়েস্ট সফল হয়েছে!", "#ffd700"); 
-                document.getElementById('reqMovieName').value = "";
-                closeReqModal(); 
-            });
-        }
-        
-        function showToast(text, color) {
-            const toast = document.createElement("div");
-            toast.innerText = text;
-            toast.style = `position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: ${color}; color: ${color==='#ffd700'?'black':'white'}; padding: 12px 25px; border-radius: 50px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 10000; animation: fadeIn 0.5s, fadeOut 0.5s 2.5s forwards;`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
+        function playVideo() { document.getElementById('dummyPlayer').style.display = 'none'; const iframe = document.getElementById('videoIframe'); iframe.style.display = 'block'; iframe.src = currentVideoUrl; document.getElementById('soundControl').style.display = 'flex'; const adKiller = setInterval(() => { if (document.getElementById('playerPage').style.display === 'none') { clearInterval(adKiller); return; } try { iframe.contentWindow.document.querySelectorAll('[id*="pop"], [class*="ad"]').forEach(el => el.remove()); } catch (e) {} }, 800); }
+        function closePlayer() { document.getElementById('videoIframe').src = ""; document.getElementById('playerPage').style.display = 'none'; document.getElementById('soundControl').style.display = 'none'; }
+        function reportBrokenLink() { if(!currentPlayingLink || !currentPlayingMovieTitle) return showToast("❌ প্লেয়ার চালু নেই!", "red"); db.ref('reports').push({ movie: currentPlayingMovieTitle, link: currentPlayingLink, status: 'broken', time: new Date().toLocaleString('bn-BD') }).then(() => showToast("✅ রিপোর্ট পাঠানো হয়েছে!", "#ffd700")).catch(e => showToast("❌ রিপোর্ট পাঠানো যায়নি।", "red")); }
+        function submitRequest() { const m = document.getElementById('reqMovieName').value, u = document.getElementById('reqUserName').value || "Anonymous"; if(!m) return showToast("❌ মুভির নাম দিন!", "red"); db.ref('requests').push({ movieName: m, userName: u, time: new Date().toLocaleString('bn-BD') }).then(() => { showToast("✅ রিকোয়েস্ট সফল হয়েছে!", "#ffd700"); document.getElementById('reqMovieName').value = ""; closeReqModal(); }); }
+        function showToast(text, color) { const toast = document.createElement("div"); toast.innerText = text; toast.style = `position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:${color};color:${color==='#ffd700'?'black':'white'};padding:12px 25px;border-radius:50px;font-weight:bold;box-shadow:0 5px 15px rgba(0,0,0,0.3);z-index:10000;animation:fadeIn 0.5s, fadeOut 0.5s 2.5s forwards;`; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
         function openReqModal() { document.getElementById('reqModal').style.display = 'flex'; }
         function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
         function closeVpnNotice() { document.getElementById('vpnNotice').style.display = 'none'; }
         
-        // Bilingual Title Logic
         function randomizeTitle() {
-            const styles = [
-                { background: "linear-gradient(90deg, #FFD700, #FDB931, #FFD700)", textShadow: "2px 2px 5px rgba(0,0,0,0.8)" },
-                { background: "linear-gradient(90deg, #00d2ff, #3a7bd5)", textShadow: "0 0 10px #00d2ff" },
-                { background: "linear-gradient(90deg, #ff416c, #ff4b2b)", textShadow: "0 0 15px #ff4b2b" },
-                { background: "linear-gradient(90deg, #f12711, #f5af19)", textShadow: "0 0 10px #f5af19" },
-                { background: "linear-gradient(90deg, #0f0, #00ff00)", textShadow: "0 0 10px #0f0" }
+            const gradients = [
+                "linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C)", // Premium Gold
+                "linear-gradient(to right, #1CB5E0, #000851)", // Deep Blue
+                "linear-gradient(to right, #ff9966, #ff5e62)", // Sunset Orange
+                "linear-gradient(to right, #E0EAFC, #CFDEF3)"  // Silver/White
             ];
-            
-            const fonts = [
-                { family: "'Galada', cursive", text: "প্রিমিয়াম মুভি হাব" }, 
-                { family: "'Hind Siliguri', sans-serif", text: "প্রিমিয়াম মুভি হাব" },
-                { family: "'Noto Serif Bengali', serif", text: "প্রিমিয়াম মুভি হাব" },
-                { family: "'Anton', sans-serif", text: "PREMIUM MOVIE HUB" },
-                { family: "'Bebas Neue', sans-serif", text: "PREMIUM MOVIE HUB" },
-                { family: "'Baloo Da 2', cursive", text: "PREMIUM MOVIE HUB" }
+            const fontConfig = [
+                { text: "PREMIUM MOVIE STUDIO", font: "'Poppins', sans-serif" },
+                { text: "প্রিমিয়াম মুভি স্টুডিও", font: "'Hind Siliguri', sans-serif" }
             ];
-            
-            const randomStyle = styles[Math.floor(Math.random() * styles.length)];
-            const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+            const style = gradients[Math.floor(Math.random() * gradients.length)];
+            const conf = fontConfig[Math.floor(Math.random() * fontConfig.length)];
+
             const title = document.getElementById("dynamicTitle");
-            
-            title.innerText = randomFont.text;
-            title.style.fontFamily = randomFont.family;
-            title.style.background = randomStyle.background;
+            title.innerText = conf.text;
+            title.style.fontFamily = conf.font;
+            title.style.background = style;
             title.style.webkitBackgroundClip = "text";
+            title.style.backgroundClip = "text";
             title.style.webkitTextFillColor = "transparent";
-            title.style.textShadow = "none";
-            title.style.filter = `drop-shadow(${randomStyle.textShadow})`;
+            title.style.textShadow = "0px 0px 30px rgba(255,255,255,0.1)";
         }
 
         window.onload = () => { 
@@ -528,3 +416,6 @@
     </script>
 </body>
 </html>
+
+
+
