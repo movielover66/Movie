@@ -3,36 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রীতম মুভি স্টুডিও - প্রিমিয়াম ওটিটি</title>
+    <title>প্রীতম মুভি স্টুডিও</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@800&family=Galada&family=Hind+Siliguri:wght@700&family=Noto+Serif+Bengali:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@800&family=Galada&family=Hind+Siliguri:wght@700&family=Noto+Serif+Bengali:wght@900&family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <style>
-        :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; --card-bg: #1a1a1a; --glass: rgba(255, 255, 255, 0.1); }
+        :root { --primary: #e50914; --gold: #ffd700; --bg: #0c0c0c; --card-bg: #141414; --glass: rgba(255, 255, 255, 0.1); }
         body { background-color: var(--bg); color: #fff; font-family: 'Hind Siliguri', sans-serif; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
         #offlineMessage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); color: white; text-align: center; z-index: 9999; padding-top: 30%; }
         .reload-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; margin-top: 20px; cursor: pointer; box-shadow: 0 0 15px rgba(229, 9, 20, 0.4); }
 
-        .navbar { background-color: #0c0c0c; padding: 25px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
-        .nav-header { margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+        .navbar { background-color: #0c0c0c; padding: 25px 10px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; box-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+        .nav-header { margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; }
         
-        /* DYNAMIC TITLE */
+        /* --- FIXED TITLE STYLE (No Cutting) --- */
         .navbar h1 { 
-            font-size: 34px; 
-            margin: 0; 
+            font-size: 38px; 
+            margin: 5px 0; 
             font-weight: 900; 
             letter-spacing: 1px;
-            line-height: 1.4;
+            line-height: 1.6; /* Increased to prevent cutting */
+            text-transform: uppercase;
+            padding-bottom: 5px; /* Extra space for descenders */
             transition: all 0.5s ease;
+            display: inline-block;
         }
-        .navbar p { font-size: 10px; margin: 5px 0 0 0; color: #fff; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; opacity: 0.7; font-family: 'Segoe UI', sans-serif; }
+        .navbar p { font-size: 10px; margin: 0; color: #aaa; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; }
 
-        .req-notice-container { width: 100%; overflow: hidden; background: rgba(229, 9, 20, 0.1); margin-top: 15px; padding: 6px 0; border-top: 1px solid rgba(255, 215, 0, 0.1); border-bottom: 1px solid rgba(255, 215, 0, 0.1); }
+        /* --- BENGALI CATEGORY BAR --- */
+        .category-scroll { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 8px; 
+            padding: 10px 5px; 
+            margin: 10px 0; 
+            scrollbar-width: none; 
+        }
+        .category-scroll::-webkit-scrollbar { display: none; } 
+        
+        .cat-btn { 
+            background: #222; 
+            color: #ccc; 
+            border: 1px solid #444; 
+            padding: 8px 15px; 
+            border-radius: 20px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            white-space: nowrap; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        .cat-btn.active, .cat-btn:hover { 
+            background: var(--primary); 
+            color: #fff; 
+            border-color: var(--primary); 
+            box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4); 
+        }
+
+        .req-notice-container { width: 100%; overflow: hidden; background: rgba(229, 9, 20, 0.15); margin-top: 5px; padding: 6px 0; border-top: 1px solid rgba(255, 215, 0, 0.1); border-bottom: 1px solid rgba(255, 215, 0, 0.1); }
         .req-notice { display: inline-block; white-space: nowrap; font-size: 12px; color: #ffd700; font-weight: 600; animation: marquee 15s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
@@ -53,7 +87,7 @@
             transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); 
             opacity: 0; 
             transform: translateY(20px); 
-            height: 425px; 
+            height: 430px; 
             display: flex; 
             flex-direction: column;
         }
@@ -93,13 +127,12 @@
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px; }
         .page-btn { background: #222; color: #fff; border: 1px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 12px; }
-        .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; }
+        .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; color: #777; }
         #playerPage iframe { pointer-events: auto; z-index: 1; }
 
         @keyframes fadeIn { from { opacity: 0; bottom: 0; } to { opacity: 1; bottom: 20px; } }
         @keyframes fadeOut { from { opacity: 1; bottom: 20px; } to { opacity: 0; bottom: 0; } }
 
-        /* --- PLAYER WRAPPER --- */
         .player-wrapper {
             position: relative; 
             width: 100%; 
@@ -134,22 +167,36 @@
     <div id="mainPage">
         <div class="navbar">
             <div class="nav-header">
-                <h1 id="dynamicTitle">🎬 প্রীতম মুভি স্টুডিও</h1>
-                <p>PREMIUM OTT PLATFORM</p>
+                <h1 id="dynamicTitle">PREMIUM MOVIE HUB</h1>
+                <p>ULTIMATE MOVIE COLLECTION</p>
             </div>
+            
+            <div class="category-scroll">
+                <button class="cat-btn active" onclick="filterCategory('All')">সব</button>
+                <button class="cat-btn" onclick="filterCategory('Action')">অ্যাকশন</button>
+                <button class="cat-btn" onclick="filterCategory('Adventure')">অ্যাডভেঞ্চার</button>
+                <button class="cat-btn" onclick="filterCategory('Comedy')">কমেডি</button>
+                <button class="cat-btn" onclick="filterCategory('Horror')">হরর</button>
+                <button class="cat-btn" onclick="filterCategory('Drama')">ড্রামা</button>
+                <button class="cat-btn" onclick="filterCategory('Sci-Fi')">সাই-ফাই</button>
+                <button class="cat-btn" onclick="filterCategory('Thriller')">থ্রিলার</button>
+                <button class="cat-btn" onclick="filterCategory('Bangla')">বাংলা</button>
+            </div>
+
             <div class="req-notice-container"><div class="req-notice">📢 রিকোয়েস্ট করার ২৪ ঘণ্টার মধ্যে মুভি পেয়ে যাবেন &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📢 মুভি খুঁজতে উপরের সার্চ বক্স ব্যবহার করুন</div></div>
             <div class="top-action-bar">
                 <div class="search-container"><i class="fas fa-search"></i><input type="text" id="movieSearch" placeholder="মুভি খুঁজুন..." onkeyup="searchMovie()"></div>
                 <button class="nav-req-btn" onclick="openReqModal()">রিকোয়েস্ট</button>
             </div>
         </div>
+        
         <div class="movie-grid" id="movieList"></div>
         <div class="pagination">
             <button class="page-btn" id="prevBtn" onclick="changePage(-1)">পেছনে</button>
             <span id="pageNumber">Page 1</span>
             <button class="page-btn" id="nextBtn" onclick="changePage(1)">সামনে</button>
         </div>
-        <footer class="footer">Made with <i class="fa-solid fa-heart" style="color:red"></i> by Pritam</footer>
+        <footer class="footer">Made with <i class="fa-solid fa-heart" style="color:red"></i> by Pritam <br> &copy; 2025 Premium Movie Hub</footer>
     </div>
 
     <div id="detailsPage">
@@ -163,12 +210,12 @@
                 <i class="fa-solid fa-arrow-left" style="font-size: 18px;"></i>
             </button>
             <div style="text-align:right;">
-                <div style="color:#ffd700; font-weight:bold; font-size:13px; letter-spacing:1px;">PRITAM OTT</div>
+                <div style="color:#ffd700; font-weight:bold; font-size:13px; letter-spacing:1px;">PREMIUM HUB</div>
                 <div style="color:rgba(255,255,255,0.6); font-size:9px;">Now Playing...</div>
             </div>
         </div>
 
-        <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:0; box-sizing:border-box;">
+        <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0; box-sizing:border-box;">
             <div class="player-wrapper">
                 <div id="dummyPlayer" onclick="playVideo()">
                     <i class="fa-regular fa-circle-play play-icon"></i>
@@ -183,6 +230,10 @@
                     sandbox="allow-forms allow-scripts allow-same-origin allow-presentation allow-orientation-lock">
                 </iframe>
             </div>
+            
+            <button onclick="reportBrokenLink()" style="margin-top:20px; background:rgba(255,0,0,0.2); color:#ff4d4d; border:1px solid #ff4d4d; padding:8px 20px; border-radius:20px; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Report Broken Link
+            </button>
         </div>
     </div>
     <div id="downloadPopup" style="display:none; position:fixed; inset:0; background: rgba(0,0,0,0.85); z-index:3000; align-items:center; justify-content:center;">
@@ -224,6 +275,10 @@
         db.ref('.info/connected').on('value', (s) => { if (s.val()) userStatusRef.onDisconnect().remove().then(() => userStatusRef.set({ state: 'online', last_changed: firebase.database.ServerValue.TIMESTAMP })); });
 
         let allMovies = [], filteredMovies = [], currentPage = 1, globalClicks = {};
+        
+        // Track Current Playing Movie for Reporting
+        let currentPlayingMovieTitle = "";
+        let currentPlayingLink = "";
 
         db.ref('movies').on('value', (snap) => {
             const data = snap.val();
@@ -240,6 +295,22 @@
             if (s < 60) return "সবেমাত্র";
             let h = Math.floor(s / 3600);
             return h >= 1 ? h + " ঘণ্টা আগে" : Math.floor(s / 60) + " মিনিট আগে";
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (cat === 'All') {
+                filteredMovies = [...allMovies];
+            } else {
+                filteredMovies = allMovies.filter(m => 
+                    (m.genre && m.genre.toLowerCase().includes(cat.toLowerCase())) || 
+                    (m.desc && m.desc.toLowerCase().includes(cat.toLowerCase()))
+                );
+            }
+            currentPage = 1;
+            displayMovies();
         }
 
         function displayMovies() {
@@ -266,6 +337,10 @@
         function showDetails(id) {
             db.ref('movieClicks/' + id).transaction(c => (c || 0) + 1);
             const m = allMovies.find(mov => mov.id === id);
+            
+            // Set current movie title for tracking
+            currentPlayingMovieTitle = m.title;
+
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('detailsPage').style.display = 'block';
             window.scrollTo(0,0);
@@ -321,6 +396,8 @@
             if (blocked.some(d => url.toLowerCase().includes(d))) return showToast("❌ ক্ষতিকারক লিঙ্ক ব্লক করা হয়েছে।", "red");
             
             currentVideoUrl = url;
+            currentPlayingLink = url; // Save for Report
+
             document.getElementById('playerPage').style.display = 'block';
             
             const dummy = document.getElementById('dummyPlayer');
@@ -351,6 +428,22 @@
             document.getElementById('videoIframe').src = ""; 
             document.getElementById('playerPage').style.display = 'none'; 
             document.getElementById('soundControl').style.display = 'none'; 
+        }
+
+        // --- NEW REPORT FUNCTION ---
+        function reportBrokenLink() {
+            if(!currentPlayingLink || !currentPlayingMovieTitle) return showToast("❌ প্লেয়ার চালু নেই!", "red");
+            
+            db.ref('reports').push({
+                movie: currentPlayingMovieTitle,
+                link: currentPlayingLink,
+                status: 'broken',
+                time: new Date().toLocaleString('bn-BD')
+            }).then(() => {
+                showToast("✅ রিপোর্ট পাঠানো হয়েছে! শীঘ্রই লিঙ্ক ঠিক করা হবে।", "#ffd700");
+            }).catch(e => {
+                showToast("❌ রিপোর্ট পাঠানো যায়নি।", "red");
+            });
         }
 
         const volSlider = document.getElementById('volSlider'), volValue = document.getElementById('volValue'), iframe = document.getElementById('videoIframe');
@@ -393,7 +486,7 @@
         function closeReqModal() { document.getElementById('reqModal').style.display = 'none'; }
         function closeVpnNotice() { document.getElementById('vpnNotice').style.display = 'none'; }
         
-        // --- RANDOM TITLE GENERATOR (New Fonts + Colors) ---
+        // Bilingual Title Logic
         function randomizeTitle() {
             const styles = [
                 { background: "linear-gradient(90deg, #FFD700, #FDB931, #FFD700)", textShadow: "2px 2px 5px rgba(0,0,0,0.8)" },
@@ -403,18 +496,26 @@
                 { background: "linear-gradient(90deg, #0f0, #00ff00)", textShadow: "0 0 10px #0f0" }
             ];
             
-            const fonts = ["'Galada', cursive", "'Hind Siliguri', sans-serif", "'Baloo Da 2', cursive", "'Noto Serif Bengali', serif"];
+            const fonts = [
+                { family: "'Galada', cursive", text: "প্রিমিয়াম মুভি হাব" }, 
+                { family: "'Hind Siliguri', sans-serif", text: "প্রিমিয়াম মুভি হাব" },
+                { family: "'Noto Serif Bengali', serif", text: "প্রিমিয়াম মুভি হাব" },
+                { family: "'Anton', sans-serif", text: "PREMIUM MOVIE HUB" },
+                { family: "'Bebas Neue', sans-serif", text: "PREMIUM MOVIE HUB" },
+                { family: "'Baloo Da 2', cursive", text: "PREMIUM MOVIE HUB" }
+            ];
             
             const randomStyle = styles[Math.floor(Math.random() * styles.length)];
             const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
             const title = document.getElementById("dynamicTitle");
             
+            title.innerText = randomFont.text;
+            title.style.fontFamily = randomFont.family;
             title.style.background = randomStyle.background;
             title.style.webkitBackgroundClip = "text";
             title.style.webkitTextFillColor = "transparent";
             title.style.textShadow = "none";
             title.style.filter = `drop-shadow(${randomStyle.textShadow})`;
-            title.style.fontFamily = randomFont;
         }
 
         window.onload = () => { 
